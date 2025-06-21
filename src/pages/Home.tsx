@@ -3,10 +3,14 @@ import { fetchDestinations, Destination } from "@/api/destinations";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion"
 import { FiSearch } from "react-icons/fi";
+import { useTranslation } from "react-i18next";
 import DestinationCard from "@/components/DestinationCard";
 import HeroCarousel from "@/components/HeroCarousel";
+import image1 from "@/assets/1.jpg";
 
 export default function Home() {
+  const { t } = useTranslation();
+  
   // const [destinations, setDestinations] = useState<Destination[]>([]);
   const destinations = [
     {
@@ -55,20 +59,57 @@ export default function Home() {
   // }, []);
 
   return (
-    <div className="relative h-screen">
-      <HeroCarousel isDark={isDark} />
+    <div>
+      {/* Hero Section */}
+      <section className="h-screen">
+        <HeroCarousel isDark={isDark} />
+      </section>
 
-      <div className="container mx-auto px-6 py-16">
-        <h2 className={`text-3xl font-bold mb-8 ${isDark ? "text-white" : "text-gray-800"}`}>
-          Featured Destinations
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {destinations.map((destination) => (
-            <DestinationCard key={destination.id} destination={destination} isDark={isDark} />
-          ))}
+      {/* Featured Destinations Section */}
+      <section className="py-16">
+        <div className="container mx-auto px-6">
+          <h2 className={`text-3xl font-bold mb-8 text-center ${isDark ? "text-white" : "text-gray-800"}`}>
+            {t("home.featuredDestinations")}
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {destinations.map((destination) => (
+              <DestinationCard key={destination.id} destination={destination} isDark={isDark} />
+            ))}
+          </div>
         </div>
-      </div>
+      </section>
 
+      {/* About Section */}
+      <section className={`py-16 ${isDark ? "bg-gray-800" : "bg-gray-50"}`}>
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className={`text-3xl font-bold mb-6 ${isDark ? "text-white" : "text-gray-800"}`}>
+                {t("home.about.title")}
+              </h2>
+              <p className={`text-lg leading-relaxed mb-6 ${isDark ? "text-gray-300" : "text-gray-600"}`}>
+                {t("home.about.description1")}
+              </p>
+              <p className={`text-lg leading-relaxed mb-8 ${isDark ? "text-gray-300" : "text-gray-600"}`}>
+                {t("home.about.description2")}
+              </p>
+              <Link 
+                to="/about"
+                className={`inline-block px-8 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-colors ${isDark ? "hover:bg-blue-400" : ""}`}
+              >
+                {t("home.about.learnMore")}
+              </Link>
+            </div>
+            <div className="relative">
+              <img 
+                src={image1} 
+                alt="Ha Giang Landscape" 
+                className="rounded-lg shadow-lg"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

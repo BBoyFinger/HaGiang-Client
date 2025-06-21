@@ -8,6 +8,147 @@
     "stay": "Homestay & Khách sạn",
     "trip": "Tour Hà Giang",
     "login": "Đăng nhập"
+  },
+  "hero": {
+    "slide1": {
+      "title": "Khám Phá Vẻ Đẹp Hà Giang",
+      "subtitle": "Miền đất của những đỉnh núi hùng vĩ",
+      "description": "Từ đèo Mã Pì Lèng hùng vĩ đến ruộng bậc thang Hoàng Su Phì rực rỡ"
+    },
+    "slide2": {
+      "title": "Đèo Mã Pì Lèng",
+      "subtitle": "Tứ đại đỉnh đèo Việt Nam",
+      "description": "Con đèo đẹp nhất Việt Nam với độ cao 1.500m so với mực nước biển"
+    },
+    "slide3": {
+      "title": "Ruộng Bậc Thang Hoàng Su Phì",
+      "subtitle": "Kiệt tác của thiên nhiên",
+      "description": "Những thửa ruộng bậc thang uốn lượn theo sườn núi tạo nên cảnh quan độc đáo"
+    },
+    "slide4": {
+      "title": "Cao Nguyên Đá Đồng Văn",
+      "subtitle": "Công viên địa chất toàn cầu",
+      "description": "Khám phá vẻ đẹp hoang dã của cao nguyên đá với những dãy núi đá tai mèo"
+    },
+    "search": {
+      "placeholder": "Tìm kiếm địa điểm nổi bật ở Hà Giang...",
+      "button": "Tìm kiếm"
+    }
+  },
+  "home": {
+    "featuredDestinations": "Điểm Đến Nổi Bật",
+    "about": {
+      "title": "Về Hà Giang Travel",
+      "description1": "Chúng tôi là đơn vị lữ hành hàng đầu tại Hà Giang, chuyên cung cấp các tour du lịch chất lượng cao với đội ngũ hướng dẫn viên chuyên nghiệp và kinh nghiệm.",
+      "description2": "Với hơn 10 năm kinh nghiệm, chúng tôi đã đưa hàng nghìn du khách khám phá vẻ đẹp hoang dã của Hà Giang một cách an toàn và thú vị nhất.",
+      "learnMore": "Tìm hiểu thêm"
+    }
+  },
+  "footer": {
+    "company": {
+      "description": "Khám phá vẻ đẹp hoang dã của Hà Giang - miền đất của những đỉnh núi hùng vĩ, ruộng bậc thang tuyệt đẹp và văn hóa dân tộc độc đáo."
+    },
+    "quickLinks": "Liên Kết Nhanh",
+    "services": "Dịch Vụ",
+    "contact": "Liên Hệ",
+    "servicesList": {
+      "tour3n2d": "Tour Hà Giang 3N2Đ",
+      "tour4n3d": "Tour Hà Giang 4N3Đ",
+      "rentBike": "Thuê xe máy",
+      "homestay": "Homestay & Khách sạn",
+      "guide": "Hướng dẫn viên",
+      "insurance": "Bảo hiểm du lịch"
+    },
+    "contactInfo": {
+      "address": "Địa chỉ:",
+      "phone": "Điện thoại:",
+      "email": "Email:",
+      "addressValue": "123 Đường ABC, Phường XYZ<br/>Thành phố Hà Giang, Việt Nam",
+      "phoneValue": "+84 123 456 789",
+      "emailValue": "info@hagiangtravel.com"
+    },
+    "newsletter": {
+      "title": "Đăng ký nhận tin",
+      "placeholder": "Email của bạn",
+      "button": "Đăng ký"
+    },
+    "bottom": {
+      "copyright": "© {{year}} Ha Giang Travel. Tất cả quyền được bảo lưu.",
+      "privacy": "Chính sách bảo mật",
+      "terms": "Điều khoản sử dụng",
+      "sitemap": "Sitemap"
+    }
+  },
+  "common": {
+    "loading": "Đang tải...",
+    "error": "Có lỗi xảy ra",
+    "notFound": "Không tìm thấy",
+    "backToHome": "Về trang chủ",
+    "readMore": "Đọc thêm",
+    "bookNow": "Đặt ngay",
+    "viewDetails": "Xem chi tiết",
+    "contactUs": "Liên hệ chúng tôi"
+  },
+  "destinations": {
+    "title": "Điểm Đến",
+    "featured": "Nổi Bật",
+    "popular": "Phổ Biến",
+    "new": "Mới",
+    "filters": {
+      "all": "Tất cả",
+      "mountain": "Núi",
+      "valley": "Thung lũng",
+      "village": "Làng bản",
+      "waterfall": "Thác nước"
+    }
+  },
+  "tours": {
+    "title": "Tour Du Lịch",
+    "duration": "Thời gian",
+    "price": "Giá",
+    "groupSize": "Số người",
+    "difficulty": "Độ khó",
+    "included": "Bao gồm",
+    "notIncluded": "Không bao gồm",
+    "schedule": "Lịch trình",
+    "reviews": "Đánh giá"
+  },
+  "booking": {
+    "title": "Đặt Tour",
+    "form": {
+      "name": "Họ và tên",
+      "email": "Email",
+      "phone": "Số điện thoại",
+      "date": "Ngày đi",
+      "guests": "Số khách",
+      "message": "Ghi chú",
+      "submit": "Gửi yêu cầu"
+    },
+    "success": "Đặt tour thành công!",
+    "error": "Có lỗi xảy ra khi đặt tour"
+  },
+  "about": {
+    "title": "Giới Thiệu",
+    "mission": "Sứ mệnh",
+    "vision": "Tầm nhìn",
+    "values": "Giá trị cốt lõi",
+    "team": "Đội ngũ",
+    "history": "Lịch sử"
+  },
+  "contact": {
+    "title": "Liên Hệ",
+    "getInTouch": "Liên hệ với chúng tôi",
+    "address": "Địa chỉ",
+    "phone": "Điện thoại",
+    "email": "Email",
+    "workingHours": "Giờ làm việc",
+    "form": {
+      "name": "Họ và tên",
+      "email": "Email",
+      "subject": "Tiêu đề",
+      "message": "Nội dung",
+      "send": "Gửi tin nhắn"
+    }
   }
 }
  

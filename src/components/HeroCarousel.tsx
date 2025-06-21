@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiChevronLeft, FiChevronRight, FiSearch } from "react-icons/fi";
+import { useTranslation } from "react-i18next";
 import image1 from "@/assets/1.jpg";
 import image2 from "@/assets/2.png";
 import image3 from "@/assets/3.jpg";
@@ -9,49 +10,46 @@ import image4 from "@/assets/4.jpg";
 interface CarouselSlide {
   id: number;
   image: string;
-  title: string;
-  subtitle: string;
-  description: string;
+  titleKey: string;
+  subtitleKey: string;
+  descriptionKey: string;
 }
 
-const slides: CarouselSlide[] = [
-  {
-    id: 1,
-    image: image1,
-    title: "Khám Phá Vẻ Đẹp Hà Giang",
-    subtitle: "Miền đất của những đỉnh núi hùng vĩ",
-    description: "Từ đèo Mã Pì Lèng hùng vĩ đến ruộng bậc thang Hoàng Su Phì rực rỡ"
-  },
-  {
-    id: 2,
-    image: image2,
-    title: "Đèo Mã Pì Lèng",
-    subtitle: "Tứ đại đỉnh đèo Việt Nam",
-    description: "Con đèo đẹp nhất Việt Nam với độ cao 1.500m so với mực nước biển"
-  },
-  {
-    id: 3,
-    image: image3,
-    title: "Ruộng Bậc Thang Hoàng Su Phì",
-    subtitle: "Kiệt tác của thiên nhiên",
-    description: "Những thửa ruộng bậc thang uốn lượn theo sườn núi tạo nên cảnh quan độc đáo"
-  },
-  {
-    id: 4,
-    image: image4,
-    title: "Cao Nguyên Đá Đồng Văn",
-    subtitle: "Công viên địa chất toàn cầu",
-    description: "Khám phá vẻ đẹp hoang dã của cao nguyên đá với những dãy núi đá tai mèo"
-  }
-];
-
-interface HeroCarouselProps {
-  isDark: boolean;
-}
-
-export default function HeroCarousel({ isDark }: HeroCarouselProps) {
+const HeroCarousel = ({ isDark }: { isDark: boolean }) => {
+  const { t } = useTranslation();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [direction, setDirection] = useState(0);
+
+  const slides: CarouselSlide[] = [
+    {
+      id: 1,
+      image: image1,
+      titleKey: "hero.slide1.title",
+      subtitleKey: "hero.slide1.subtitle",
+      descriptionKey: "hero.slide1.description"
+    },
+    {
+      id: 2,
+      image: image2,
+      titleKey: "hero.slide2.title",
+      subtitleKey: "hero.slide2.subtitle",
+      descriptionKey: "hero.slide2.description"
+    },
+    {
+      id: 3,
+      image: image3,
+      titleKey: "hero.slide3.title",
+      subtitleKey: "hero.slide3.subtitle",
+      descriptionKey: "hero.slide3.description"
+    },
+    {
+      id: 4,
+      image: image4,
+      titleKey: "hero.slide4.title",
+      subtitleKey: "hero.slide4.subtitle",
+      descriptionKey: "hero.slide4.description"
+    }
+  ];
 
   // Auto slide every 5 seconds
   useEffect(() => {
@@ -61,7 +59,7 @@ export default function HeroCarousel({ isDark }: HeroCarouselProps) {
     }, 5000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [slides.length]);
 
   const nextSlide = () => {
     setDirection(1);
@@ -96,7 +94,7 @@ export default function HeroCarousel({ isDark }: HeroCarouselProps) {
         >
           <img
             src={slides[currentSlide].image}
-            alt={slides[currentSlide].title}
+            alt={t(slides[currentSlide].titleKey)}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black bg-opacity-50" />
@@ -116,13 +114,13 @@ export default function HeroCarousel({ isDark }: HeroCarouselProps) {
               className="space-y-6"
             >
               <h1 className="text-4xl md:text-6xl font-bold text-white">
-                {slides[currentSlide].title}
+                {t(slides[currentSlide].titleKey)}
               </h1>
               <h2 className="text-2xl md:text-3xl font-semibold text-blue-300">
-                {slides[currentSlide].subtitle}
+                {t(slides[currentSlide].subtitleKey)}
               </h2>
               <p className="text-xl text-white max-w-2xl mx-auto">
-                {slides[currentSlide].description}
+                {t(slides[currentSlide].descriptionKey)}
               </p>
             </motion.div>
           </AnimatePresence>
@@ -138,11 +136,11 @@ export default function HeroCarousel({ isDark }: HeroCarouselProps) {
               <FiSearch className="text-gray-400 ml-4" />
               <input
                 type="text"
-                placeholder="Tìm kiếm địa điểm nổi bật ở Hà Giang..."
+                placeholder={t("hero.search.placeholder")}
                 className="w-full px-4 py-2 rounded-full focus:outline-none"
               />
               <button className="bg-blue-500 text-white px-6 py-2 rounded-full hover:bg-blue-600 transition-colors">
-                Search
+                {t("hero.search.button")}
               </button>
             </div>
           </motion.div>
@@ -193,4 +191,6 @@ export default function HeroCarousel({ isDark }: HeroCarouselProps) {
       </div>
     </div>
   );
-} 
+};
+
+export default HeroCarousel; 

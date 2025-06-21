@@ -8,5 +8,146 @@
     "stay": "Homestay & Hotel",
     "trip": "Ha Giang Trip",
     "login": "Login"
+  },
+  "hero": {
+    "slide1": {
+      "title": "Discover Ha Giang Beauty",
+      "subtitle": "Land of majestic mountain peaks",
+      "description": "From the majestic Ma Pi Leng Pass to the brilliant Hoang Su Phi terraced fields"
+    },
+    "slide2": {
+      "title": "Ma Pi Leng Pass",
+      "subtitle": "One of Vietnam's four great passes",
+      "description": "The most beautiful pass in Vietnam with an altitude of 1,500m above sea level"
+    },
+    "slide3": {
+      "title": "Hoang Su Phi Terraced Fields",
+      "subtitle": "Masterpiece of nature",
+      "description": "Terraced fields winding along mountain slopes creating unique landscapes"
+    },
+    "slide4": {
+      "title": "Dong Van Karst Plateau",
+      "subtitle": "Global Geopark",
+      "description": "Explore the wild beauty of the karst plateau with jagged limestone mountains"
+    },
+    "search": {
+      "placeholder": "Search for outstanding destinations in Ha Giang...",
+      "button": "Search"
+    }
+  },
+  "home": {
+    "featuredDestinations": "Featured Destinations",
+    "about": {
+      "title": "About Ha Giang Travel",
+      "description1": "We are the leading travel company in Ha Giang, specializing in high-quality tours with professional and experienced guides.",
+      "description2": "With over 10 years of experience, we have taken thousands of tourists to explore the wild beauty of Ha Giang in the safest and most exciting way.",
+      "learnMore": "Learn More"
+    }
+  },
+  "footer": {
+    "company": {
+      "description": "Discover the wild beauty of Ha Giang - land of majestic mountains, beautiful terraced fields and unique ethnic culture."
+    },
+    "quickLinks": "Quick Links",
+    "services": "Services",
+    "contact": "Contact",
+    "servicesList": {
+      "tour3n2d": "Ha Giang Tour 3D2N",
+      "tour4n3d": "Ha Giang Tour 4D3N",
+      "rentBike": "Motorbike Rental",
+      "homestay": "Homestay & Hotel",
+      "guide": "Tour Guide",
+      "insurance": "Travel Insurance"
+    },
+    "contactInfo": {
+      "address": "Address:",
+      "phone": "Phone:",
+      "email": "Email:",
+      "addressValue": "123 ABC Street, XYZ Ward<br/>Ha Giang City, Vietnam",
+      "phoneValue": "+84 123 456 789",
+      "emailValue": "info@hagiangtravel.com"
+    },
+    "newsletter": {
+      "title": "Subscribe to Newsletter",
+      "placeholder": "Your email",
+      "button": "Subscribe"
+    },
+    "bottom": {
+      "copyright": "© {{year}} Ha Giang Travel. All rights reserved.",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "sitemap": "Sitemap"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "notFound": "Not Found",
+    "backToHome": "Back to Home",
+    "readMore": "Read More",
+    "bookNow": "Book Now",
+    "viewDetails": "View Details",
+    "contactUs": "Contact Us"
+  },
+  "destinations": {
+    "title": "Destinations",
+    "featured": "Featured",
+    "popular": "Popular",
+    "new": "New",
+    "filters": {
+      "all": "All",
+      "mountain": "Mountain",
+      "valley": "Valley",
+      "village": "Village",
+      "waterfall": "Waterfall"
+    }
+  },
+  "tours": {
+    "title": "Tours",
+    "duration": "Duration",
+    "price": "Price",
+    "groupSize": "Group Size",
+    "difficulty": "Difficulty",
+    "included": "Included",
+    "notIncluded": "Not Included",
+    "schedule": "Schedule",
+    "reviews": "Reviews"
+  },
+  "booking": {
+    "title": "Book Tour",
+    "form": {
+      "name": "Full Name",
+      "email": "Email",
+      "phone": "Phone Number",
+      "date": "Departure Date",
+      "guests": "Number of Guests",
+      "message": "Notes",
+      "submit": "Submit Request"
+    },
+    "success": "Tour booked successfully!",
+    "error": "An error occurred while booking the tour"
+  },
+  "about": {
+    "title": "About",
+    "mission": "Mission",
+    "vision": "Vision",
+    "values": "Core Values",
+    "team": "Team",
+    "history": "History"
+  },
+  "contact": {
+    "title": "Contact",
+    "getInTouch": "Get in Touch",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "workingHours": "Working Hours",
+    "form": {
+      "name": "Full Name",
+      "email": "Email",
+      "subject": "Subject",
+      "message": "Message",
+      "send": "Send Message"
+    }
   }
 }

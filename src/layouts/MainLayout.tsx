@@ -8,13 +8,12 @@ export default function MainLayout() {
 
   const toggleTheme = () => setIsDark(!isDark);
   return (
-    <div>
-
+    <div className={`min-h-screen ${isDark ? "bg-gray-900" : "bg-white"}`}>
       <Header isDark={isDark} toggleTheme={toggleTheme} />
-      <main className="p-6">
+      <main className="pt-20">
         <Outlet />
       </main>
-      <Footer />
+      <Footer isDark={isDark} toggleTheme={toggleTheme} />
     </div>
   )
 }

@@ -1,10 +1,9 @@
 import { FiMapPin, FiSun, FiMoon } from "react-icons/fi";
 import logo from "@/assets/logo.jpg";
 import { Link } from "react-router-dom";
-
 import { useState } from "react";
-
 import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const Header = ({
   isDark,
@@ -13,12 +12,7 @@ const Header = ({
   isDark: boolean;
   toggleTheme: () => void;
 }) => {
-  const { t, i18n } = useTranslation();
-  console.log(t("nav"));
-
-  const toggleLanguage = () => {
-    i18n.changeLanguage(i18n.language === "vi" ? "en" : "vi");
-  };
+  const { t } = useTranslation();
 
   return (
     <header
@@ -52,7 +46,26 @@ const Header = ({
             >
               {t("nav.home")}
             </Link>
-
+            <Link
+              to="/about"
+              className={
+                isDark
+                  ? "text-white hover:text-blue-400"
+                  : "text-gray-800 hover:text-blue-500"
+              }
+            >
+              {t("nav.about")}
+            </Link>
+            <Link
+              to="/contact"
+              className={
+                isDark
+                  ? "text-white hover:text-blue-400"
+                  : "text-gray-800 hover:text-blue-500"
+              }
+            >
+              {t("nav.contact")}
+            </Link>
             <Link
               to="/booking"
               className={
@@ -94,26 +107,6 @@ const Header = ({
               {t("nav.trip")}
             </Link>
             <Link
-              to="/about"
-              className={
-                isDark
-                  ? "text-white hover:text-blue-400"
-                  : "text-gray-800 hover:text-blue-500"
-              }
-            >
-              {t("nav.about")}
-            </Link>
-            <Link
-              to="/contact"
-              className={
-                isDark
-                  ? "text-white hover:text-blue-400"
-                  : "text-gray-800 hover:text-blue-500"
-              }
-            >
-              {t("nav.contact")}
-            </Link>
-            <Link
               to="/login"
               className={
                 isDark
@@ -141,16 +134,7 @@ const Header = ({
               )}
             </button>
 
-            <button
-              onClick={toggleLanguage}
-              className={`text-sm font-semibold border px-3 py-1 rounded ${
-                isDark
-                  ? "text-white border-white"
-                  : "text-gray-800 border-gray-800"
-              } hover:bg-blue-500 hover:text-white transition`}
-            >
-              {i18n.language === "vi" ? "EN" : "VI"}
-            </button>
+            <LanguageSwitcher isDark={isDark} />
           </div>
         </div>
       </div>
