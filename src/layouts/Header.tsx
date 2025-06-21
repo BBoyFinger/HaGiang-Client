@@ -16,9 +16,8 @@ const Header = ({
 
   return (
     <header
-      className={`fixed w-full z-50 ${
-        isDark ? "bg-gray-900" : "bg-white"
-      } shadow-md`}
+      className={`fixed w-full z-50 ${isDark ? "bg-gray-900" : "bg-white"
+        } shadow-md`}
     >
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
@@ -26,9 +25,8 @@ const Header = ({
           <Link to="/" className="flex items-center">
             <img src={logo} alt="logo" className="w-10 h-10 rounded-full" />
             <span
-              className={`ml-2 text-xl font-bold ${
-                isDark ? "text-white" : "text-gray-800"
-              }`}
+              className={`ml-2 text-xl font-bold ${isDark ? "text-white" : "text-gray-800"
+                }`}
             >
               Ha Giang Travel
             </span>
@@ -46,26 +44,7 @@ const Header = ({
             >
               {t("nav.home")}
             </Link>
-            <Link
-              to="/about"
-              className={
-                isDark
-                  ? "text-white hover:text-blue-400"
-                  : "text-gray-800 hover:text-blue-500"
-              }
-            >
-              {t("nav.about")}
-            </Link>
-            <Link
-              to="/contact"
-              className={
-                isDark
-                  ? "text-white hover:text-blue-400"
-                  : "text-gray-800 hover:text-blue-500"
-              }
-            >
-              {t("nav.contact")}
-            </Link>
+
             <Link
               to="/booking"
               className={
@@ -116,15 +95,34 @@ const Header = ({
             >
               {t("nav.login")}
             </Link>
+            <Link
+              to="/about"
+              className={
+                isDark
+                  ? "text-white hover:text-blue-400"
+                  : "text-gray-800 hover:text-blue-500"
+              }
+            >
+              {t("nav.about")}
+            </Link>
+            <Link
+              to="/contact"
+              className={
+                isDark
+                  ? "text-white hover:text-blue-400"
+                  : "text-gray-800 hover:text-blue-500"
+              }
+            >
+              {t("nav.contact")}
+            </Link>
           </nav>
 
           {/* Theme + Language */}
           <div className="flex items-center space-x-3">
             <button
               onClick={toggleTheme}
-              className={`p-2 rounded-full ${
-                isDark ? "bg-gray-800" : "bg-gray-100"
-              }`}
+              className={`p-2 rounded-full ${isDark ? "bg-gray-800" : "bg-gray-100"
+                }`}
               aria-label="Toggle theme"
             >
               {isDark ? (
