@@ -15,6 +15,7 @@
     "forceConsistentCasingInFileNames": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
+    "resolveJsonModule": true,
     "paths": {
       "@/*": [
         "src/*"

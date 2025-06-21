@@ -1,0 +1,12 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact",
+    "booking": "Booking",
+    "rent": "Rent a Vehicle",
+    "stay": "Homestay & Hotel",
+    "trip": "Ha Giang Trip",
+    "login": "Login"
+  }
+}
