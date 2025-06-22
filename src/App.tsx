@@ -5,6 +5,11 @@ import About from "@/pages/About";
 import DestinationDetail from "@/pages/DestinationDetail";
 import Destinations from "@/pages/Destinations";
 import TourDetail from "@/pages/TourDetail";
+import Booking from "@/pages/Booking";
+import Rent from "./pages/Rent";
+import Stay from "./pages/Stay";
+import Contact from "./pages/Contact";
+import Login from "./pages/Login";
 
 export default function App() {
   return (
@@ -16,6 +21,11 @@ export default function App() {
           <Route path="destinations" element={<Destinations />} />
           <Route path="destinations/:id" element={<DestinationDetail />} />
           <Route path="tours/:slug" element={<TourDetail />} />
+          <Route path="booking" element={<Booking />} />
+          <Route path="rent" element={<Rent />} />
+          <Route path="stay" element={<Stay />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="login" element={<Login />} />
         </Route>
       </Routes>
     </BrowserRouter>

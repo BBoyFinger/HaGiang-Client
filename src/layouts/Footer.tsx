@@ -24,7 +24,7 @@ const Footer = ({ isDark, toggleTheme }: FooterProps) => {
           <div className="space-y-4">
             <Link to="/" className="flex items-center">
               <img src={logo} alt="Ha Giang Travel" className="w-12 h-12 rounded-full" />
-              <span className="ml-3 text-xl font-bold">Ha Giang Travel</span>
+              <span className="ml-3 text-xl font-bold">Homie Travel</span>
             </Link>
             <p className="text-sm leading-relaxed opacity-80">
               {t("footer.company.description")}

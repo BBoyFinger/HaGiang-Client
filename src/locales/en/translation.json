@@ -38,7 +38,7 @@
   "home": {
     "featuredDestinations": "Featured Destinations",
     "about": {
-      "title": "About Ha Giang Travel",
+      "title": "About Homie Travel",
       "description1": "We are the leading travel company in Ha Giang, specializing in high-quality tours with professional and experienced guides.",
       "description2": "With over 10 years of experience, we have taken thousands of tourists to explore the wild beauty of Ha Giang in the safest and most exciting way.",
       "learnMore": "Learn More"
@@ -73,7 +73,7 @@
       "button": "Subscribe"
     },
     "bottom": {
-      "copyright": "© {{year}} Ha Giang Travel. All rights reserved.",
+      "copyright": "© {{year}} Homie Travel. All rights reserved.",
       "privacy": "Privacy Policy",
       "terms": "Terms of Service",
       "sitemap": "Sitemap"
@@ -114,40 +114,96 @@
     "reviews": "Reviews"
   },
   "booking": {
-    "title": "Book Tour",
-    "form": {
-      "name": "Full Name",
-      "email": "Email",
-      "phone": "Phone Number",
-      "date": "Departure Date",
-      "guests": "Number of Guests",
-      "message": "Notes",
-      "submit": "Submit Request"
+    "title": "Book a tour with Homie Travel",
+    "name": "Full Name",
+    "namePlaceholder": "Enter your full name",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email",
+    "phone": "Phone number",
+    "phonePlaceholder": "Enter your phone number",
+    "tour": "Select tour",
+    "date": "Departure date",
+    "people": "Number of people",
+    "note": "Note",
+    "notePlaceholder": "Special requests (if any)",
+    "submit": "Book tour",
+    "success": "Booking successful! We will contact you soon."
+  },
+  "brand": {
+    "charity": "5% of each tour's revenue goes to charity",
+    "professional": "Professional team, reputable and dedicated service",
+    "experience": "7 years of experience organizing Ha Giang tours"
+  },
+  "rent": {
+    "title": "Rent a vehicle",
+    "name": "Full Name",
+    "namePlaceholder": "Enter your full name",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email",
+    "phone": "Phone number",
+    "phonePlaceholder": "Enter your phone number",
+    "vehicleType": "Vehicle type",
+    "vehicleTypeOptions": {
+      "motorbike": "Motorbike",
+      "car": "Car",
+      "bike": "Bicycle"
     },
-    "success": "Tour booked successfully!",
-    "error": "An error occurred while booking the tour"
+    "date": "Rental date",
+    "days": "Number of days",
+    "note": "Note",
+    "notePlaceholder": "Special requests (if any)",
+    "submit": "Book rental",
+    "success": "Booking successful! We will contact you soon."
+  },
+  "stay": {
+    "title": "Book HomeStay & Hotel",
+    "name": "Full Name",
+    "namePlaceholder": "Enter your full name",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email",
+    "phone": "Phone number",
+    "phonePlaceholder": "Enter your phone number",
+    "roomType": "Room type",
+    "roomTypeOptions": {
+      "homestay": "Homestay",
+      "hotel": "Hotel",
+      "dorm": "Dormitory"
+    },
+    "checkin": "Check-in date",
+    "nights": "Number of nights",
+    "people": "Number of people",
+    "note": "Note",
+    "notePlaceholder": "Special requests (if any)",
+    "submit": "Book room",
+    "success": "Booking successful! We will contact you soon."
   },
   "about": {
-    "title": "About",
-    "mission": "Mission",
-    "vision": "Vision",
-    "values": "Core Values",
-    "team": "Team",
-    "history": "History"
+    "title": "About Homie Travel",
+    "mission": "Our mission is to deliver the most professional, reputable, and dedicated Ha Giang travel experiences.",
+    "values": "Core values: Customer-centric, transparency, creativity, community responsibility.",
+    "team": "The Homie Travel team consists of travel experts with years of experience and deep knowledge of Ha Giang.",
+    "logoAlt": "Homie Travel Logo"
   },
   "contact": {
-    "title": "Contact",
-    "getInTouch": "Get in Touch",
-    "address": "Address",
-    "phone": "Phone",
+    "title": "Contact Us",
+    "name": "Full Name",
+    "namePlaceholder": "Enter your full name",
     "email": "Email",
-    "workingHours": "Working Hours",
-    "form": {
-      "name": "Full Name",
-      "email": "Email",
-      "subject": "Subject",
-      "message": "Message",
-      "send": "Send Message"
-    }
+    "emailPlaceholder": "Enter your email",
+    "message": "Message",
+    "messagePlaceholder": "How can we help you?",
+    "submit": "Send Message",
+    "success": "Your message has been sent! We will respond as soon as possible."
+  },
+  "login": {
+    "title": "Login",
+    "registerTitle": "Register an Account",
+    "username": "Username",
+    "usernamePlaceholder": "Enter your username",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "submit": "Login",
+    "register": "Register",
+    "error": "Please enter both username and password."
   }
 }

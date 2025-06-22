@@ -44,6 +44,11 @@
       "learnMore": "Tìm hiểu thêm"
     }
   },
+  "brand": {
+    "charity": "5% doanh thu mỗi tour dành cho hoạt động thiện nguyện",
+    "professional": "Đội ngũ chuyên nghiệp, dịch vụ uy tín, tận tâm",
+    "experience": "7 năm kinh nghiệm tổ chức tour du lịch Hà Giang"
+  },
   "footer": {
     "company": {
       "description": "Khám phá vẻ đẹp hoang dã của Hà Giang - miền đất của những đỉnh núi hùng vĩ, ruộng bậc thang tuyệt đẹp và văn hóa dân tộc độc đáo."
@@ -73,7 +78,7 @@
       "button": "Đăng ký"
     },
     "bottom": {
-      "copyright": "© {{year}} Ha Giang Travel. Tất cả quyền được bảo lưu.",
+      "copyright": "© {{year}} Homie Travel. Tất cả quyền được bảo lưu.",
       "privacy": "Chính sách bảo mật",
       "terms": "Điều khoản sử dụng",
       "sitemap": "Sitemap"
@@ -114,41 +119,91 @@
     "reviews": "Đánh giá"
   },
   "booking": {
-    "title": "Đặt Tour",
-    "form": {
-      "name": "Họ và tên",
-      "email": "Email",
-      "phone": "Số điện thoại",
-      "date": "Ngày đi",
-      "guests": "Số khách",
-      "message": "Ghi chú",
-      "submit": "Gửi yêu cầu"
+    "title": "Đặt tour cùng Homie Travel",
+    "name": "Họ tên",
+    "namePlaceholder": "Nhập họ tên của bạn",
+    "email": "Email",
+    "emailPlaceholder": "Nhập email",
+    "phone": "Số điện thoại",
+    "phonePlaceholder": "Nhập số điện thoại",
+    "tour": "Chọn tour",
+    "date": "Ngày khởi hành",
+    "people": "Số lượng người",
+    "note": "Ghi chú",
+    "notePlaceholder": "Yêu cầu đặc biệt (nếu có)",
+    "submit": "Đặt tour",
+    "success": "Đặt tour thành công! Chúng tôi sẽ liên hệ bạn sớm."
+  },
+  "rent": {
+    "title": "Thuê phương tiện",
+    "name": "Họ tên",
+    "namePlaceholder": "Nhập họ tên của bạn",
+    "email": "Email",
+    "emailPlaceholder": "Nhập email",
+    "phone": "Số điện thoại",
+    "phonePlaceholder": "Nhập số điện thoại",
+    "vehicleType": "Loại phương tiện",
+    "vehicleTypeOptions": {
+      "motorbike": "Xe máy",
+      "car": "Ô tô",
+      "bike": "Xe đạp"
     },
-    "success": "Đặt tour thành công!",
-    "error": "Có lỗi xảy ra khi đặt tour"
+    "date": "Ngày thuê",
+    "days": "Số ngày thuê",
+    "note": "Ghi chú",
+    "notePlaceholder": "Yêu cầu đặc biệt (nếu có)",
+    "submit": "Đặt thuê",
+    "success": "Đặt thuê thành công! Chúng tôi sẽ liên hệ bạn sớm."
+  },
+  "stay": {
+    "title": "Đặt HomeStay & Hotel",
+    "name": "Họ tên",
+    "namePlaceholder": "Nhập họ tên của bạn",
+    "email": "Email",
+    "emailPlaceholder": "Nhập email",
+    "phone": "Số điện thoại",
+    "phonePlaceholder": "Nhập số điện thoại",
+    "roomType": "Loại phòng",
+    "roomTypeOptions": {
+      "homestay": "Homestay",
+      "hotel": "Khách sạn",
+      "dorm": "Phòng Dorm"
+    },
+    "checkin": "Ngày nhận phòng",
+    "nights": "Số đêm",
+    "people": "Số người",
+    "note": "Ghi chú",
+    "notePlaceholder": "Yêu cầu đặc biệt (nếu có)",
+    "submit": "Đặt phòng",
+    "success": "Đặt phòng thành công! Chúng tôi sẽ liên hệ bạn sớm."
   },
   "about": {
-    "title": "Giới Thiệu",
-    "mission": "Sứ mệnh",
-    "vision": "Tầm nhìn",
-    "values": "Giá trị cốt lõi",
-    "team": "Đội ngũ",
-    "history": "Lịch sử"
+    "title": "Về Homie Travel",
+    "mission": "Sứ mệnh của chúng tôi là mang đến trải nghiệm du lịch Hà Giang chuyên nghiệp, uy tín và tận tâm nhất.",
+    "values": "Giá trị cốt lõi: Khách hàng là trung tâm, minh bạch, sáng tạo, trách nhiệm cộng đồng.",
+    "team": "Đội ngũ Homie Travel gồm các chuyên gia du lịch với nhiều năm kinh nghiệm, am hiểu sâu sắc về Hà Giang.",
+    "logoAlt": "Logo Homie Travel"
   },
   "contact": {
-    "title": "Liên Hệ",
-    "getInTouch": "Liên hệ với chúng tôi",
-    "address": "Địa chỉ",
-    "phone": "Điện thoại",
+    "title": "Liên hệ với chúng tôi",
+    "name": "Họ tên",
+    "namePlaceholder": "Nhập họ tên của bạn",
     "email": "Email",
-    "workingHours": "Giờ làm việc",
-    "form": {
-      "name": "Họ và tên",
-      "email": "Email",
-      "subject": "Tiêu đề",
-      "message": "Nội dung",
-      "send": "Gửi tin nhắn"
-    }
+    "emailPlaceholder": "Nhập email",
+    "message": "Nội dung",
+    "messagePlaceholder": "Bạn cần hỗ trợ gì?",
+    "submit": "Gửi liên hệ",
+    "success": "Gửi liên hệ thành công! Chúng tôi sẽ phản hồi sớm nhất."
+  },
+  "login": {
+    "title": "Đăng nhập",
+    "registerTitle": "Đăng ký tài khoản",
+    "username": "Tên đăng nhập",
+    "usernamePlaceholder": "Nhập tên đăng nhập",
+    "password": "Mật khẩu",
+    "passwordPlaceholder": "Nhập mật khẩu",
+    "submit": "Đăng nhập",
+    "register": "Đăng ký",
+    "error": "Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu."
   }
 }
- 

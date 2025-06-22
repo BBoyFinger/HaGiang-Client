@@ -2,13 +2,16 @@ import { useEffect, useState } from "react";
 import { fetchDestinations, Destination } from "@/api/destinations";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion"
-import { FiSearch } from "react-icons/fi";
+import { FiSearch, FiUsers } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
 import DestinationCard from "@/components/DestinationCard";
 import HeroCarousel from "@/components/HeroCarousel";
 import image1 from "@/assets/1.jpg";
 import { tours } from "@/data/tours";
 import TourCard from "@/components/TourCard";
+import logo from "@/assets/logo.jpg";
+import { FaHandHoldingHeart, FaHandsHelping, FaMountain, FaRegHandshake } from "react-icons/fa";
+
 
 export default function Home() {
   const { t } = useTranslation();
@@ -68,8 +71,38 @@ export default function Home() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="h-screen">
+      <section className="h-[60vh]">
         <HeroCarousel isDark={isDark} />
+      </section>
+
+      {/* Brand Section */}
+      <section className="py-16">
+        <div className="container mx-auto px-6">
+          <div className="flex flex-col md:flex-row items-center md:items-stretch gap-8 md:gap-16">
+            {/* Left: Logo */}
+            <div className="flex-shrink-0 flex justify-center w-full items-center md:w-1/3 mb-6 md:mb-0 bg-white rounded-lg shadow-lg md:shadow-2xl md:border md:border-gray-200">
+              <img src={logo} alt="Homie Travel" className="w-32 h-32 rounded-full object-cover mx-auto" />
+            </div>
+            {/* Right: Info */}
+            <div className="flex-1 flex flex-col justify-center text-right md:text-left md:border-l md:border-gray-300 md:pl-12">
+              {/* Row 1 */}
+              <div className="flex items-center justify-center md:justify-start gap-2 text-lg font-semibold border-b border-gray-200 pb-4 mb-4">
+                <FaHandHoldingHeart className="text-red-500 text-xl" />
+                <span>{t('brand.charity')}</span>
+              </div>
+              {/* Row 2 */}
+              <div className="flex items-center justify-center md:justify-start gap-2 text-base font-medium border-b border-gray-200 pb-4 mb-4">
+                <FaRegHandshake className="inline text-blue-500 text-2xl" />
+                <span>{t('brand.professional')}</span>
+              </div>
+              {/* Row 3 */}
+              <div className="flex items-center gap-2 text-base font-medium text-gray-600 border-b border-gray-200 pb-4 mb-2">
+                <FaMountain className="text-green-600 text-lg" />
+                <span>{t('brand.experience')}</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Featured Tours Section */}
