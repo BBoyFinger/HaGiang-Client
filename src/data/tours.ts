@@ -26,7 +26,8 @@ export const tours: Tour[] = [
     imageUrls: [
       'https://images.unsplash.com/photo-1506744038136-46273834b3fb'
     ],
-    createdAt: new Date('2024-05-01')
+    createdAt: new Date('2024-05-01'),
+    rating: 4.5
   },
   {
     id: '2',
@@ -52,7 +53,8 @@ export const tours: Tour[] = [
     imageUrls: [
       'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429'
     ],
-    createdAt: new Date('2024-05-02')
+    createdAt: new Date('2024-05-02'),
+    rating: 4.0
   },
   {
     id: '3',
@@ -78,7 +80,8 @@ export const tours: Tour[] = [
     imageUrls: [
       'https://images.unsplash.com/photo-1464983953574-0892a716854b'
     ],
-    createdAt: new Date('2024-05-03')
+    createdAt: new Date('2024-05-03'),
+    rating: 5.0
   },
   {
     id: '4',
@@ -108,6 +111,7 @@ export const tours: Tour[] = [
     imageUrls: [
       'https://images.unsplash.com/photo-1519125323398-675f0ddb6308'
     ],
-    createdAt: new Date('2024-05-04')
+    createdAt: new Date('2024-05-04'),
+    rating: 4.8
   }
 ]; 

@@ -26,7 +26,7 @@ const Header = ({
           <Link to="/" className="flex items-center">
             <img src={logo} alt="logo" className="w-16 h-16" />
             <span
-              className={`ml-2 text-xl font-bold ${isDark ? "text-white" : "text-gray-800"
+              className={`ml-2 hidden md:flex text-xl font-bold ${isDark ? "text-white" : "text-gray-800"
                 }`}
             >
               Homie Travel
@@ -76,14 +76,14 @@ const Header = ({
               {t("nav.stay")}
             </Link>
             <Link
-              to="/trip"
+              to="/blogs"
               className={
                 isDark
                   ? "text-white hover:text-blue-500"
                   : "text-gray-800 hover:text-blue-500"
               }
             >
-              {t("nav.trip")}
+              Blog
             </Link>
             <Link
               to="/about"
@@ -178,11 +178,11 @@ const Header = ({
               {t("nav.stay")}
             </Link>
             <Link
-              to="/trip"
+              to="/blogs"
               className={`${isDark ? "text-white" : "text-gray-800"} hover:text-blue-500`}
               onClick={() => setMobileNavOpen(false)}
             >
-              {t("nav.trip")}
+              Blog
             </Link>
             <Link
               to="/about"
@@ -205,7 +205,6 @@ const Header = ({
             >
               {t("nav.login")}
             </Link>
-
           </nav>
         )}
       </div>

@@ -15,4 +15,5 @@ export interface Tour {
     includedServices: string[];
     imageUrls: string[];
     createdAt: Date;
+    rating: number; // 1-5
 }

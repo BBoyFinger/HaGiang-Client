@@ -3,6 +3,7 @@ import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube, FaTiktok } from "react-
 import logo from "@/assets/logo.jpg";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import ChatbotWidget from "@/components/ChatbotWidget";
 
 interface FooterProps {
   isDark: boolean;
@@ -317,6 +318,7 @@ const Footer = ({ isDark, toggleTheme }: FooterProps) => {
           </div>
         </div>
       </div>
+      <ChatbotWidget />
     </footer>
   );
 };

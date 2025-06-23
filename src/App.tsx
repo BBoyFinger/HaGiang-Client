@@ -10,6 +10,8 @@ import Rent from "./pages/Rent";
 import Stay from "./pages/Stay";
 import Contact from "./pages/Contact";
 import Login from "./pages/Login";
+import Blog from "@/pages/Blog";
+import BlogDetail from "@/pages/BlogDetail";
 
 export default function App() {
   return (
@@ -26,6 +28,8 @@ export default function App() {
           <Route path="stay" element={<Stay />} />
           <Route path="contact" element={<Contact />} />
           <Route path="login" element={<Login />} />
+          <Route path="blogs" element={<Blog />} />
+          <Route path="blogs/:slug" element={<BlogDetail />} />
         </Route>
       </Routes>
     </BrowserRouter>

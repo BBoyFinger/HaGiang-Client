@@ -1,6 +1,10 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useMemo } from "react";
-import { tours, Tour } from "@/data/tours";
+import { tours } from "@/data/tours";
+import type { Tour } from "@/types/TourType";
+import ReactStars from 'react-rating-stars-component';
+import TourRatingForm from '@/components/TourRatingForm';
+import { useState } from 'react';
 
 const typeLabel: Record<Tour["type"], string> = {
   trekking: "Tour Trekking",
@@ -14,6 +18,7 @@ export default function TourDetail() {
   const { slug } = useParams();
   const navigate = useNavigate();
   const tour = useMemo(() => tours.find((t) => t.slug === slug), [slug]);
+  const [ratings, setRatings] = useState<{rating: number, comment: string}[]>([]);
 
   if (!tour) return <div className="p-8">Không tìm thấy tour.</div>;
 
@@ -26,6 +31,17 @@ export default function TourDetail() {
         ))}
       </div>
       <h1 className="text-3xl font-bold mb-2">{tour.name}</h1>
+      <div className="mb-2 flex items-center flex-row" style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+        <ReactStars
+          count={5}
+          value={tour.rating}
+          size={24}
+          isHalf={true}
+          edit={false}
+          activeColor="#ffd700"
+        />
+        <span className="ml-2 text-sm text-yellow-600 font-medium align-middle">{tour.rating.toFixed(1)}</span>
+      </div>
       <div className="mb-2">
         <span className="inline-block px-3 py-1 rounded bg-blue-100 text-blue-700 text-xs font-semibold mr-2">{typeLabel[tour.type]}</span>
         <span className="inline-block px-3 py-1 rounded bg-gray-100 text-gray-700 text-xs font-semibold">Slug: {tour.slug}</span>
@@ -41,6 +57,30 @@ export default function TourDetail() {
         </ul>
       </div>
       <div className="text-xs text-gray-500 mt-6">Ngày tạo: {tour.createdAt.toLocaleDateString()}</div>
+      <TourRatingForm onSubmit={(data) => setRatings([data, ...ratings])} />
+      {ratings.length > 0 && (
+        <div className="my-6">
+          <div className="font-semibold mb-2">Đánh giá của khách hàng:</div>
+          <div className="space-y-4">
+            {ratings.map((r, i) => (
+              <div key={i} className="bg-white dark:bg-gray-700 p-4 rounded shadow">
+                <div className="flex items-center mb-1">
+                  <ReactStars
+                    count={5}
+                    value={r.rating}
+                    size={20}
+                    isHalf={true}
+                    edit={false}
+                    activeColor="#ffd700"
+                  />
+                  <span className="ml-2 text-yellow-600 font-medium">{r.rating.toFixed(1)}</span>
+                </div>
+                {r.comment && <div className="text-gray-700 dark:text-gray-200">{r.comment}</div>}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 } 
