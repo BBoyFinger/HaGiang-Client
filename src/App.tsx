@@ -13,6 +13,7 @@ import Login from "./pages/Login";
 import Blog from "@/pages/Blog/Blog";
 import BlogDetail from "@/pages/Blog/BlogDetail";
 import Admin from "@/pages/Admin";
+import MotorbikeDetail from "@/pages/MotorbikeDetail";
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="tours/:slug" element={<TourDetail />} />
           <Route path="booking" element={<Booking />} />
           <Route path="rent" element={<Rent />} />
+          <Route path="rent/:slug" element={<MotorbikeDetail />} />
           <Route path="stay" element={<Stay />} />
           <Route path="contact" element={<Contact />} />
           <Route path="login" element={<Login />} />
