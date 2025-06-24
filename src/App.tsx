@@ -10,13 +10,15 @@ import Rent from "./pages/Rent";
 import Stay from "./pages/Stay";
 import Contact from "./pages/Contact";
 import Login from "./pages/Login";
-import Blog from "@/pages/Blog";
-import BlogDetail from "@/pages/BlogDetail";
+import Blog from "@/pages/Blog/Blog";
+import BlogDetail from "@/pages/Blog/BlogDetail";
+import Admin from "@/pages/Admin";
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/admin" element={<Admin />} />
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />

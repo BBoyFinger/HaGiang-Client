@@ -1,69 +1,90 @@
-import { useState } from "react";
-import { useUser } from "../contexts/UserContext";
-import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import React from 'react';
+import logo from '@/assets/logo.jpg';
+import image from '@/assets/1.jpg';
 
-export default function Login() {
-  const { t } = useTranslation();
-  const [tab, setTab] = useState<"login" | "register">("login");
-  const [form, setForm] = useState({ username: "", password: "" });
-  const [error, setError] = useState("");
-  // const { login } = useUser();
-  const navigate = useNavigate();
-
-  const handleChange = (e: any) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-    setError("");
-  };
-
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    if (!form.username || !form.password) {
-      setError(t("login.error"));
-      return;
-    }
-    // Đăng nhập hoặc đăng ký logic ở đây
-    // login(form.username);
-    navigate("/");
-  };
-
+const Login: React.FC = () => {
   return (
-    <div className="max-w-sm mx-auto mt-20 bg-white dark:bg-gray-800 p-6 rounded shadow">
-      <div className="flex mb-4">
-        <button
-          className={`flex-1 py-2 font-semibold rounded-l ${tab === "login" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700"}`}
-          onClick={() => setTab("login")}
-        >
-          {t("login.title")}
-        </button>
-        <button
-          className={`flex-1 py-2 font-semibold rounded-r ${tab === "register" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700"}`}
-          onClick={() => setTab("register")}
-        >
-          {t("login.registerTitle")}
-        </button>
+    <div className="bg-sky-100 flex justify-center items-center min-h-screen">
+      <div className="flex w-full max-w-4xl mx-auto shadow-2xl rounded-2xl overflow-hidden">
+        {/* Left: Image */}
+        <div className="w-1/2 h-[600px] hidden lg:block">
+          <img
+            src={image}
+            alt="Placeholder"
+            className="object-cover w-full h-full"
+          />
+        </div>
+        {/* Right: Login Form */}
+        <div className="flex w-full lg:w-1/2 justify-center items-center">
+          <div className="bg-white bg-opacity-95 rounded-none lg:rounded-r-2xl shadow-2xl p-10 max-w-md w-full border border-gray-100">
+            <div className="flex flex-col items-center mb-6">
+              <img src={logo} alt="logo" className="w-20 h-20 rounded-full shadow-md mb-2 border-4 border-blue-100 object-cover" />
+              <h1 className="text-2xl font-bold text-gray-800 mb-1 tracking-wide">Homie Travel</h1>
+              <span className="text-blue-500 font-semibold text-lg">Đăng nhập tài khoản</span>
+            </div>
+            <form action="#" method="POST" className="space-y-4">
+              {/* Username Input */}
+              <div>
+                <label htmlFor="username" className="block text-gray-600 font-medium mb-1">
+                  Username
+                </label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  className="w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+                  autoComplete="off"
+                />
+              </div>
+              {/* Password Input */}
+              <div>
+                <label htmlFor="password" className="block text-gray-800 font-medium mb-1">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  className="w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+                  autoComplete="off"
+                />
+              </div>
+              {/* Remember Me Checkbox */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <input
+                    type="checkbox"
+                    id="remember"
+                    name="remember"
+                    className="text-blue-500 focus:ring-blue-400 rounded"
+                  />
+                  <label htmlFor="remember" className="text-gray-700 ml-2 text-sm">
+                    Remember Me
+                  </label>
+                </div>
+                <a href="#" className="text-blue-500 text-sm hover:underline">
+                  Forgot Password?
+                </a>
+              </div>
+              {/* Login Button */}
+              <button
+                type="submit"
+                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg py-2 px-4 w-full shadow transition-colors"
+              >
+                Login
+              </button>
+            </form>
+            {/* Sign up Link */}
+            <div className="mt-6 text-blue-500 text-center">
+              <a href="#" className="hover:underline font-medium">
+                Sign up Here
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
-      <form onSubmit={handleSubmit}>
-        <input
-          className="border rounded px-3 py-2 w-full mb-3"
-          name="username"
-          placeholder={t("login.usernamePlaceholder")}
-          value={form.username}
-          onChange={handleChange}
-        />
-        <input
-          className="border rounded px-3 py-2 w-full mb-3"
-          name="password"
-          type="password"
-          placeholder={t("login.passwordPlaceholder")}
-          value={form.password}
-          onChange={handleChange}
-        />
-        {error && <div className="text-red-500 text-sm mb-2">{error}</div>}
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded w-full">
-          {tab === "login" ? t("login.submit") : t("login.register")}
-        </button>
-      </form>
     </div>
   );
-}
+};
+
+export default Login;
