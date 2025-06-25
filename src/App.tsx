@@ -14,6 +14,7 @@ import Blog from "@/pages/Blog/Blog";
 import BlogDetail from "@/pages/Blog/BlogDetail";
 import Admin from "@/pages/Admin";
 import MotorbikeDetail from "@/pages/MotorbikeDetail";
+import Favorites from "./pages/Favorites";
 
 export default function App() {
   return (
@@ -34,6 +35,7 @@ export default function App() {
           <Route path="login" element={<Login />} />
           <Route path="blogs" element={<Blog />} />
           <Route path="blogs/:slug" element={<BlogDetail />} />
+          <Route path="/favourite" element={<Favorites />} />
         </Route>
       </Routes>
     </BrowserRouter>

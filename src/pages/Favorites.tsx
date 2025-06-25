@@ -5,7 +5,7 @@ import DestinationCard from "../components/DestinationCard";
 
 export default function Favorites() {
   const { favorites } = useFavorite();
-  const favDest = destinations.filter((d) => favorites.includes(d.id));
+  const favDest = destinations.filter((d: any) => favorites.includes(d.id));
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
       <h2 className="text-2xl font-bold mb-6">Điểm du lịch yêu thích</h2>

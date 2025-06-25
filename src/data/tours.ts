@@ -85,14 +85,14 @@ export const tours: Tour[] = [
   },
   {
     id: '4',
-    name: 'Tour Luxury 4 ngày 3 đêm',
+    name: 'Tour Luxury 4 ngày 3 đêm with easy ride',
     type: 'luxury',
     slug: 'tour-luxury-4-ngay-3-dem',
     description: 'Khám phá cao nguyên đá Đồng Văn, trải nghiệm dịch vụ cao cấp.',
     locations: ['Đồng Văn', 'Sông Nho Quế', 'Vách Đá Trắng', 'Mã Pì Lèng'],
     price: {
-      perSlot: 400,
-      currency: 'EUR',
+      perSlot: 6000000,
+      currency: 'VNĐ',
     },
     duration: '4 ngày 3 đêm',
     guideLanguage: ['English', 'Vietnamese'],
@@ -113,5 +113,37 @@ export const tours: Tour[] = [
     ],
     createdAt: new Date('2024-05-04'),
     rating: 4.8
+  },
+  {
+    id: '5',
+    name: 'Tour Luxury 3 ngày 2 đêm with easy ride',
+    type: 'luxury',
+    slug: 'tour-luxury-3-ngay-2-dem',
+    description: 'Khám phá cao nguyên đá Đồng Văn, trải nghiệm dịch vụ cao cấp.',
+    locations: ['Đồng Văn', 'Sông Nho Quế', 'Vách Đá Trắng', 'Mã Pì Lèng'],
+    price: {
+      perSlot: 400,
+      currency: 'EUR',
+    },
+    duration: '3 ngày 2 đêm',
+    guideLanguage: ['English', 'Vietnamese'],
+    includedServices: [
+      'Khám phá sông Nho Quế - vách đá trắng – Mã Pì Lèng',
+      'Thưởng thức đặc sản vùng cao',
+      'Thăm các bản làng H\'Mong',
+      'Trekking ngắm núi và rừng nguyên sinh',
+      'Khám phá hang động nguyên sơ',
+      'Nấu ăn ngoài trời theo set menu Á-Âu bởi top chef Việt Nam',
+      'HDV: Tiếng anh chuyên nghiệp',
+      'Phương tiện đi lại cần thiết',
+      'Đồ bảo hộ',
+      'Nước uống đầy đủ trong hành trình'
+    ],
+    imageUrls: [
+      'https://images.unsplash.com/photo-1519125323398-675f0ddb6308'
+    ],
+    createdAt: new Date('2024-05-04'),
+    rating: 4.8
   }
+
 ]; 

@@ -158,7 +158,7 @@
     "success": "Booking successful! We will contact you soon."
   },
   "stay": {
-    "title": "Book HomeStay & Hotel",
+    "title": "Book Homestay & Hotel in Ha Giang at Best Price | Homie Travel",
     "name": "Full Name",
     "namePlaceholder": "Enter your full name",
     "email": "Email",
@@ -177,7 +177,8 @@
     "note": "Note",
     "notePlaceholder": "Special requests (if any)",
     "submit": "Book room",
-    "success": "Booking successful! We will contact you soon."
+    "success": "Booking successful! We will contact you soon.",
+    "description": "Find and book homestays, hotels, and guesthouses in Ha Giang. Best price guarantee, great locations, trusted service, 24/7 support."
   },
   "about": {
     "title": "About Homie Travel",

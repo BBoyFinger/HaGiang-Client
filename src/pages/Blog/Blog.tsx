@@ -37,12 +37,12 @@ function Blog() {
         <meta property="og:title" content={t('blog.title')} />
         <meta property="og:description" content={t('blog.description')} />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://hagiangtravel.vn/blog" />
-        <meta property="og:image" content="https://hagiangtravel.vn/og-image.jpg" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={t('blog.title')} />
-        <meta name="twitter:description" content={t('blog.description')} />
-        <meta name="twitter:image" content="https://hagiangtravel.vn/og-image.jpg" />
+        <meta property="og:url" content="https://homieTravel.vn/blog" />
+        <meta property="og:image" content="https://homieTravel.vn/og-image.jpg" />
+        <meta name="tiktok:card" content="summary_large_image" />
+        <meta name="tiktok:title" content={t('blog.title')} />
+        <meta name="tiktok:description" content={t('blog.description')} />
+        <meta name="tiktok:image" content="https://homieTravel.vn/og-image.jpg" />
       </Helmet>
       <div className="container mx-auto py-8">
         <h1 className="text-3xl font-bold mb-6 text-center">Blog Du Lịch Hà Giang</h1>
