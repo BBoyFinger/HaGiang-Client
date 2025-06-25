@@ -42,7 +42,9 @@
       "description1": "We are the leading travel company in Ha Giang, specializing in high-quality tours with professional and experienced guides.",
       "description2": "With over 10 years of experience, we have taken thousands of tourists to explore the wild beauty of Ha Giang in the safest and most exciting way.",
       "learnMore": "Learn More"
-    }
+    },
+    "title": "Ha Giang Travel - Discover Ha Giang Tourism",
+    "description": "Explore tours, destinations, experiences, and the latest Ha Giang travel guides. Book tours, rent motorbikes, and hotels easily."
   },
   "footer": {
     "company": {
@@ -205,5 +207,9 @@
     "submit": "Login",
     "register": "Register",
     "error": "Please enter both username and password."
+  },
+  "blog": {
+    "title": "Ha Giang Travel Blog - Tips & Guides",
+    "description": "Collection of articles, tips, and experiences about Ha Giang travel. Updated information, reviews of destinations, food, and exciting journeys."
   }
 }

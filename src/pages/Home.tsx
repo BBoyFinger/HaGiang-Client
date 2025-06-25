@@ -11,6 +11,7 @@ import { tours } from "@/data/tours";
 import TourCard from "@/components/TourCard";
 import logo from "@/assets/logo.jpg";
 import { FaHandHoldingHeart, FaHandsHelping, FaMountain, FaRegHandshake } from "react-icons/fa";
+import { Helmet } from 'react-helmet-async';
 
 
 export default function Home() {
@@ -69,99 +70,114 @@ export default function Home() {
   // }, []);
 
   return (
-    <div>
-      {/* Hero Section */}
-      <section className="h-[60vh]">
-        <HeroCarousel isDark={isDark} />
-      </section>
+    <>
+      <Helmet>
+        <title>{t('home.title')}</title>
+        <meta name="description" content={t('home.description')} />
+        <meta property="og:title" content={t('home.title')} />
+        <meta property="og:description" content={t('home.description')} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://hagiangtravel.vn/" />
+        <meta property="og:image" content="https://hagiangtravel.vn/og-image.jpg" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={t('home.title')} />
+        <meta name="twitter:description" content={t('home.description')} />
+        <meta name="twitter:image" content="https://hagiangtravel.vn/og-image.jpg" />
+      </Helmet>
+      <div>
+        {/* Hero Section */}
+        <section className="h-[60vh]">
+          <HeroCarousel isDark={isDark} />
+        </section>
 
-      {/* Brand Section */}
-      <section className="py-16">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-center md:items-stretch gap-8 md:gap-16">
-            {/* Left: Logo */}
-            <div className="flex-shrink-0 flex justify-center w-full items-center md:w-1/3 mb-6 md:mb-0 bg-white rounded-lg shadow-lg md:shadow-2xl md:border md:border-gray-200">
-              <img src={logo} alt="Homie Travel" className="w-32 h-32 rounded-full object-cover mx-auto" />
-            </div>
-            {/* Right: Info */}
-            <div className="flex-1 flex flex-col justify-center text-right md:text-left md:border-l md:border-gray-300 md:pl-12">
-              {/* Row 1 */}
-              <div className="flex items-center justify-center md:justify-start gap-2 text-lg font-semibold border-b border-gray-200 pb-4 mb-4">
-                <FaHandHoldingHeart className="text-red-500 text-xl" />
-                <span>{t('brand.charity')}</span>
+        {/* Brand Section */}
+        <section className="py-16">
+          <div className="container mx-auto px-6">
+            <div className="flex flex-col md:flex-row items-center md:items-stretch gap-8 md:gap-16">
+              {/* Left: Logo */}
+              <div className="flex-shrink-0 flex justify-center w-full items-center md:w-1/3 mb-6 md:mb-0 bg-white rounded-lg shadow-lg md:shadow-2xl md:border md:border-gray-200">
+                <img src={logo} alt="Homie Travel" className="w-32 h-32 rounded-full object-cover mx-auto" />
               </div>
-              {/* Row 2 */}
-              <div className="flex items-center justify-center md:justify-start gap-2 text-base font-medium border-b border-gray-200 pb-4 mb-4">
-                <FaRegHandshake className="inline text-blue-500 text-2xl" />
-                <span>{t('brand.professional')}</span>
+              {/* Right: Info */}
+              <div className="flex-1 flex flex-col justify-center text-right md:text-left md:border-l md:border-gray-300 md:pl-12">
+                {/* Row 1 */}
+                <div className="flex items-center justify-center md:justify-start gap-2 text-lg font-semibold border-b border-gray-200 pb-4 mb-4">
+                  <FaHandHoldingHeart className="text-red-500 text-xl" />
+                  <span>{t('brand.charity')}</span>
+                </div>
+                {/* Row 2 */}
+                <div className="flex items-center justify-center md:justify-start gap-2 text-base font-medium border-b border-gray-200 pb-4 mb-4">
+                  <FaRegHandshake className="inline text-blue-500 text-2xl" />
+                  <span>{t('brand.professional')}</span>
+                </div>
+                {/* Row 3 */}
+                <div className="flex items-center gap-2 text-base font-medium text-gray-600 border-b border-gray-200 pb-4 mb-2">
+                  <FaMountain className="text-green-600 text-lg" />
+                  <span>{t('brand.experience')}</span>
+                </div>
               </div>
-              {/* Row 3 */}
-              <div className="flex items-center gap-2 text-base font-medium text-gray-600 border-b border-gray-200 pb-4 mb-2">
-                <FaMountain className="text-green-600 text-lg" />
-                <span>{t('brand.experience')}</span>
+            </div>
+          </div>
+        </section>
+
+        {/* Featured Tours Section */}
+        <section className="py-16">
+          <div className="container mx-auto px-6">
+            <h2 className="text-3xl font-bold mb-8 text-center">Tour nổi bật</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {tours.slice(0, 3).map((tour) => (
+                <TourCard key={tour.id} tour={tour} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Featured Destinations Section */}
+        <section className="py-16">
+          <div className="container mx-auto px-6">
+            <h2 className={`text-3xl font-bold mb-8 text-center ${isDark ? "text-white" : "text-gray-800"}`}>
+              {t("home.featuredDestinations")}
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {destinations.map((destination) => (
+                <DestinationCard key={destination.id} destination={destination} isDark={isDark} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* About Section */}
+        <section className={`py-16 ${isDark ? "bg-gray-800" : "bg-gray-50"}`}>
+          <div className="container mx-auto px-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <h2 className={`text-3xl font-bold mb-6 ${isDark ? "text-white" : "text-gray-800"}`}>
+                  {t("home.about.title")}
+                </h2>
+                <p className={`text-lg leading-relaxed mb-6 ${isDark ? "text-gray-300" : "text-gray-600"}`}>
+                  {t("home.about.description1")}
+                </p>
+                <p className={`text-lg leading-relaxed mb-8 ${isDark ? "text-gray-300" : "text-gray-600"}`}>
+                  {t("home.about.description2")}
+                </p>
+                <Link
+                  to="/about"
+                  className={`inline-block px-8 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-colors ${isDark ? "hover:bg-blue-400" : ""}`}
+                >
+                  {t("home.about.learnMore")}
+                </Link>
+              </div>
+              <div className="relative">
+                <img
+                  src={image1}
+                  alt="Ha Giang Landscape"
+                  className="rounded-lg shadow-lg"
+                />
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Featured Tours Section */}
-      <section className="py-16">
-        <div className="container mx-auto px-6">
-          <h2 className="text-3xl font-bold mb-8 text-center">Tour nổi bật</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {tours.slice(0, 3).map((tour) => (
-              <TourCard key={tour.id} tour={tour} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Destinations Section */}
-      <section className="py-16">
-        <div className="container mx-auto px-6">
-          <h2 className={`text-3xl font-bold mb-8 text-center ${isDark ? "text-white" : "text-gray-800"}`}>
-            {t("home.featuredDestinations")}
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {destinations.map((destination) => (
-              <DestinationCard key={destination.id} destination={destination} isDark={isDark} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section className={`py-16 ${isDark ? "bg-gray-800" : "bg-gray-50"}`}>
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className={`text-3xl font-bold mb-6 ${isDark ? "text-white" : "text-gray-800"}`}>
-                {t("home.about.title")}
-              </h2>
-              <p className={`text-lg leading-relaxed mb-6 ${isDark ? "text-gray-300" : "text-gray-600"}`}>
-                {t("home.about.description1")}
-              </p>
-              <p className={`text-lg leading-relaxed mb-8 ${isDark ? "text-gray-300" : "text-gray-600"}`}>
-                {t("home.about.description2")}
-              </p>
-              <Link
-                to="/about"
-                className={`inline-block px-8 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-colors ${isDark ? "hover:bg-blue-400" : ""}`}
-              >
-                {t("home.about.learnMore")}
-              </Link>
-            </div>
-            <div className="relative">
-              <img
-                src={image1}
-                alt="Ha Giang Landscape"
-                className="rounded-lg shadow-lg"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
+    </>
   );
 }

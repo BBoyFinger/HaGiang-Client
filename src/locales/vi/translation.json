@@ -42,7 +42,9 @@
       "description1": "Chúng tôi là đơn vị lữ hành hàng đầu tại Hà Giang, chuyên cung cấp các tour du lịch chất lượng cao với đội ngũ hướng dẫn viên chuyên nghiệp và kinh nghiệm.",
       "description2": "Với hơn 10 năm kinh nghiệm, chúng tôi đã đưa hàng nghìn du khách khám phá vẻ đẹp hoang dã của Hà Giang một cách an toàn và thú vị nhất.",
       "learnMore": "Tìm hiểu thêm"
-    }
+    },
+    "title": "Hà Giang Travel - Khám phá du lịch Hà Giang",
+    "description": "Khám phá các tour, điểm đến, trải nghiệm và cẩm nang du lịch Hà Giang mới nhất. Đặt tour, thuê xe, đặt phòng khách sạn dễ dàng."
   },
   "brand": {
     "charity": "5% doanh thu mỗi tour dành cho hoạt động thiện nguyện",
@@ -205,5 +207,9 @@
     "submit": "Đăng nhập",
     "register": "Đăng ký",
     "error": "Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu."
+  },
+  "blog": {
+    "title": "Blog Du Lịch Hà Giang - Kinh nghiệm & Cẩm nang",
+    "description": "Tổng hợp bài viết, kinh nghiệm, chia sẻ về du lịch Hà Giang. Cập nhật thông tin, review điểm đến, món ăn, hành trình hấp dẫn."
   }
 }
