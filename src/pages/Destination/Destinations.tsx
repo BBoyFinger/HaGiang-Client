@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { destinations } from "../data/destinations";
-import type { DestinationType } from "../data/destinations";
-import DestinationCard from "../components/DestinationCard";
+import { destinations } from "@/data/destinations";
+import type { DestinationType } from "@/data/destinations";
+import DestinationCard from "@/components/DestinationCard";
 import { useTranslation } from "react-i18next";
 import { Helmet } from "react-helmet-async";
 

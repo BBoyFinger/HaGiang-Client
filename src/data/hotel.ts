@@ -60,5 +60,25 @@ export const hotels: Hotel[] = [
         website_url: "https://hagiangriverside.com/",
         created_at: new Date("2023-01-10T14:00:00Z"),
         updated_at: new Date("2024-06-01T10:00:00Z")
+    },
+    {
+        id: "homestay_001",
+        name: "Dao Lodge Homestay",
+        description: "Trải nghiệm văn hóa bản địa tại Dao Lodge Homestay, nằm giữa thiên nhiên hùng vĩ của Hà Giang. Phù hợp cho nhóm bạn, gia đình hoặc du khách muốn khám phá bản sắc dân tộc Dao.",
+        address: "Nam Dam Village, Quan Ba, Ha Giang",
+        city: "Ha Giang",
+        country: "Vietnam",
+        price_per_night: "18.00",
+        rating: 4.8,
+        star_rating: 3,
+        images: [
+            "@/assets/hotels/hotel4.jpg",
+            "https://www.booking.com/hotel/vn/dao-lodge-homestay.html"
+        ],
+        phone: "+84 912 345 678",
+        email: "contact@daolodge.com",
+        website_url: "https://daolodge.com/",
+        created_at: new Date("2023-05-20T12:00:00Z"),
+        updated_at: new Date("2024-06-01T10:00:00Z")
     }
 ];
