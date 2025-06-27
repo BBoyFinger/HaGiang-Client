@@ -86,7 +86,7 @@ export default function Home() {
       </Helmet>
       <div>
         {/* Hero Section */}
-        <section className="h-[60vh]">
+        <section className="h-screen">
           <HeroCarousel isDark={isDark} />
         </section>
 

@@ -12,7 +12,7 @@ interface FooterProps {
 
 const Footer = ({ isDark, toggleTheme }: FooterProps) => {
   const { t } = useTranslation();
-  
+
   const currentYear = new Date().getFullYear();
 
   return (
@@ -20,7 +20,7 @@ const Footer = ({ isDark, toggleTheme }: FooterProps) => {
       {/* Main Footer Content */}
       <div className="container mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          
+
           {/* Company Info */}
           <div className="space-y-4">
             <Link to="/" className="flex items-center">
@@ -31,61 +31,47 @@ const Footer = ({ isDark, toggleTheme }: FooterProps) => {
               {t("footer.company.description")}
             </p>
             <div className="flex space-x-4">
-              <a 
-                href="#" 
-                className={`p-2 rounded-full transition-colors ${
-                  isDark 
-                    ? "bg-gray-800 hover:bg-blue-600 text-white" 
-                    : "bg-gray-100 hover:bg-blue-500 hover:text-white text-gray-600"
-                }`}
+              <Link
+                to="https://www.facebook.com/profile.php?id=61575627280781"
+                className={`p-2 rounded-full transition-colors ${isDark
+                  ? "bg-gray-800 hover:bg-blue-600 text-white"
+                  : "bg-gray-100 hover:bg-blue-500 hover:text-white text-gray-600"
+                  }`}
                 aria-label="Facebook"
               >
                 <FaFacebookF size={16} />
-              </a>
-              <a 
-                href="#" 
-                className={`p-2 rounded-full transition-colors ${
-                  isDark 
-                    ? "bg-gray-800 hover:bg-pink-600 text-white" 
-                    : "bg-gray-100 hover:bg-pink-500 hover:text-white text-gray-600"
-                }`}
+              </Link>
+              <a
+                href="https://www.instagram.com/homietravel42/"
+                className={`p-2 rounded-full transition-colors ${isDark
+                  ? "bg-gray-800 hover:bg-pink-600 text-white"
+                  : "bg-gray-100 hover:bg-pink-500 hover:text-white text-gray-600"
+                  }`}
                 aria-label="Instagram"
               >
                 <FaInstagram size={16} />
               </a>
-              <a 
-                href="#" 
-                className={`p-2 rounded-full transition-colors ${
-                  isDark 
-                    ? "bg-gray-800 hover:bg-blue-400 text-white" 
-                    : "bg-gray-100 hover:bg-blue-400 hover:text-white text-gray-600"
-                }`}
-                aria-label="Twitter"
-              >
-                <FaTwitter size={16} />
-              </a>
-              <a 
-                href="#" 
-                className={`p-2 rounded-full transition-colors ${
-                  isDark 
-                    ? "bg-gray-800 hover:bg-red-600 text-white" 
-                    : "bg-gray-100 hover:bg-red-500 hover:text-white text-gray-600"
-                }`}
+
+              <Link
+                to="https://www.youtube.com/channel/UCJMURfzp3piz_YRFAc4fP8w"
+                className={`p-2 rounded-full transition-colors ${isDark
+                  ? "bg-gray-800 hover:bg-red-600 text-white"
+                  : "bg-gray-100 hover:bg-red-500 hover:text-white text-gray-600"
+                  }`}
                 aria-label="YouTube"
               >
                 <FaYoutube size={16} />
-              </a>
-              <a 
-                href="#" 
-                className={`p-2 rounded-full transition-colors ${
-                  isDark 
-                    ? "bg-gray-800 hover:bg-black text-white" 
-                    : "bg-gray-100 hover:bg-black hover:text-white text-gray-600"
-                }`}
+              </Link>
+              <Link
+                to="https://www.tiktok.com/@HomieTravel42"
+                className={`p-2 rounded-full transition-colors ${isDark
+                  ? "bg-gray-800 hover:bg-black text-white"
+                  : "bg-gray-100 hover:bg-black hover:text-white text-gray-600"
+                  }`}
                 aria-label="TikTok"
               >
                 <FaTiktok size={16} />
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -94,61 +80,55 @@ const Footer = ({ isDark, toggleTheme }: FooterProps) => {
             <h3 className="text-lg font-semibold">{t("footer.quickLinks")}</h3>
             <ul className="space-y-2">
               <li>
-                <Link 
-                  to="/" 
-                  className={`text-sm hover:text-blue-500 transition-colors ${
-                    isDark ? "text-gray-300" : "text-gray-600"
-                  }`}
+                <Link
+                  to="/"
+                  className={`text-sm hover:text-blue-500 transition-colors ${isDark ? "text-gray-300" : "text-gray-600"
+                    }`}
                 >
                   {t("nav.home")}
                 </Link>
               </li>
               <li>
-                <Link 
-                  to="/about" 
-                  className={`text-sm hover:text-blue-500 transition-colors ${
-                    isDark ? "text-gray-300" : "text-gray-600"
-                  }`}
+                <Link
+                  to="/about"
+                  className={`text-sm hover:text-blue-500 transition-colors ${isDark ? "text-gray-300" : "text-gray-600"
+                    }`}
                 >
                   {t("nav.about")}
                 </Link>
               </li>
               <li>
-                <Link 
-                  to="/destinations" 
-                  className={`text-sm hover:text-blue-500 transition-colors ${
-                    isDark ? "text-gray-300" : "text-gray-600"
-                  }`}
+                <Link
+                  to="/destinations"
+                  className={`text-sm hover:text-blue-500 transition-colors ${isDark ? "text-gray-300" : "text-gray-600"
+                    }`}
                 >
                   {t("destinations.title")}
                 </Link>
               </li>
               <li>
-                <Link 
-                  to="/tours" 
-                  className={`text-sm hover:text-blue-500 transition-colors ${
-                    isDark ? "text-gray-300" : "text-gray-600"
-                  }`}
+                <Link
+                  to="/tours"
+                  className={`text-sm hover:text-blue-500 transition-colors ${isDark ? "text-gray-300" : "text-gray-600"
+                    }`}
                 >
                   {t("tours.title")}
                 </Link>
               </li>
               <li>
-                <Link 
-                  to="/booking" 
-                  className={`text-sm hover:text-blue-500 transition-colors ${
-                    isDark ? "text-gray-300" : "text-gray-600"
-                  }`}
+                <Link
+                  to="/tour"
+                  className={`text-sm hover:text-blue-500 transition-colors ${isDark ? "text-gray-300" : "text-gray-600"
+                    }`}
                 >
-                  {t("nav.booking")}
+                  {t("nav.tour")}
                 </Link>
               </li>
               <li>
-                <Link 
-                  to="/contact" 
-                  className={`text-sm hover:text-blue-500 transition-colors ${
-                    isDark ? "text-gray-300" : "text-gray-600"
-                  }`}
+                <Link
+                  to="/contact"
+                  className={`text-sm hover:text-blue-500 transition-colors ${isDark ? "text-gray-300" : "text-gray-600"
+                    }`}
                 >
                   {t("nav.contact")}
                 </Link>
@@ -161,61 +141,55 @@ const Footer = ({ isDark, toggleTheme }: FooterProps) => {
             <h3 className="text-lg font-semibold">{t("footer.services")}</h3>
             <ul className="space-y-2">
               <li>
-                <a 
-                  href="#" 
-                  className={`text-sm hover:text-blue-500 transition-colors ${
-                    isDark ? "text-gray-300" : "text-gray-600"
-                  }`}
+                <a
+                  href="#"
+                  className={`text-sm hover:text-blue-500 transition-colors ${isDark ? "text-gray-300" : "text-gray-600"
+                    }`}
                 >
                   {t("footer.servicesList.tour3n2d")}
                 </a>
               </li>
               <li>
-                <a 
-                  href="#" 
-                  className={`text-sm hover:text-blue-500 transition-colors ${
-                    isDark ? "text-gray-300" : "text-gray-600"
-                  }`}
+                <a
+                  href="#"
+                  className={`text-sm hover:text-blue-500 transition-colors ${isDark ? "text-gray-300" : "text-gray-600"
+                    }`}
                 >
                   {t("footer.servicesList.tour4n3d")}
                 </a>
               </li>
               <li>
-                <a 
-                  href="#" 
-                  className={`text-sm hover:text-blue-500 transition-colors ${
-                    isDark ? "text-gray-300" : "text-gray-600"
-                  }`}
+                <a
+                  href="#"
+                  className={`text-sm hover:text-blue-500 transition-colors ${isDark ? "text-gray-300" : "text-gray-600"
+                    }`}
                 >
                   {t("footer.servicesList.rentBike")}
                 </a>
               </li>
               <li>
-                <a 
-                  href="#" 
-                  className={`text-sm hover:text-blue-500 transition-colors ${
-                    isDark ? "text-gray-300" : "text-gray-600"
-                  }`}
+                <a
+                  href="#"
+                  className={`text-sm hover:text-blue-500 transition-colors ${isDark ? "text-gray-300" : "text-gray-600"
+                    }`}
                 >
                   {t("footer.servicesList.homestay")}
                 </a>
               </li>
               <li>
-                <a 
-                  href="#" 
-                  className={`text-sm hover:text-blue-500 transition-colors ${
-                    isDark ? "text-gray-300" : "text-gray-600"
-                  }`}
+                <a
+                  href="#"
+                  className={`text-sm hover:text-blue-500 transition-colors ${isDark ? "text-gray-300" : "text-gray-600"
+                    }`}
                 >
                   {t("footer.servicesList.guide")}
                 </a>
               </li>
               <li>
-                <a 
-                  href="#" 
-                  className={`text-sm hover:text-blue-500 transition-colors ${
-                    isDark ? "text-gray-300" : "text-gray-600"
-                  }`}
+                <a
+                  href="#"
+                  className={`text-sm hover:text-blue-500 transition-colors ${isDark ? "text-gray-300" : "text-gray-600"
+                    }`}
                 >
                   {t("footer.servicesList.insurance")}
                 </a>
@@ -231,22 +205,22 @@ const Footer = ({ isDark, toggleTheme }: FooterProps) => {
                 <FiMapPin className={`mt-1 ${isDark ? "text-blue-400" : "text-blue-500"}`} />
                 <div>
                   <p className="text-sm font-medium">{t("footer.contactInfo.address")}</p>
-                  <p className={`text-sm ${isDark ? "text-gray-300" : "text-gray-600"}`} 
-                     dangerouslySetInnerHTML={{ __html: t("footer.contactInfo.addressValue") }}>
+                  <p className={`text-sm ${isDark ? "text-gray-300" : "text-gray-600"}`}
+                    dangerouslySetInnerHTML={{ __html: t("footer.contactInfo.addressValue") }}>
                   </p>
                 </div>
               </div>
-              
+
               <div className="flex items-center space-x-3">
                 <FiPhone className={`${isDark ? "text-blue-400" : "text-blue-500"}`} />
                 <div>
                   <p className="text-sm font-medium">{t("footer.contactInfo.phone")}</p>
-                  <p className={`text-sm ${isDark ? "text-gray-300" : "text-gray-600"}`}>
-                    {t("footer.contactInfo.phoneValue")}
-                  </p>
+                  <a href="tel:+84 983648362" className={`text-sm ${isDark ? "text-gray-300" : "text-gray-600"}`}>
+                    +84 983648362
+                  </a>
                 </div>
               </div>
-              
+
               <div className="flex items-center space-x-3">
                 <FiMail className={`${isDark ? "text-blue-400" : "text-blue-500"}`} />
                 <div>
@@ -265,11 +239,10 @@ const Footer = ({ isDark, toggleTheme }: FooterProps) => {
                 <input
                   type="email"
                   placeholder={t("footer.newsletter.placeholder")}
-                  className={`flex-1 px-3 py-2 text-sm border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                    isDark 
-                      ? "bg-gray-800 border-gray-600 text-white placeholder-gray-400" 
-                      : "bg-white border-gray-300 text-gray-800 placeholder-gray-500"
-                  }`}
+                  className={`flex-1 px-3 py-2 text-sm border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${isDark
+                    ? "bg-gray-800 border-gray-600 text-white placeholder-gray-400"
+                    : "bg-white border-gray-300 text-gray-800 placeholder-gray-500"
+                    }`}
                 />
                 <button className="px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded-r-md hover:bg-blue-600 transition-colors">
                   {t("footer.newsletter.button")}
@@ -288,29 +261,26 @@ const Footer = ({ isDark, toggleTheme }: FooterProps) => {
               <span>{t("footer.bottom.copyright", { year: currentYear })}</span>
               <FiHeart className="text-red-500" />
             </div>
-            
+
             <div className="flex items-center space-x-6 text-sm">
-              <a 
-                href="#" 
-                className={`hover:text-blue-500 transition-colors ${
-                  isDark ? "text-gray-300" : "text-gray-600"
-                }`}
+              <a
+                href="#"
+                className={`hover:text-blue-500 transition-colors ${isDark ? "text-gray-300" : "text-gray-600"
+                  }`}
               >
                 {t("footer.bottom.privacy")}
               </a>
-              <a 
-                href="#" 
-                className={`hover:text-blue-500 transition-colors ${
-                  isDark ? "text-gray-300" : "text-gray-600"
-                }`}
+              <a
+                href="#"
+                className={`hover:text-blue-500 transition-colors ${isDark ? "text-gray-300" : "text-gray-600"
+                  }`}
               >
                 {t("footer.bottom.terms")}
               </a>
-              <a 
-                href="#" 
-                className={`hover:text-blue-500 transition-colors ${
-                  isDark ? "text-gray-300" : "text-gray-600"
-                }`}
+              <a
+                href="#"
+                className={`hover:text-blue-500 transition-colors ${isDark ? "text-gray-300" : "text-gray-600"
+                  }`}
               >
                 {t("footer.bottom.sitemap")}
               </a>

@@ -18,7 +18,7 @@ export const hotels: Hotel[] = [
         ],
         phone: "+84 219 3899 888",
         email: "info@phoenixhotelhg.com",
-        website_url: "http://phoenixhotelhagiang.com/",
+        website_url: "#",
         created_at: new Date("2022-06-15T10:00:00Z"),
         updated_at: new Date("2023-12-01T08:30:00Z")
     },
@@ -38,7 +38,7 @@ export const hotels: Hotel[] = [
         ],
         phone: "+84 219 382 1234",
         email: "booking@yenbienhotel.vn",
-        website_url: "https://yenbienluxury.myharavan.com/",
+        website_url: "#",
         created_at: new Date("2021-11-01T09:00:00Z"),
         updated_at: new Date("2024-02-14T15:45:00Z")
     },
@@ -57,7 +57,7 @@ export const hotels: Hotel[] = [
         ],
         phone: "+84 936 123 456",
         email: "riversidehostel@gmail.com",
-        website_url: "https://hagiangriverside.com/",
+        website_url: "#",
         created_at: new Date("2023-01-10T14:00:00Z"),
         updated_at: new Date("2024-06-01T10:00:00Z")
     },
@@ -77,7 +77,7 @@ export const hotels: Hotel[] = [
         ],
         phone: "+84 912 345 678",
         email: "contact@daolodge.com",
-        website_url: "https://daolodge.com/",
+        website_url: "#",
         created_at: new Date("2023-05-20T12:00:00Z"),
         updated_at: new Date("2024-06-01T10:00:00Z")
     }

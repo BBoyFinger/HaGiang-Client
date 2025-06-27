@@ -5,7 +5,7 @@ import ModalBookingForm from "@/components/ModalBookingForm";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 
-export default function Booking() {
+export default function Tour() {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedTourId, setSelectedTourId] = useState(null);
 
@@ -19,18 +19,17 @@ export default function Booking() {
   return (
     <>
       <Helmet>
-        <title>{t('booking.title')}</title>
-        <meta name="description" content={t('booking.description')} />
-        <meta property="og:title" content={t('booking.title')} />
-        <meta property="og:description" content={t('booking.description')} />
+        <title>{t('tour.title')}</title>
+        <meta name="description" content={t('tour.description')} />
+        <meta property="og:title" content={t('tour.title')} />
+        <meta property="og:description" content={t('tour.description')} />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://homieTravel.vn/booking" />
+        <meta property="og:url" content="https://homieTravel.vn/tour" />
         <meta property="og:image" content="https://homieTravel.vn/og-image.jpg" />
         <meta name="tiktok:card" content="summary_large_image" />
-        <meta name="tiktok:title" content={t('booking.title')} />
-        <meta name="tiktok:description" content={t('booking.description')} />
+        <meta name="tiktok:title" content={t('tour.title')} />
+        <meta name="tiktok:description" content={t('tour.description')} />
         <meta name="tiktok:image" content="https://homieTravel.vn/og-image.jpg" />
-
       </Helmet>
       <div className="max-w-5xl mx-auto px-4 py-10">
         <h2 className="text-2xl font-bold mb-6 text-center">Đặt tour cùng Homie Travel</h2>
@@ -38,16 +37,9 @@ export default function Booking() {
           {tours.map((tour) => (
             <div key={tour.id}>
               <TourCard tour={tour} />
-              <button
-                className="mt-4 w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition"
-                onClick={() => handleBook(tour.id)}
-              >
-                Đặt tour
-              </button>
             </div>
           ))}
         </div>
-        <ModalBookingForm open={modalOpen} onClose={() => setModalOpen(false)} selectedTourId={selectedTourId} />
       </div>
     </>
   );

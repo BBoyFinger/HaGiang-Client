@@ -2,6 +2,11 @@ import { Link } from "react-router-dom";
 import type { Tour } from "@/types/TourType";
 import { motion } from "framer-motion";
 import ReactStars from 'react-rating-stars-component'
+import { MdAccessTime, MdArrowRightAlt } from "react-icons/md";
+import { useTranslation } from "react-i18next";
+import { GoPeople } from "react-icons/go";
+
+
 
 const formatPrice = (price: number, currency: string) => {
   if (currency === "EUR") return price + " EUR";
@@ -9,6 +14,7 @@ const formatPrice = (price: number, currency: string) => {
 };
 
 export default function TourCard({ tour }: { tour: Tour }) {
+  const { t } = useTranslation();
   return (
     <motion.div
       whileHover={{ scale: 1.03 }}
@@ -17,8 +23,8 @@ export default function TourCard({ tour }: { tour: Tour }) {
       <img src={tour.imageUrls[0]} alt={tour.name} className="w-full h-48 object-cover" />
       <div className="p-5">
         <h3 className="text-xl font-bold mb-1 text-gray-800 dark:text-white">{tour.name}</h3>
-        
-        <div className="mb-2 flex items-center flex-row" style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+
+        <div className="mb-2 flex items-center flex-row" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <ReactStars
             count={5}
             value={tour.rating}
@@ -27,7 +33,7 @@ export default function TourCard({ tour }: { tour: Tour }) {
             edit={false}
             activeColor="#ffd700"
           />
-          
+
           <span className="ml-2 text-sm text-yellow-600 font-medium align-middle">{tour.rating.toFixed(1)}</span>
         </div>
         <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">{tour.description}</p>
@@ -41,12 +47,25 @@ export default function TourCard({ tour }: { tour: Tour }) {
         <div className="font-semibold text-blue-600 mb-2">
           Giá từ: {formatPrice(tour.price.groupPrice || tour.price.perSlot, tour.price.currency)}/slot
         </div>
-        <Link
-          to={`/tours/${tour.slug}`}
-          className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition-colors mt-2 inline-block"
-        >
-          Xem chi tiết
-        </Link>
+        <div className="flex items-center justify-between border-t border-solid border-[#e2dFEB] p-[10px_0] mt-[20px]">
+          <div className="flex justify-center items-center gap-2">
+            <MdAccessTime />
+            <span>4 {t("tour.time")}</span>
+          </div>
+          <div className="flex justify-center items-center gap-2">
+            <GoPeople />
+            10
+          </div>
+          <Link
+            to={`/tours/${tour.slug}`}
+            className="flex items-center gap-2 rounded-full hover:text-blue-400 transition-colors"
+          >
+            Explore
+            <MdArrowRightAlt />
+          </Link>
+        </div>
+
+
       </div>
     </motion.div>
   );

@@ -3,7 +3,7 @@
     "home": "Trang chủ",
     "about": "Giới thiệu",
     "contact": "Liên hệ",
-    "booking": "Đặt tour",
+    "tour": "Tour",
     "rent": "Thuê xe",
     "stay": "Homestay & Khách sạn",
     "trip": "Tour Hà Giang",
@@ -70,9 +70,9 @@
       "address": "Địa chỉ:",
       "phone": "Điện thoại:",
       "email": "Email:",
-      "addressValue": "123 Đường ABC, Phường XYZ<br/>Thành phố Hà Giang, Việt Nam",
+      "addressValue": "Thành phố Hà Giang, Việt Nam",
       "phoneValue": "+84 123 456 789",
-      "emailValue": "info@hagiangtravel.com"
+      "emailValue": "anhbuonanhkhocvianhyeuem@gmail.com"
     },
     "newsletter": {
       "title": "Đăng ký nhận tin",
@@ -120,7 +120,7 @@
     "schedule": "Lịch trình",
     "reviews": "Đánh giá"
   },
-  "booking": {
+  "tour": {
     "title": "Đặt tour cùng Homie Travel",
     "name": "Họ tên",
     "namePlaceholder": "Nhập họ tên của bạn",
@@ -134,7 +134,8 @@
     "note": "Ghi chú",
     "notePlaceholder": "Yêu cầu đặc biệt (nếu có)",
     "submit": "Đặt tour",
-    "success": "Đặt tour thành công! Chúng tôi sẽ liên hệ bạn sớm."
+    "success": "Đặt tour thành công! Chúng tôi sẽ liên hệ bạn sớm.",
+    "time": "Ngày"
   },
   "rent": {
     "title": "Thuê phương tiện",

@@ -3,7 +3,7 @@
     "home": "Home",
     "about": "About",
     "contact": "Contact",
-    "booking": "Booking",
+    "tour": "Tour",
     "rent": "Rent a Vehicle",
     "stay": "Homestay & Hotel",
     "trip": "Ha Giang Trip",
@@ -65,9 +65,9 @@
       "address": "Address:",
       "phone": "Phone:",
       "email": "Email:",
-      "addressValue": "123 ABC Street, XYZ Ward<br/>Ha Giang City, Vietnam",
+      "addressValue": "Ha Giang City, Vietnam",
       "phoneValue": "+84 123 456 789",
-      "emailValue": "info@hagiangtravel.com"
+      "emailValue": "Anhbuonanhkhocvianhyeuem@gmail.com"
     },
     "newsletter": {
       "title": "Subscribe to Newsletter",
@@ -115,6 +115,23 @@
     "schedule": "Schedule",
     "reviews": "Reviews"
   },
+  "tour": {
+    "title": "Tour with Homie Travel",
+    "name": "Full Name",
+    "namePlaceholder": "Enter your full name",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email",
+    "phone": "Phone number",
+    "phonePlaceholder": "Enter your phone number",
+    "tour": "Select tour",
+    "date": "Departure date",
+    "people": "Number of people",
+    "note": "Note",
+    "notePlaceholder": "Special requests (if any)",
+    "submit": "Book tour",
+    "success": "Booking successful! We will contact you soon.",
+    "time": "days"
+  },
   "booking": {
     "title": "Book a tour with Homie Travel",
     "name": "Full Name",
@@ -155,7 +172,7 @@
     "note": "Note",
     "notePlaceholder": "Special requests (if any)",
     "submit": "Book rental",
-    "success": "Booking successful! We will contact you soon."
+    "success": " successful! We will contact you soon."
   },
   "stay": {
     "title": "Book Homestay & Hotel in Ha Giang at Best Price | Homie Travel",

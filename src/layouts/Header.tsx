@@ -46,14 +46,14 @@ const Header = ({
               {t("nav.home")}
             </Link>
             <Link
-              to="/booking"
+              to="/tour"
               className={
                 isDark
                   ? "text-white hover:text-blue-500"
                   : "text-gray-800 hover:text-blue-500"
               }
             >
-              {t("nav.booking")}
+              {t("nav.tour")}
             </Link>
             <Link
               to="/rent"
@@ -157,11 +157,11 @@ const Header = ({
               {t("nav.home")}
             </Link>
             <Link
-              to="/booking"
+              to="/tour"
               className={`${isDark ? "text-white" : "text-gray-800"} hover:text-blue-500`}
               onClick={() => setMobileNavOpen(false)}
             >
-              {t("nav.booking")}
+              {t("nav.tour")}
             </Link>
             <Link
               to="/rent"
