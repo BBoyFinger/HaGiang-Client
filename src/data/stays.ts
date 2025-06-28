@@ -1,7 +1,7 @@
-import { Hotel } from "@/types/HotelType"
+import { Accommodation } from "@/types/AccommodationType"
 
 
-export const hotels: Hotel[] = [
+export const stays: Accommodation[] = [
     {
         id: "hotel_001",
         name: "Phoenix Hotel Ha Giang",

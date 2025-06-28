@@ -7,13 +7,14 @@ import Destinations from "@/pages/Destination/Destinations";
 import TourDetail from "@/pages/Tour/TourDetail";
 import Tour from "@/pages/Tour/Tour";
 import Rent from "@/pages/Rent/Rent";
-import Stay from "@/pages/Stay";
+import Stay from "@/pages/Stay/Stay";
 import Contact from "@/pages/Contact";
 import Login from "@/pages/Login";
 import Blog from "@/pages/Blog/Blog";
 import BlogDetail from "@/pages/Blog/BlogDetail";
-import MotorbikeDetail from "@/pages/Rent/MotorbikeDetail";
+import VehicleDetail from "@/pages/Rent/VehicleDetail";
 import Favorites from "@/pages/Favorites";
+import StayDetail from "@/pages/Stay/[id]";
 
 export default function PublicRoutes() {
   return (
@@ -26,8 +27,9 @@ export default function PublicRoutes() {
         <Route path="tours/:slug" element={<TourDetail />} />
         <Route path="tour" element={<Tour />} />
         <Route path="rent" element={<Rent />} />
-        <Route path="rent/:slug" element={<MotorbikeDetail />} />
+        <Route path="rent/:slug" element={<VehicleDetail />} />
         <Route path="stay" element={<Stay />} />
+        <Route path="stay/:id" element={<StayDetail />} />
         <Route path="contact" element={<Contact />} />
         <Route path="login" element={<Login />} />
         <Route path="blogs" element={<Blog />} />

@@ -229,5 +229,8 @@
   "blog": {
     "title": "Ha Giang Travel Blog - Tips & Guides",
     "description": "Collection of articles, tips, and experiences about Ha Giang travel. Updated information, reviews of destinations, food, and exciting journeys."
+  },
+  "vehicle": {
+    "location": "Hà Giang City"
   }
 }

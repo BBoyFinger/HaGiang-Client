@@ -213,5 +213,8 @@
   "blog": {
     "title": "Blog Du Lịch Hà Giang - Kinh nghiệm & Cẩm nang",
     "description": "Tổng hợp bài viết, kinh nghiệm, chia sẻ về du lịch Hà Giang. Cập nhật thông tin, review điểm đến, món ăn, hành trình hấp dẫn."
+  }, 
+  "vehicle": {
+    "location": "Thành Phố Hà Giang"
   }
 }

@@ -1,10 +1,10 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { motorbikes } from '@/data/motorbikes';
+import { vehicles } from '@/data/vehicles';
 
-export default function MotorbikeDetail() {
+export default function VehicleDetail() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-  const bike = motorbikes.find((b) => b.slug === slug);
+  const bike = vehicles.find((b) => b.slug === slug);
 
   if (!bike) return <div className="p-8">Không tìm thấy xe máy.</div>;
 

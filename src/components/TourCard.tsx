@@ -20,11 +20,15 @@ export default function TourCard({ tour }: { tour: Tour }) {
       whileHover={{ scale: 1.03 }}
       className="rounded-lg overflow-hidden shadow-lg bg-white dark:bg-gray-800"
     >
-      <img src={tour.imageUrls[0]} alt={tour.name} className="w-full h-48 object-cover" />
+      <Link to={`/tours/${tour.slug}`}>
+        <img src={tour.imageUrls[0]} alt={tour.name} className="w-full h-48 object-cover" />
+      </Link>
       <div className="p-5">
-        <h3 className="text-xl font-bold mb-1 text-gray-800 dark:text-white">{tour.name}</h3>
+        <Link to={`/tours/${tour.slug}`}>
+          <h3 className="text-xl font-bold mb-1 text-gray-800 dark:text-white hover:text-blue-400 transition-colors">{tour.name}</h3>
+        </Link>
 
-        <div className="mb-2 flex items-center flex-row" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+        <div className="mb-2 flex items-center flex-row" >
           <ReactStars
             count={5}
             value={tour.rating}
@@ -34,7 +38,7 @@ export default function TourCard({ tour }: { tour: Tour }) {
             activeColor="#ffd700"
           />
 
-          <span className="ml-2 text-sm text-yellow-600 font-medium align-middle">{tour.rating.toFixed(1)}</span>
+          <span className="ml-2 text-base text-yellow-600 font-medium align-middle">{tour.rating.toFixed(1)}</span>
         </div>
         <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">{tour.description}</p>
         <div className="text-xs text-gray-500 mb-2">
