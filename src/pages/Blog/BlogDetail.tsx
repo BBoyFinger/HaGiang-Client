@@ -1,24 +1,67 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Blog as BlogType } from "@/types/BlogType";
+import { motion } from "framer-motion";
+import { FaArrowLeft, FaUser, FaCalendar, FaTags, FaHeart, FaShare, FaComment, FaFacebook, FaTwitter, FaLinkedin, FaBookmark } from "react-icons/fa";
+import { Helmet } from 'react-helmet-async';
 
 const blogs: BlogType[] = [
   {
     id: "1",
-    title: "Khám phá Hà Giang mùa hoa tam giác mạch",
+    title: "Khám phá Hà Giang mùa hoa tam giác mạch - Trải nghiệm tuyệt vời không thể bỏ lỡ",
     slug: "kham-pha-ha-giang-mua-hoa-tam-giac-mach",
-    content: "Hà Giang mùa hoa tam giác mạch là một trải nghiệm không thể bỏ lỡ...",
-    tags: "Hà Giang,Du lịch,Phong cảnh",
+    content: `Hà Giang mùa hoa tam giác mạch là một trải nghiệm không thể bỏ lỡ cho những ai yêu thích khám phá thiên nhiên và văn hóa địa phương. Vào tháng 10-11 hàng năm, khi những cánh đồng tam giác mạch nở rộ, Hà Giang trở thành một bức tranh thiên nhiên tuyệt đẹp với sắc tím hồng phủ khắp các sườn núi.
+
+Những điểm đến không thể bỏ qua trong mùa hoa tam giác mạch:
+
+1. **Cao nguyên đá Đồng Văn**: Nơi có những cánh đồng tam giác mạch đẹp nhất, với khung cảnh núi đá hùng vĩ làm nền.
+
+2. **Đèo Mã Pì Lèng**: Từ đỉnh đèo, bạn có thể ngắm nhìn toàn cảnh thung lũng Nho Quế và những cánh đồng hoa xa xa.
+
+3. **Làng văn hóa Lũng Cú**: Không chỉ ngắm hoa, bạn còn được trải nghiệm văn hóa của người dân tộc H'Mong.
+
+4. **Sông Nho Quế**: Thuyền thưởng ngoạn trên sông để ngắm hoa từ góc nhìn khác.
+
+Lời khuyên khi du lịch Hà Giang mùa hoa tam giác mạch:
+- Thời gian tốt nhất: Cuối tháng 10 đến giữa tháng 11
+- Nên thuê xe máy để di chuyển linh hoạt
+- Mang theo áo ấm vì thời tiết có thể lạnh
+- Tôn trọng văn hóa địa phương và không hái hoa
+
+Hãy lên kế hoạch ngay để không bỏ lỡ mùa hoa đẹp nhất trong năm tại Hà Giang!`,
+    tags: "Hà Giang,Du lịch,Phong cảnh,Hoa tam giác mạch",
     author: "Nguyễn Văn A",
     thumbnail: "/src/assets/1.jpg",
     createdDate: new Date("2024-05-01"),
   },
   {
     id: "2",
-    title: "Hành trình chinh phục đèo Mã Pí Lèng",
+    title: "Hành trình chinh phục đèo Mã Pì Lèng - Tứ đại đỉnh đèo Việt Nam",
     slug: "hanh-trinh-chinh-phuc-deo-ma-pi-leng",
-    content: "Đèo Mã Pí Lèng là một trong tứ đại đỉnh đèo của Việt Nam...",
-    tags: "Đèo,Phượt,Trải nghiệm",
+    content: `Đèo Mã Pì Lèng là một trong tứ đại đỉnh đèo của Việt Nam, nằm trên con đường Hạnh Phúc nối liền Hà Giang với Cao Bằng. Với độ cao hơn 1.500m so với mực nước biển, đèo Mã Pì Lèng được mệnh danh là "Vua của các đèo" với khung cảnh hùng vĩ và hiểm trở.
+
+Hành trình chinh phục đèo Mã Pì Lèng:
+
+**Chuẩn bị trước khi đi:**
+- Kiểm tra xe máy kỹ lưỡng
+- Mang đầy đủ đồ bảo hộ
+- Chuẩn bị tinh thần cho đường đèo hiểm trở
+- Nghiên cứu thời tiết và lộ trình
+
+**Những điểm dừng chân đẹp:**
+1. **Đỉnh đèo Mã Pì Lèng**: Ngắm toàn cảnh thung lũng Nho Quế
+2. **Vách đá Trắng**: Chụp ảnh với background núi đá hùng vĩ
+3. **Sông Nho Quế**: Thuyền thưởng ngoạn dưới chân đèo
+4. **Bản làng H'Mong**: Giao lưu với người dân địa phương
+
+**Lưu ý quan trọng:**
+- Đi chậm và cẩn thận trên đèo
+- Không đi vào ban đêm
+- Mang theo đầy đủ nước và đồ ăn
+- Tôn trọng luật giao thông và văn hóa địa phương
+
+Đèo Mã Pì Lèng không chỉ là thử thách về kỹ năng lái xe mà còn là trải nghiệm tinh thần tuyệt vời khi được chinh phục một trong những con đèo đẹp nhất Việt Nam.`,
+    tags: "Đèo,Phượt,Trải nghiệm,Mã Pì Lèng",
     author: "Trần Thị B",
     thumbnail: "/src/assets/2.png",
     createdDate: new Date("2024-04-20"),
@@ -30,32 +73,54 @@ interface Comment {
   author: string;
   content: string;
   createdAt: Date;
+  avatar?: string;
 }
 
 const mockComments: Comment[] = [
   {
     id: "c1",
     author: "Minh",
-    content: "Bài viết rất hay và hữu ích!",
+    content: "Bài viết rất hay và hữu ích! Mình đã đi Hà Giang mùa hoa tam giác mạch và thực sự bị choáng ngợp bởi vẻ đẹp nơi đây. Cảm ơn tác giả đã chia sẻ kinh nghiệm quý báu.",
     createdAt: new Date("2024-06-01T10:00:00"),
+    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
   },
   {
     id: "c2",
     author: "Lan",
-    content: "Cảm ơn bạn đã chia sẻ kinh nghiệm du lịch Hà Giang.",
+    content: "Cảm ơn bạn đã chia sẻ kinh nghiệm du lịch Hà Giang. Mình đang lên kế hoạch đi vào tháng 10 này. Bài viết giúp mình có thêm nhiều thông tin bổ ích!",
     createdAt: new Date("2024-06-02T14:30:00"),
+    avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face"
   },
 ];
 
 export default function BlogDetail() {
   const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
   const blog = blogs.find((b) => b.slug === slug);
 
   const [comments, setComments] = useState<Comment[]>(mockComments);
   const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
+  const [isLiked, setIsLiked] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
 
-  if (!blog) return <div className="text-center py-10">Không tìm thấy bài viết.</div>;
+  if (!blog) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="text-6xl mb-4">📝</div>
+          <h1 className="text-2xl font-bold text-gray-800 mb-2">Không tìm thấy bài viết</h1>
+          <p className="text-gray-600 mb-6">Bài viết bạn đang tìm kiếm không tồn tại hoặc đã được di chuyển.</p>
+          <button 
+            onClick={() => navigate('/blogs')}
+            className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
+          >
+            Xem tất cả bài viết
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,6 +131,7 @@ export default function BlogDetail() {
         author,
         content,
         createdAt: new Date(),
+        avatar: `https://images.unsplash.com/photo-${Math.random().toString(36).slice(2)}?w=150&h=150&fit=crop&crop=face`
       },
       ...comments,
     ]);
@@ -73,58 +139,271 @@ export default function BlogDetail() {
     setContent("");
   };
 
-  return (
-    <div className="container mx-auto py-8 max-w-2xl">
-      <img src={blog.thumbnail} alt={blog.title} className="w-full h-64 object-cover rounded mb-6" />
-      <h1 className="text-3xl font-bold mb-2">{blog.title}</h1>
-      <div className="text-sm text-gray-500 mb-4">
-        <span className="font-semibold">Tác giả:</span> {blog.author} | {new Date(blog.createdDate).toLocaleDateString()}
-      </div>
-      <div className="flex flex-wrap gap-2 text-xs mb-4">
-        {blog.tags.split(",").map((tag) => (
-          <span key={tag} className="bg-blue-100 text-blue-700 px-2 py-1 rounded">{tag.trim()}</span>
-        ))}
-      </div>
-      <div className="text-base text-gray-800 dark:text-gray-200 whitespace-pre-line mb-10">
-        {blog.content}
-      </div>
+  const relatedPosts = blogs.filter(b => b.id !== blog.id);
 
-      {/* Comment Section */}
-      <div className="mt-10">
-        <h2 className="text-2xl font-semibold mb-4">Bình luận</h2>
-        <form onSubmit={handleSubmit} className="mb-6 bg-gray-50 dark:bg-gray-800 p-4 rounded">
-          <input
-            type="text"
-            placeholder="Tên của bạn"
-            className="w-full mb-2 p-2 rounded border border-gray-300 dark:bg-gray-700 dark:text-white"
-            value={author}
-            onChange={e => setAuthor(e.target.value)}
+  return (
+    <>
+      <Helmet>
+        <title>{blog.title} | Homie Travel Blog</title>
+        <meta name="description" content={blog.content.substring(0, 160)} />
+      </Helmet>
+
+      <div className="min-h-screen bg-gray-50">
+        {/* Hero Section */}
+        <section className="relative h-96 md:h-[500px] overflow-hidden">
+          <img 
+            src={blog.thumbnail} 
+            alt={blog.title} 
+            className="w-full h-full object-cover"
           />
-          <textarea
-            placeholder="Nội dung bình luận"
-            className="w-full mb-2 p-2 rounded border border-gray-300 dark:bg-gray-700 dark:text-white"
-            value={content}
-            onChange={e => setContent(e.target.value)}
-            rows={3}
-          />
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+          
+          {/* Back Button */}
+          <button 
+            onClick={() => navigate(-1)}
+            className="absolute top-6 left-6 z-10 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300"
           >
-            Gửi bình luận
+            <FaArrowLeft />
           </button>
-        </form>
-        <div className="space-y-4">
-          {comments.length === 0 && <div className="text-gray-500">Chưa có bình luận nào.</div>}
-          {comments.map((c) => (
-            <div key={c.id} className="bg-white dark:bg-gray-700 p-4 rounded shadow">
-              <div className="font-semibold text-blue-600 mb-1">{c.author}</div>
-              <div className="text-gray-700 dark:text-gray-200 mb-1">{c.content}</div>
-              <div className="text-xs text-gray-400">{c.createdAt.toLocaleString()}</div>
+
+          {/* Action Buttons */}
+          <div className="absolute top-6 right-6 z-10 flex gap-2">
+            <button
+              onClick={() => setIsBookmarked(!isBookmarked)}
+              className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${
+                isBookmarked 
+                    ? "bg-purple-500 text-white" 
+                    : "bg-white/20 backdrop-blur-sm text-white hover:bg-white/30"
+            }`}
+            >
+              <FaBookmark className={`text-lg ${isBookmarked ? "fill-current" : "hover:fill-purple-500"}`} />
+            </button>
+            <button className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300">
+              <FaShare />
+            </button>
+          </div>
+
+          {/* Hero Content */}
+          <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+            <div className="max-w-4xl mx-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 leading-tight">
+                  {blog.title}
+                </h1>
+                <div className="flex items-center gap-6 text-white/90">
+                  <div className="flex items-center gap-2">
+                    <FaUser className="text-purple-300" />
+                    <span>{blog.author}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <FaCalendar className="text-purple-300" />
+                    <span>{new Date(blog.createdDate).toLocaleDateString('vi-VN')}</span>
+                  </div>
+                </div>
+              </motion.div>
             </div>
-          ))}
-        </div>
+          </div>
+        </section>
+
+        {/* Main Content */}
+        <section className="py-16">
+          <div className="max-w-6xl mx-auto px-4">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* Left Column - Main Content */}
+              <div className="lg:col-span-2">
+                {/* Article Content */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                  className="bg-white rounded-2xl shadow-lg p-8 mb-8"
+                >
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {blog.tags.split(",").map((tag) => (
+                      <span key={tag} className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-medium">
+                        {tag.trim()}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Content */}
+                  <div className="prose prose-lg max-w-none">
+                    <p className="text-gray-600 leading-relaxed whitespace-pre-line">
+                      {blog.content}
+                    </p>
+                  </div>
+
+                  {/* Action Bar */}
+                  <div className="flex items-center justify-between mt-8 pt-6 border-t border-gray-200">
+                    <div className="flex items-center gap-4">
+                      <button
+                        onClick={() => setIsLiked(!isLiked)}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${
+                          isLiked 
+                            ? "bg-red-100 text-red-600" 
+                            : "bg-gray-100 text-gray-600 hover:bg-red-100 hover:text-red-600"
+                        }`}
+                      >
+                        <FaHeart className={isLiked ? "fill-current" : ""} />
+                        <span>{isLiked ? "Đã thích" : "Thích"}</span>
+                      </button>
+                      <div className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-600 rounded-full">
+                        <FaComment />
+                        <span>{comments.length} bình luận</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-gray-500 text-sm">Chia sẻ:</span>
+                      <button className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors">
+                        <FaFacebook className="text-sm" />
+                      </button>
+                      <button className="w-8 h-8 bg-sky-500 text-white rounded-full flex items-center justify-center hover:bg-sky-600 transition-colors">
+                        <FaTwitter className="text-sm" />
+                      </button>
+                      <button className="w-8 h-8 bg-blue-700 text-white rounded-full flex items-center justify-center hover:bg-blue-800 transition-colors">
+                        <FaLinkedin className="text-sm" />
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Comment Section */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  className="bg-white rounded-2xl shadow-lg p-8"
+                >
+                  <h2 className="text-2xl font-bold text-gray-800 mb-6">Bình luận ({comments.length})</h2>
+                  
+                  {/* Comment Form */}
+                  <form onSubmit={handleSubmit} className="mb-8 bg-gray-50 p-6 rounded-xl">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                      <input
+                        type="text"
+                        placeholder="Tên của bạn"
+                        className="w-full p-3 rounded-lg border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300"
+                        value={author}
+                        onChange={e => setAuthor(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <textarea
+                      placeholder="Nội dung bình luận..."
+                      className="w-full p-3 rounded-lg border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 resize-none"
+                      value={content}
+                      onChange={e => setContent(e.target.value)}
+                      rows={4}
+                      required
+                    />
+                    <button
+                      type="submit"
+                      className="mt-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-300 font-semibold"
+                    >
+                      Gửi bình luận
+                    </button>
+                  </form>
+
+                  {/* Comments List */}
+                  <div className="space-y-6">
+                    {comments.length === 0 && (
+                      <div className="text-center py-8 text-gray-500">
+                        <div className="text-4xl mb-2">💬</div>
+                        <p>Chưa có bình luận nào. Hãy là người đầu tiên bình luận!</p>
+                      </div>
+                    )}
+                    {comments.map((comment) => (
+                      <div key={comment.id} className="flex gap-4 p-4 bg-gray-50 rounded-xl">
+                        <img 
+                          src={comment.avatar || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"} 
+                          alt={comment.author}
+                          className="w-12 h-12 rounded-full object-cover flex-shrink-0"
+                        />
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="font-semibold text-gray-800">{comment.author}</span>
+                            <span className="text-sm text-gray-500">
+                              {comment.createdAt.toLocaleDateString('vi-VN')}
+                            </span>
+                          </div>
+                          <p className="text-gray-700 leading-relaxed">{comment.content}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              </div>
+
+              {/* Right Column - Sidebar */}
+              <div className="lg:col-span-1">
+                {/* Author Info */}
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                  className="bg-white rounded-2xl shadow-lg p-8 mb-6 sticky top-6"
+                >
+                  <h3 className="text-xl font-bold text-gray-800 mb-4">Tác giả</h3>
+                  <div className="text-center">
+                    <img 
+                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face" 
+                      alt={blog.author}
+                      className="w-24 h-24 rounded-full object-cover mx-auto mb-4"
+                    />
+                    <h4 className="font-semibold text-gray-800 mb-2 text-lg">{blog.author}</h4>
+                    <p className="text-gray-600 mb-4">Travel Blogger & Photographer</p>
+                    <div className="text-sm text-gray-500">
+                      <p>Chuyên viết về du lịch Hà Giang</p>
+                      <p>Kinh nghiệm 5+ năm</p>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Related Posts */}
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                  className="bg-white rounded-2xl shadow-lg p-8"
+                >
+                  <h3 className="text-xl font-bold text-gray-800 mb-6">Bài viết liên quan</h3>
+                  <div className="space-y-6">
+                    {relatedPosts.map((post) => (
+                      <div key={post.id} className="flex gap-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer">
+                        <img 
+                          src={post.thumbnail} 
+                          alt={post.title}
+                          className="w-20 h-20 rounded-lg object-cover flex-shrink-0"
+                        />
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-gray-800 text-sm line-clamp-3 mb-2 leading-tight">
+                            {post.title}
+                          </h4>
+                          <p className="text-xs text-gray-500 mb-2">
+                            {new Date(post.createdDate).toLocaleDateString('vi-VN')}
+                          </p>
+                          <div className="flex flex-wrap gap-1">
+                            {post.tags.split(",").slice(0, 2).map((tag) => (
+                              <span key={tag} className="bg-purple-100 text-purple-700 px-2 py-1 rounded-full text-xs">
+                                {tag.trim()}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
-    </div>
+    </>
   );
 } 

@@ -13,8 +13,8 @@ export const stays: Accommodation[] = [
         rating: 4.5,
         star_rating: 4,
         images: [
-            "@/assets/hotels/hotel3.jpg",
-            "https://example.com/images/phoenix2.jpg"
+            "/src/assets/hotels/hotel3.jpg",
+            "/src/assets/hotels/hotel2.jpg"
         ],
         phone: "+84 219 3899 888",
         email: "info@phoenixhotelhg.com",
@@ -33,8 +33,8 @@ export const stays: Accommodation[] = [
         rating: 4.6,
         star_rating: 4,
         images: [
-            "@/assets/hotels/hotel2.jpg",
-            "https://example.com/images/yenbien2.jpg"
+            "/src/assets/hotels/hotel2.jpg",
+            "/src/assets/hotels/hotel3.jpg"
         ],
         phone: "+84 219 382 1234",
         email: "booking@yenbienhotel.vn",
@@ -53,7 +53,8 @@ export const stays: Accommodation[] = [
         rating: 4.4,
         star_rating: 2,
         images: [
-            "@/assets/hotels/hotel-3.jpg",
+            "/src/assets/hotels/hotel3.jpg",
+            "/src/assets/hotels/487017400.jpg"
         ],
         phone: "+84 936 123 456",
         email: "riversidehostel@gmail.com",
@@ -72,8 +73,8 @@ export const stays: Accommodation[] = [
         rating: 4.8,
         star_rating: 3,
         images: [
-            "@/assets/hotels/hotel4.jpg",
-            "https://www.booking.com/hotel/vn/dao-lodge-homestay.html"
+            "/src/assets/hotels/hotel4.jpg",
+            "/src/assets/hotels/hotel2.jpg"
         ],
         phone: "+84 912 345 678",
         email: "contact@daolodge.com",

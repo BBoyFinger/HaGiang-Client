@@ -1,56 +1,87 @@
 import { Vehicle } from "@/types/VehicleType";
-import { useState } from "react";
-import { vehicles } from "@/data/vehicles";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
-import { MdAccessTime, MdArrowRightAlt } from "react-icons/md";
-import { GoPeople } from "react-icons/go";
-import { Link } from "react-router-dom";
-import { HiOutlineMapPin } from "react-icons/hi2";
+import { FaMotorcycle, FaStar, FaMapMarkerAlt } from "react-icons/fa";
 import { motion } from "framer-motion";
 
-export default function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
-    const { t } = useTranslation();
-    const navigate = useNavigate();
-    const [modalOpen, setModalOpen] = useState(false);
-    const [selectedVehicleType, setSelectedVehicleType] = useState(vehicles[0].slug);
+interface VehicleCardProps {
+  vehicle: Vehicle;
+  onBook?: (slug: string) => void;
+  onDetail?: (slug: string) => void;
+}
 
+export default function VehicleCard({ vehicle, onBook, onDetail }: VehicleCardProps) {
+  const { t } = useTranslation();
 
-    const handleBook = (slug: string) => {
-        setSelectedVehicleType(slug);
-        setModalOpen(true);
-    };
+  return (
+    <motion.div 
+      whileHover={{ scale: 1.02 }} 
+      className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300"
+    >
+      {/* Image Section */}
+      <div className="relative h-48 overflow-hidden">
+        <img 
+          src={vehicle.image} 
+          alt={vehicle.name} 
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" 
+        />
+        <div className="absolute top-4 left-4">
+          <div className="bg-white bg-opacity-90 rounded-full p-2">
+            <FaMotorcycle className="text-blue-600" />
+          </div>
+        </div>
+        <div className="absolute top-4 right-4">
+          <div className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+            Thuê ngay
+          </div>
+        </div>
+      </div>
 
-    const handleDetail = (slug: string) => {
-        navigate(`/rent/${slug}`);
-    };
+      {/* Content Section */}
+      <div className="p-6">
+        <div className="mb-4">
+          <h3 className="text-xl font-bold text-gray-800 mb-2">{vehicle.name}</h3>
+          <p className="text-gray-600 text-sm mb-3">{vehicle.description}</p>
+          
+          {/* Specs */}
+          <div className="space-y-2 mb-4">
+            {vehicle.shortSpecs && (
+              <div className="flex items-center text-sm text-gray-600">
+                <span className="font-medium">Thông số:</span>
+                <span className="ml-2">{vehicle.shortSpecs}</span>
+              </div>
+            )}
+            <div className="flex items-center text-sm text-gray-600">
+              <FaMapMarkerAlt className="mr-2 text-gray-400" />
+              <span>Hà Giang, Việt Nam</span>
+            </div>
+          </div>
 
+          {/* Rating */}
+          <div className="flex items-center mb-4">
+            <div className="flex items-center">
+              <FaStar className="text-yellow-400 mr-1" />
+              <span className="text-sm font-medium text-gray-800">4.8</span>
+              <span className="text-sm text-gray-500 ml-1">(120 đánh giá)</span>
+            </div>
+          </div>
+        </div>
 
-    return (
-        <>
-            <motion.div whileHover={{ scale: 1.03 }} key={vehicle.id} className="bg-white dark:bg-gray-800 rounded-lg shadow flex flex-col items-center">
-                <img src={vehicle.image} alt={vehicle.name} className="w-full h-40 object-cover rounded" />
-                <div className="p-5">
-                    <div className="text-xl font-semibold mb-2">{vehicle.name}</div>
-                    <div className="text-gray-600 dark:text-gray-300 text-sm mb-2">{vehicle.shortSpecs}</div>
-                    <div className="text-gray-700 dark:text-gray-200 text-sm mb-4">{vehicle.description}</div>
-                    <div className="flex items-center justify-between border-t border-solid border-[#e2dFEB] p-[10px_0] mt-[20px]">
-                        <div className="flex justify-center items-center gap-1">
-                            <HiOutlineMapPin />
-                            <span>{t("vehicle.location")}</span>
-                        </div>
-
-                        <Link
-                            to={`/tours/${vehicle.slug}`}
-                            className="flex items-center gap-1 rounded-full hover:text-blue-400 transition-colors"
-                        >
-                            Explore
-                            <MdArrowRightAlt />
-                        </Link>
-                    </div>
-
-                </div>
-            </motion.div>
-        </>
-    )
+        {/* Action Buttons */}
+        <div className="flex space-x-3">
+          <button
+            onClick={() => onBook?.(vehicle.slug)}
+            className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
+          >
+            Thuê Ngay
+          </button>
+          <button
+            onClick={() => onDetail?.(vehicle.slug)}
+            className="flex-1 border border-gray-300 text-gray-700 py-2 px-4 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+          >
+            Chi Tiết
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  );
 }
