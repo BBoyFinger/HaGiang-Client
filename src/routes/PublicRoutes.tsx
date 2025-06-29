@@ -34,7 +34,7 @@ export default function PublicRoutes() {
         <Route path="login" element={<Login />} />
         <Route path="blogs" element={<Blog />} />
         <Route path="blogs/:slug" element={<BlogDetail />} />
-        <Route path="/favourite" element={<Favorites />} />
+        <Route path="favorites" element={<Favorites />} />
       </Route>
     </Routes>
   );

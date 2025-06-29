@@ -100,12 +100,12 @@ export default function Stay() {
               </div>
 
               {/* Room Type Filter */}
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-4 w-full">
                 <div className="flex items-center text-gray-600">
                   <FaFilter className="mr-2" />
                   <span className="font-medium">Loại:</span>
                 </div>
-                <div className="flex space-x-2">
+                <div className="flex space-x-2 ">
                   {roomTypes.map((type) => {
                     const Icon = type.icon;
                     return (
@@ -134,7 +134,7 @@ export default function Stay() {
                 <select
                   value={priceRange}
                   onChange={(e) => setPriceRange(e.target.value)}
-                  className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+                  className="block px-3 py-3 w-2/4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
                 >
                   {priceRanges.map((range) => (
                     <option key={range.value} value={range.value}>
