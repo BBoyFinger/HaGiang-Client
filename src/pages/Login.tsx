@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from '@/assets/logo.jpg';
 import image from '@/assets/1.jpg';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { FaEye, FaEyeSlash, FaUser, FaLock, FaEnvelope, FaGoogle, FaFacebook, FaGithub } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, register } from '../store/slice/userSlice';
+import type { RootState } from '../store';
+import { useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
   const { t } = useTranslation();
@@ -11,12 +15,17 @@ const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
-    username: '',
+    name: '',
     email: '',
     password: '',
     confirmPassword: '',
     rememberMe: false
   });
+  const [formError, setFormError] = useState<string | null>(null);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { loading, error, isAuthenticated, user } = useSelector((state: RootState) => state.user);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -28,9 +37,27 @@ const Login: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', formData);
+    setFormError(null);
+    if (isLogin) {
+      dispatch(login({ email: formData.email, password: formData.password }) as any);
+    } else {
+      if (formData.password !== formData.confirmPassword) {
+        setFormError('Mật khẩu xác nhận không khớp!');
+        return;
+      }
+      dispatch(register({ name: formData.name, email: formData.email, password: formData.password }) as any);
+    }
   };
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      if (user.role === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('/');
+      }
+    }
+  }, [isAuthenticated, user, navigate]);
 
   return (
     <>
@@ -112,49 +139,49 @@ const Login: React.FC = () => {
 
                   {/* Form */}
                   <form onSubmit={handleSubmit} className="space-y-6">
-                    {/* Username/Email Field */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        {isLogin ? 'Tên đăng nhập' : 'Tên đăng nhập'}
-                      </label>
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                          <FaUser className="h-5 w-5 text-gray-400" />
-                        </div>
-                        <input
-                          type="text"
-                          name="username"
-                          value={formData.username}
-                          onChange={handleInputChange}
-                          className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                          placeholder={isLogin ? 'Nhập tên đăng nhập' : 'Tạo tên đăng nhập'}
-                          required
-                        />
-                      </div>
-                    </div>
-
-                    {/* Email Field (Register only) */}
+                    {/* Name Field (Register only) */}
                     {!isLogin && (
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Email
+                          Tên người dùng
                         </label>
                         <div className="relative">
                           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <FaEnvelope className="h-5 w-5 text-gray-400" />
+                            <FaUser className="h-5 w-5 text-gray-400" />
                           </div>
                           <input
-                            type="email"
-                            name="email"
-                            value={formData.email}
+                            type="text"
+                            name="name"
+                            value={formData.name}
                             onChange={handleInputChange}
                             className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                            placeholder="Nhập email của bạn"
+                            placeholder="Nhập tên người dùng"
                             required
                           />
                         </div>
                       </div>
                     )}
+
+                    {/* Email Field (dùng cho cả login và register) */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Email
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <FaEnvelope className="h-5 w-5 text-gray-400" />
+                        </div>
+                        <input
+                          type="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                          placeholder="Nhập email của bạn"
+                          required
+                        />
+                      </div>
+                    </div>
 
                     {/* Password Field */}
                     <div>
@@ -278,6 +305,13 @@ const Login: React.FC = () => {
                           Chính sách bảo mật
                         </a>
                       </p>
+                    </div>
+                  )}
+
+                  {/* Hiển thị lỗi xác nhận mật khẩu hoặc lỗi server */}
+                  {(formError || error) && (
+                    <div className="text-red-500 text-center mb-2">
+                      {formError || error}
                     </div>
                   )}
                 </div>

@@ -1,11 +1,14 @@
 import { FiMapPin, FiSun, FiMoon, FiMenu, FiX, FiUser, FiHeart, FiSearch } from "react-icons/fi";
 import { FaHeart } from "react-icons/fa";
 import logo from "@/assets/logo.jpg";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../store';
+import { logout } from '../store/slice/userSlice';
 
 const Header = ({
   isDark,
@@ -16,8 +19,12 @@ const Header = ({
 }) => {
   const { t } = useTranslation();
   const location = useLocation();
+  const navigate = useNavigate();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { user, isAuthenticated } = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
+  const [showMenu, setShowMenu] = useState(false);
 
   // Handle scroll effect
   useEffect(() => {
@@ -134,17 +141,48 @@ const Header = ({
             <LanguageSwitcher isDark={isDark} />
 
             {/* Login Button */}
-            <Link
-              to="/login"
-              className={`hidden md:flex items-center px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
-                isDark
-                  ? "bg-purple-600 hover:bg-purple-700 text-white"
-                  : "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
-              }`}
-            >
-              <FiUser className="mr-2" />
-              {t("nav.login")}
-            </Link>
+            {!isAuthenticated ? (
+              <Link
+                to="/login"
+                className={`hidden md:flex items-center px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
+                  isDark
+                    ? "bg-purple-600 hover:bg-purple-700 text-white"
+                    : "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+                }`}
+              >
+                <FiUser className="mr-2" />
+                {t("nav.login")}
+              </Link>
+            ) : (
+              <div className="relative">
+                <button
+                  className="flex items-center focus:outline-none"
+                  onClick={() => setShowMenu((v) => !v)}
+                >
+                  <img
+                    src={user?.avatarUrl || logo}
+                    alt="avatar"
+                    className="w-10 h-10 rounded-full object-cover border-2 border-purple-400"
+                  />
+                </button>
+                {showMenu && (
+                  <div className={`absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg py-2 z-50 ${isDark ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'}`}>
+                    <button
+                      className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                      onClick={() => { navigate('/profile'); setShowMenu(false); }}
+                    >
+                      Trang cá nhân
+                    </button>
+                    <button
+                      className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                      onClick={() => { dispatch(logout()); setShowMenu(false); navigate('/'); }}
+                    >
+                      Đăng xuất
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Mobile Menu Button */}
             <button
@@ -189,18 +227,49 @@ const Header = ({
                 
                 {/* Mobile Login Button */}
                 <div className="px-4 pt-2">
-                  <Link
-                    to="/login"
-                    className={`block w-full text-center px-4 py-3 rounded-lg font-medium transition-all duration-300 ${
-                      isDark
-                        ? "bg-purple-600 hover:bg-purple-700 text-white"
-                        : "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
-                    }`}
-                    onClick={() => setMobileNavOpen(false)}
-                  >
-                    <FiUser className="inline mr-2" />
-                    {t("nav.login")}
-                  </Link>
+                  {!isAuthenticated ? (
+                    <Link
+                      to="/login"
+                      className={`block w-full text-center px-4 py-3 rounded-lg font-medium transition-all duration-300 ${
+                        isDark
+                          ? "bg-purple-600 hover:bg-purple-700 text-white"
+                          : "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+                      }`}
+                      onClick={() => setMobileNavOpen(false)}
+                    >
+                      <FiUser className="inline mr-2" />
+                      {t("nav.login")}
+                    </Link>
+                  ) : (
+                    <div className="relative">
+                      <button
+                        className="flex items-center focus:outline-none"
+                        onClick={() => setShowMenu((v) => !v)}
+                      >
+                        <img
+                          src={user?.avatarUrl || logo}
+                          alt="avatar"
+                          className="w-10 h-10 rounded-full object-cover border-2 border-purple-400"
+                        />
+                      </button>
+                      {showMenu && (
+                        <div className={`absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg py-2 z-50 ${isDark ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'}`}>
+                          <button
+                            className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                            onClick={() => { navigate('/profile'); setShowMenu(false); }}
+                          >
+                            Trang cá nhân
+                          </button>
+                          <button
+                            className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                            onClick={() => { dispatch(logout()); setShowMenu(false); navigate('/'); }}
+                          >
+                            Đăng xuất
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             </motion.nav>
