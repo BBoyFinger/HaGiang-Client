@@ -1,13 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import logo from '@/assets/logo.jpg';
 import image from '@/assets/1.jpg';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { FaEye, FaEyeSlash, FaUser, FaLock, FaEnvelope, FaGoogle, FaFacebook, FaGithub } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, register } from '../store/slice/userSlice';
+import { login, register, checkAuthStatus } from '../store/slice/userSlice';
 import type { RootState } from '../store';
 import { useNavigate } from 'react-router-dom';
+import { api } from "../services/api";
+
+
+
 
 const Login: React.FC = () => {
   const { t } = useTranslation();
@@ -26,6 +30,9 @@ const Login: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading, error, isAuthenticated, user } = useSelector((state: RootState) => state.user);
+
+  // Thêm ref để chỉ chạy reset/refetch 1 lần
+  const hasRefetched = useRef(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -50,14 +57,13 @@ const Login: React.FC = () => {
   };
 
   useEffect(() => {
-    if (isAuthenticated && user) {
-      if (user.role === 'admin') {
-        navigate('/admin');
-      } else {
-        navigate('/');
-      }
+    if (isAuthenticated && user && !hasRefetched.current) {
+      hasRefetched.current = true;
+      dispatch(api.util.resetApiState());
+      dispatch(checkAuthStatus() as any);
+      navigate('/');
     }
-  }, [isAuthenticated, user, navigate]);
+  }, [isAuthenticated, user, navigate, dispatch]);
 
   return (
     <>
@@ -95,7 +101,7 @@ const Login: React.FC = () => {
                       {isLogin ? 'Chào mừng bạn trở lại!' : 'Tham gia cùng chúng tôi!'}
                     </p>
                     <p className="text-lg opacity-80 leading-relaxed">
-                      {isLogin 
+                      {isLogin
                         ? 'Đăng nhập để khám phá những điểm đến tuyệt vời và tạo ra những kỷ niệm đáng nhớ.'
                         : 'Tạo tài khoản để lưu trữ những chuyến đi yêu thích và nhận thông tin mới nhất.'
                       }

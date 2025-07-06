@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AdminTourManager from '../components/admin/AdminTourManager';
 import AdminDestinationManager from '../components/admin/AdminDestinationManager';
 import AdminBlogManager from '../components/admin/AdminBlogManager';
@@ -18,6 +19,7 @@ const menuItems = [
 ];
 
 const Admin: React.FC = () => {
+  const navigate = useNavigate();
   const [selected, setSelected] = useState('dashboard');
   const [profileModalOpen, setProfileModalOpen] = useState(false);
   const [adminInfo, setAdminInfo] = useState({ name: 'Admin User', email: 'admin@example.com' });
@@ -25,9 +27,13 @@ const Admin: React.FC = () => {
 
   const handleLogout = () => {
     if (confirm('Bạn có chắc muốn đăng xuất?')) {
-      // Redirect to home page
-      window.location.href = '/';
+      // Redirect to home page using React Router
+      navigate('/');
     }
+  };
+
+  const handleGoHome = () => {
+    navigate('/');
   };
 
   const showToast = (message: string, type: Toast['type'] = 'success') => {
@@ -61,9 +67,18 @@ const Admin: React.FC = () => {
               <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center cursor-pointer" onClick={() => setProfileModalOpen(true)}>
                 <span className="text-white font-bold text-sm">{adminInfo.name.charAt(0).toUpperCase()}</span>
               </div>
-              <h1 className="text-xl font-semibold text-gray-900">Admin Dashboard</h1>
+              <a href="/">
+                <h1 className="text-xl font-semibold text-gray-900">Admin Dashboard</h1>
+              </a>
             </div>
             <div className="flex items-center space-x-4">
+              <button
+                onClick={handleGoHome}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors duration-200"
+              >
+                <span>🏠</span>
+                <span>Về trang chủ</span>
+              </button>
               <button
                 className="flex items-center space-x-2 group"
                 onClick={() => setProfileModalOpen(true)}
@@ -71,7 +86,7 @@ const Admin: React.FC = () => {
                 <span className="text-sm text-gray-600 group-hover:underline">{adminInfo.name}</span>
                 <span className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-gray-600 text-sm">👤</span>
               </button>
-              <button 
+              <button
                 onClick={handleLogout}
                 className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors duration-200"
               >
@@ -92,11 +107,10 @@ const Admin: React.FC = () => {
                 <button
                   key={item.key}
                   onClick={() => setSelected(item.key)}
-                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-colors duration-200 ${
-                    selected === item.key
+                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-colors duration-200 ${selected === item.key
                       ? 'bg-blue-50 text-blue-700 border border-blue-200'
                       : 'text-gray-700 hover:bg-gray-50'
-                  }`}
+                    }`}
                 >
                   <span className="text-lg">{item.icon}</span>
                   <span className="font-medium">{item.label}</span>

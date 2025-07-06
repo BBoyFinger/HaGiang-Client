@@ -8,7 +8,7 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
-import { logout } from '../store/slice/userSlice';
+import { logoutUser } from '../store/slice/userSlice';
 
 const Header = ({
   isDark,
@@ -25,6 +25,19 @@ const Header = ({
   const { user, isAuthenticated } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (showMenu && !target.closest('.user-menu')) {
+        setShowMenu(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showMenu]);
 
   // Handle scroll effect
   useEffect(() => {
@@ -49,11 +62,10 @@ const Header = ({
 
   return (
     <header
-      className={`fixed w-full z-50 transition-all duration-300 ${
-        isScrolled 
-          ? `${isDark ? "bg-gray-900/95 backdrop-blur-md" : "bg-white/95 backdrop-blur-md"} shadow-lg` 
-          : `${isDark ? "bg-gray-900" : "bg-white"}`
-      }`}
+      className={`fixed w-full z-50 transition-all duration-300 ${isScrolled
+        ? `${isDark ? "bg-gray-900/95 backdrop-blur-md" : "bg-white/95 backdrop-blur-md"} shadow-lg`
+        : `${isDark ? "bg-gray-900" : "bg-white"}`
+        }`}
     >
       <div className="container mx-auto px-4 lg:px-6 py-3">
         <div className="flex items-center justify-between">
@@ -79,11 +91,10 @@ const Header = ({
               <Link
                 key={item.path}
                 to={item.path}
-                className={`relative px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
-                  isActive(item.path)
-                    ? `${isDark ? "text-purple-400 bg-purple-900/20" : "text-purple-600 bg-purple-50"}`
-                    : `${isDark ? "text-gray-300 hover:text-white hover:bg-gray-800" : "text-gray-700 hover:text-purple-600 hover:bg-gray-50"}`
-                }`}
+                className={`relative px-4 py-2 rounded-lg font-medium transition-all duration-300 ${isActive(item.path)
+                  ? `${isDark ? "text-purple-400 bg-purple-900/20" : "text-purple-600 bg-purple-50"}`
+                  : `${isDark ? "text-gray-300 hover:text-white hover:bg-gray-800" : "text-gray-700 hover:text-purple-600 hover:bg-gray-50"}`
+                  }`}
               >
                 {item.label}
                 {isActive(item.path) && (
@@ -102,11 +113,10 @@ const Header = ({
           <div className="flex items-center space-x-2 lg:space-x-4">
             {/* Search Button */}
             <button
-              className={`p-2 rounded-lg transition-all duration-300 ${
-                isDark 
-                  ? "text-gray-300 hover:text-white hover:bg-gray-800" 
-                  : "text-gray-600 hover:text-purple-600 hover:bg-gray-50"
-              }`}
+              className={`p-2 rounded-lg transition-all duration-300 ${isDark
+                ? "text-gray-300 hover:text-white hover:bg-gray-800"
+                : "text-gray-600 hover:text-purple-600 hover:bg-gray-50"
+                }`}
               aria-label="Search"
             >
               <FiSearch className="text-lg" />
@@ -115,11 +125,10 @@ const Header = ({
             {/* Favorites */}
             <Link
               to="/favorites"
-              className={`p-2 rounded-lg transition-all duration-300 ${
-                isDark 
-                  ? "text-gray-300 hover:text-white hover:bg-gray-800" 
-                  : "text-gray-600 hover:text-purple-600 hover:bg-gray-50"
-              }`}
+              className={`p-2 rounded-lg transition-all duration-300 ${isDark
+                ? "text-gray-300 hover:text-white hover:bg-gray-800"
+                : "text-gray-600 hover:text-purple-600 hover:bg-gray-50"
+                }`}
             >
               <FaHeart className="text-lg" />
             </Link>
@@ -127,11 +136,10 @@ const Header = ({
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className={`p-2 rounded-lg transition-all duration-300 ${
-                isDark 
-                  ? "bg-gray-800 hover:bg-gray-700 text-yellow-400" 
-                  : "bg-gray-100 hover:bg-gray-200 text-gray-600"
-              }`}
+              className={`p-2 rounded-lg transition-all duration-300 ${isDark
+                ? "bg-gray-800 hover:bg-gray-700 text-yellow-400"
+                : "bg-gray-100 hover:bg-gray-200 text-gray-600"
+                }`}
               aria-label="Toggle theme"
             >
               {isDark ? <FiSun className="text-lg" /> : <FiMoon className="text-lg" />}
@@ -144,17 +152,16 @@ const Header = ({
             {!isAuthenticated ? (
               <Link
                 to="/login"
-                className={`hidden md:flex items-center px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
-                  isDark
-                    ? "bg-purple-600 hover:bg-purple-700 text-white"
-                    : "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
-                }`}
+                className={`hidden md:flex items-center px-4 py-2 rounded-lg font-medium transition-all duration-300 ${isDark
+                  ? "bg-purple-600 hover:bg-purple-700 text-white"
+                  : "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+                  }`}
               >
                 <FiUser className="mr-2" />
                 {t("nav.login")}
               </Link>
             ) : (
-              <div className="relative">
+              <div className="relative user-menu">
                 <button
                   className="flex items-center focus:outline-none"
                   onClick={() => setShowMenu((v) => !v)}
@@ -173,9 +180,21 @@ const Header = ({
                     >
                       Trang cá nhân
                     </button>
+                    {user?.role === 'admin' && (
+                      <button
+                        className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-purple-600 font-medium"
+                        onClick={() => { navigate('/admin'); setShowMenu(false); }}
+                      >
+                        🛠️ Admin Dashboard
+                      </button>
+                    )}
                     <button
                       className="block w-full text-left px-4 py-2 hover:bg-gray-100"
-                      onClick={() => { dispatch(logout()); setShowMenu(false); navigate('/'); }}
+                      onClick={() => {
+                        dispatch(logoutUser() as any);
+                        setShowMenu(false);
+                        navigate('/');
+                      }}
                     >
                       Đăng xuất
                     </button>
@@ -214,34 +233,32 @@ const Header = ({
                   <Link
                     key={item.path}
                     to={item.path}
-                    className={`block px-4 py-3 rounded-lg font-medium transition-all duration-300 ${
-                      isActive(item.path)
-                        ? `${isDark ? "text-purple-400 bg-purple-900/20" : "text-purple-600 bg-purple-50"}`
-                        : `${isDark ? "text-gray-300 hover:text-white hover:bg-gray-700" : "text-gray-700 hover:text-purple-600 hover:bg-white"}`
-                    }`}
+                    className={`block px-4 py-3 rounded-lg font-medium transition-all duration-300 ${isActive(item.path)
+                      ? `${isDark ? "text-purple-400 bg-purple-900/20" : "text-purple-600 bg-purple-50"}`
+                      : `${isDark ? "text-gray-300 hover:text-white hover:bg-gray-700" : "text-gray-700 hover:text-purple-600 hover:bg-white"}`
+                      }`}
                     onClick={() => setMobileNavOpen(false)}
                   >
                     {item.label}
                   </Link>
                 ))}
-                
+
                 {/* Mobile Login Button */}
                 <div className="px-4 pt-2">
                   {!isAuthenticated ? (
                     <Link
                       to="/login"
-                      className={`block w-full text-center px-4 py-3 rounded-lg font-medium transition-all duration-300 ${
-                        isDark
-                          ? "bg-purple-600 hover:bg-purple-700 text-white"
-                          : "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
-                      }`}
+                      className={`block w-full text-center px-4 py-3 rounded-lg font-medium transition-all duration-300 ${isDark
+                        ? "bg-purple-600 hover:bg-purple-700 text-white"
+                        : "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+                        }`}
                       onClick={() => setMobileNavOpen(false)}
                     >
                       <FiUser className="inline mr-2" />
                       {t("nav.login")}
                     </Link>
                   ) : (
-                    <div className="relative">
+                    <div className="relative user-menu">
                       <button
                         className="flex items-center focus:outline-none"
                         onClick={() => setShowMenu((v) => !v)}
@@ -260,9 +277,17 @@ const Header = ({
                           >
                             Trang cá nhân
                           </button>
+                          {user?.role === 'admin' && (
+                            <button
+                              className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-purple-600 font-medium"
+                              onClick={() => { navigate('/admin'); setShowMenu(false); }}
+                            >
+                              🛠️ Admin Dashboard
+                            </button>
+                          )}
                           <button
                             className="block w-full text-left px-4 py-2 hover:bg-gray-100"
-                            onClick={() => { dispatch(logout()); setShowMenu(false); navigate('/'); }}
+                            onClick={() => { dispatch(logoutUser() as any); setShowMenu(false); navigate('/'); }}
                           >
                             Đăng xuất
                           </button>
