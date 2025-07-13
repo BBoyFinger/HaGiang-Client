@@ -1,72 +1,10 @@
 import BlogCard from "@/components/BlogCard";
-import { Blog as BlogType } from "@/types/BlogType";
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaSearch, FaFilter, FaCalendar, FaUser, FaTag, FaEye, FaHeart } from 'react-icons/fa';
-
-const blogs: BlogType[] = [
-  {
-    id: "1",
-    title: "Khám phá Hà Giang mùa hoa tam giác mạch",
-    slug: "kham-pha-ha-giang-mua-hoa-tam-giac-mach",
-    content: "Hà Giang mùa hoa tam giác mạch là một trải nghiệm không thể bỏ lỡ. Những cánh đồng hoa tím hồng trải dài trên những sườn núi tạo nên khung cảnh thiên nhiên tuyệt đẹp...",
-    tags: "Hà Giang,Du lịch,Phong cảnh",
-    author: "Nguyễn Văn A",
-    thumbnail: "src/assets/1.jpg",
-    createdDate: new Date("2024-05-01"),
-  },
-  {
-    id: "2",
-    title: "Hành trình chinh phục đèo Mã Pí Lèng",
-    slug: "hanh-trinh-chinh-phuc-deo-ma-pi-leng",
-    content: "Đèo Mã Pí Lèng là một trong tứ đại đỉnh đèo của Việt Nam. Với độ cao 1.500m so với mực nước biển, con đèo này mang đến những trải nghiệm phượt tuyệt vời...",
-    tags: "Đèo,Phượt,Trải nghiệm",
-    author: "Trần Thị B",
-    thumbnail: "src/assets/2.png",
-    createdDate: new Date("2024-04-20"),
-  },
-  {
-    id: "3",
-    title: "Văn hóa dân tộc H'Mông tại Hà Giang",
-    slug: "van-hoa-dan-toc-hmong-tai-ha-giang",
-    content: "Khám phá văn hóa độc đáo của người H'Mông tại Hà Giang. Từ trang phục truyền thống đến những phong tục tập quán đặc sắc...",
-    tags: "Văn hóa,Dân tộc,H'Mông",
-    author: "Lê Văn C",
-    thumbnail: "src/assets/3.jpg",
-    createdDate: new Date("2024-04-15"),
-  },
-  {
-    id: "4",
-    title: "Ẩm thực Hà Giang - Những món ăn không thể bỏ lỡ",
-    slug: "am-thuc-ha-giang-nhung-mon-an-khong-the-bo-lo",
-    content: "Hà Giang không chỉ nổi tiếng với phong cảnh đẹp mà còn có nền ẩm thực phong phú với những món ăn đặc trưng của vùng núi...",
-    tags: "Ẩm thực,Món ăn,Đặc sản",
-    author: "Phạm Thị D",
-    thumbnail: "src/assets/4.jpg",
-    createdDate: new Date("2024-04-10"),
-  },
-  {
-    id: "5",
-    title: "Homestay Hà Giang - Trải nghiệm lưu trú độc đáo",
-    slug: "homestay-ha-giang-trai-nghiem-luu-tru-doc-dao",
-    content: "Khám phá những homestay đẹp tại Hà Giang, nơi bạn có thể trải nghiệm cuộc sống của người dân địa phương...",
-    tags: "Homestay,Lưu trú,Trải nghiệm",
-    author: "Vũ Văn E",
-    thumbnail: "src/assets/1.jpg",
-    createdDate: new Date("2024-04-05"),
-  },
-  {
-    id: "6",
-    title: "Mùa vàng Hà Giang - Khi lúa chín rực rỡ",
-    slug: "mua-vang-ha-giang-khi-lua-chin-ruc-ro",
-    content: "Mùa lúa chín tại Hà Giang tạo nên những cánh đồng vàng rực rỡ, là thời điểm đẹp nhất để khám phá vùng đất này...",
-    tags: "Mùa vàng,Lúa chín,Phong cảnh",
-    author: "Hoàng Thị F",
-    thumbnail: "src/assets/2.png",
-    createdDate: new Date("2024-03-30"),
-  },
-];
+import axiosInstance from "@/config/axiosConfig";
+import { mockBlogs } from "@/data/mockBlogs";
 
 const categories = [
   { id: "all", name: "Tất cả", icon: FaTag },
@@ -77,27 +15,42 @@ const categories = [
 ];
 
 function Blog() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language === 'en' ? 'en' : 'vi';
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [sortBy, setSortBy] = useState("latest");
+  const [blogs, setBlogs] = useState<any[]>([]);
+
+  useEffect(() => {
+    axiosInstance.get("/blogs")
+      .then(res => {
+        setBlogs(res.data.blogs || res.data);
+      })
+      .catch(() => {
+        setBlogs(mockBlogs);
+      });
+  }, []);
 
   // Filter blogs based on search and category
   const filteredBlogs = blogs.filter((blog) => {
-    const matchesSearch = blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         blog.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         blog.tags.toLowerCase().includes(searchTerm.toLowerCase());
+    const tags = blog.tags && blog.tags[lang] ? blog.tags[lang].join(",") : (blog.tags?.vi || []).join(",");
+    const matchesSearch = (blog.title?.[lang] || blog.title?.vi || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         (blog.content?.[lang] || blog.content?.vi || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         tags.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === "all" || 
-                           blog.tags.toLowerCase().includes(selectedCategory);
+                           tags.toLowerCase().includes(selectedCategory);
     return matchesSearch && matchesCategory;
   });
 
   // Sort blogs
   const sortedBlogs = [...filteredBlogs].sort((a, b) => {
+    const aDate = new Date(a.createdAt || a.createdDate);
+    const bDate = new Date(b.createdAt || b.createdDate);
     if (sortBy === "latest") {
-      return new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime();
+      return bDate.getTime() - aDate.getTime();
     } else if (sortBy === "oldest") {
-      return new Date(a.createdDate).getTime() - new Date(b.createdDate).getTime();
+      return aDate.getTime() - bDate.getTime();
     }
     return 0;
   });
@@ -223,7 +176,7 @@ function Blog() {
           {sortedBlogs.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {sortedBlogs.map((blog) => (
-                <div key={blog.id} className="group">
+                <div key={blog.slug} className="group">
                   <BlogCard blog={blog} />
                 </div>
               ))}

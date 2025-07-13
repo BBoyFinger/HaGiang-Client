@@ -9,6 +9,8 @@ import { motion } from "framer-motion";
 import { FiShare2, FiMessageSquare, FiFacebook, FiTwitter, FiInstagram, FiMail, FiChevronDown, FiChevronUp, FiCheck, FiX, FiArrowLeft, FiHeart, FiMapPin, FiClock, FiUsers, FiStar } from "react-icons/fi";
 import { FaHeart } from "react-icons/fa";
 import { Helmet } from 'react-helmet-async';
+import { useGetTourByIdQuery } from '@/services/api';
+import { useTranslation } from 'react-i18next';
 
 const typeLabel: Record<Tour["type"], string> = {
   trekking: "Tour Trekking",
@@ -21,7 +23,10 @@ const typeLabel: Record<Tour["type"], string> = {
 export default function TourDetail() {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const tour = useMemo(() => tours.find((t) => t.slug === slug), [slug]);
+  const { data, isLoading, error } = useGetTourByIdQuery(slug || '');
+  const tour = data?.tour;
+  const { i18n } = useTranslation();
+  const lang = i18n.language === 'en' ? 'en' : 'vi';
   const [ratings, setRatings] = useState<{ rating: number, comment: string }[]>([]);
   const [showShareDropdown, setShowShareDropdown] = useState(false);
   const [showSchedule, setShowSchedule] = useState(false);
@@ -87,6 +92,9 @@ export default function TourDetail() {
     });
   };
 
+  if (isLoading) {
+    return <div className="min-h-screen flex items-center justify-center bg-gray-50">Đang tải dữ liệu tour...</div>;
+  }
   if (!tour) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -94,7 +102,7 @@ export default function TourDetail() {
           <div className="text-6xl mb-4">🏔️</div>
           <h1 className="text-2xl font-bold text-gray-800 mb-2">Không tìm thấy tour</h1>
           <p className="text-gray-600 mb-6">Tour bạn đang tìm kiếm không tồn tại hoặc đã được di chuyển.</p>
-          <button 
+          <button
             onClick={() => navigate('/tour')}
             className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
           >
@@ -105,9 +113,12 @@ export default function TourDetail() {
     );
   }
 
+  // Helper: map mảng object đa ngôn ngữ sang chuỗi
+  const mapMultiLangArray = (arr: any[] = [], lang: string) => arr.map(item => item?.[lang] || item?.vi || '').filter(Boolean);
+
   const handleShare = (platform: string) => {
     const url = window.location.href;
-    const text = `Check out this amazing tour: ${tour.name}`;
+    const text = `Check out this amazing tour: ${tour.name?.[lang] || tour.name?.vi}`;
 
     switch (platform) {
       case 'facebook':
@@ -121,7 +132,7 @@ export default function TourDetail() {
         alert('Link copied to clipboard!');
         break;
       case 'email':
-        window.open(`mailto:?subject=${encodeURIComponent(tour.name)}&body=${encodeURIComponent(`${text} ${url}`)}`, '_blank');
+        window.open(`mailto:?subject=${encodeURIComponent(tour.name?.[lang] || tour.name?.vi)}&body=${encodeURIComponent(`${text} ${url}`)}`, '_blank');
         break;
     }
     setShowShareDropdown(false);
@@ -134,55 +145,38 @@ export default function TourDetail() {
     }
   };
 
-  // Mock schedule data
-  const scheduleData = [
-    {
-      day: 1,
-      title: "Ngày 1: Khởi hành từ Hà Giang",
-      activities: [
-        "08:00 - Đón khách tại điểm hẹn",
-        "09:00 - Khởi hành đến Sông Nho Quế",
-        "11:00 - Dừng chân ngắm cảnh và chụp ảnh",
-        "12:00 - Ăn trưa tại nhà hàng địa phương",
-        "14:00 - Trekking ven sông",
-        "17:00 - Check-in homestay",
-        "18:00 - Ăn tối và giao lưu văn hóa"
-      ]
-    },
-    {
-      day: 2,
-      title: "Ngày 2: Khám phá Vách Đá Trắng",
-      activities: [
-        "07:00 - Ăn sáng",
-        "08:00 - Khởi hành đến Vách Đá Trắng",
-        "10:00 - Trekking lên đỉnh vách đá",
-        "12:00 - Ăn trưa picnic",
-        "14:00 - Tiếp tục khám phá Mã Pì Lèng",
-        "16:00 - Trở về Hà Giang",
-        "18:00 - Kết thúc tour"
-      ]
-    }
-  ];
+  console.log(tour)
 
   return (
     <>
       <Helmet>
-        <title>{tour.name} - Chi tiết tour | Homie Travel</title>
-        <meta name="description" content={tour.description} />
+        <title>
+          {(tour && (tour.name?.[lang] || tour.name?.vi))
+            ? `${tour.name?.[lang] || tour.name?.vi} - Chi tiết tour | Homie Travel`
+            : 'Chi tiết tour | Homie Travel'}
+        </title>
+        <meta
+          name="description"
+          content={
+            (tour && (tour.description?.[lang] || tour.description?.vi))
+              ? tour.description?.[lang] || tour.description?.vi
+              : 'Thông tin chi tiết tour du lịch Hà Giang'
+          }
+        />
       </Helmet>
 
       <div className="min-h-screen bg-gray-50">
         {/* Hero Section */}
         <section className="relative h-96 md:h-[500px] overflow-hidden">
-          <img 
-            src={tour.imageUrls[selectedImage] || tour.imageUrls[0]} 
-            alt={tour.name} 
+          <img
+            src={tour.imageUrls?.[selectedImage] || tour.imageUrls?.[0]}
+            alt={tour.name?.[lang] || tour.name?.vi}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-          
+
           {/* Back Button */}
-          <button 
+          <button
             onClick={() => navigate(-1)}
             className="absolute top-6 left-6 z-10 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300"
           >
@@ -192,11 +186,10 @@ export default function TourDetail() {
           {/* Favorite Button */}
           <button
             onClick={() => setIsFavorite(!isFavorite)}
-            className={`absolute top-6 right-6 z-10 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${
-              isFavorite 
-                ? "bg-red-500 text-white" 
-                : "bg-white/20 backdrop-blur-sm text-white hover:bg-white/30"
-            }`}
+            className={`absolute top-6 right-6 z-10 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${isFavorite
+              ? "bg-red-500 text-white"
+              : "bg-white/20 backdrop-blur-sm text-white hover:bg-white/30"
+              }`}
           >
             <FaHeart className={`text-lg ${isFavorite ? "fill-current" : "hover:fill-red-500"}`} />
           </button>
@@ -210,18 +203,18 @@ export default function TourDetail() {
                 transition={{ duration: 0.5 }}
               >
                 <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">
-                  {tour.name}
+                  {tour.name?.[lang] || tour.name?.vi}
                 </h1>
                 <div className="flex items-center gap-4 mb-4">
                   <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2">
                     <FiMapPin className="text-white" />
                     <span className="text-white font-medium">
-                      {tour.locations.join(" - ")}
+                      {mapMultiLangArray(tour.locations, lang).join(' - ')}
                     </span>
                   </div>
                   <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2">
                     <FiStar className="text-yellow-400" />
-                    <span className="text-white font-medium">{tour.rating}/5</span>
+                    <span className="text-white font-medium">{tour.rating?.toFixed(1)}</span>
                   </div>
                 </div>
               </motion.div>
@@ -230,23 +223,22 @@ export default function TourDetail() {
         </section>
 
         {/* Image Gallery */}
-        {tour.imageUrls.length > 1 && (
+        {tour.imageUrls?.length > 1 && (
           <section className="py-8 bg-white">
             <div className="max-w-6xl mx-auto px-4">
               <div className="flex gap-4 overflow-x-auto pb-4">
-                {tour.imageUrls.map((image, index) => (
+                {tour.imageUrls.map((image: string, index: number) => (
                   <button
                     key={index}
                     onClick={() => setSelectedImage(index)}
-                    className={`flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
-                      selectedImage === index 
-                        ? "border-purple-500" 
-                        : "border-gray-200 hover:border-purple-300"
-                    }`}
+                    className={`flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden border-2 transition-all duration-300 ${selectedImage === index
+                      ? "border-purple-500"
+                      : "border-gray-200 hover:border-purple-300"
+                      }`}
                   >
-                    <img 
-                      src={image} 
-                      alt={`${tour.name} ${index + 1}`} 
+                    <img
+                      src={image}
+                      alt={`${tour.name?.[lang] || tour.name?.vi} ${index + 1}`}
                       className="w-full h-full object-cover"
                     />
                   </button>
@@ -272,7 +264,7 @@ export default function TourDetail() {
                   <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-4">
                       <span className="inline-block px-4 py-2 rounded-full bg-purple-100 text-purple-700 text-sm font-semibold">
-                        {typeLabel[tour.type]}
+                        {tour.type?.[lang] || tour.type?.vi}
                       </span>
                       <div className="flex items-center gap-2">
                         <ReactStars
@@ -283,7 +275,7 @@ export default function TourDetail() {
                           edit={false}
                           activeColor="#ffd700"
                         />
-                        <span className="text-sm text-gray-600">{tour.rating.toFixed(1)}</span>
+                        <span className="text-sm text-gray-600">{tour.rating?.toFixed(1)}</span>
                       </div>
                     </div>
                     <div className="flex gap-2">
@@ -339,9 +331,8 @@ export default function TourDetail() {
                   </div>
 
                   <h2 className="text-2xl font-bold text-gray-800 mb-4">Mô tả tour</h2>
-                  <p className="text-gray-600 leading-relaxed mb-6">
-                    {tour.description}
-                  </p>
+                  <div className="text-gray-600 leading-relaxed mb-6 prose max-w-none"
+                    dangerouslySetInnerHTML={{ __html: tour.description?.[lang] || tour.description?.vi || '' }} />
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
@@ -350,7 +341,7 @@ export default function TourDetail() {
                       </div>
                       <div>
                         <h3 className="font-semibold text-gray-800">Địa điểm</h3>
-                        <p className="text-sm text-gray-600">{tour.locations.length} điểm</p>
+                        <p className="text-sm text-gray-600">{mapMultiLangArray(tour.locations, lang).join(', ')}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
@@ -359,7 +350,7 @@ export default function TourDetail() {
                       </div>
                       <div>
                         <h3 className="font-semibold text-gray-800">Thời gian</h3>
-                        <p className="text-sm text-gray-600">2 ngày 1 đêm</p>
+                        <p className="text-sm text-gray-600">{tour.duration?.[lang] || tour.duration?.vi}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
@@ -386,31 +377,32 @@ export default function TourDetail() {
                     onClick={() => setShowSchedule(!showSchedule)}
                     className="flex w-full justify-between items-center gap-4 p-6 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
                   >
-                    <span className="text-xl font-bold">{tour.locations.join(" - ")}</span>
+                    <span className="text-xl font-bold">{mapMultiLangArray(tour.locations, lang).join(" - ")}</span>
                     {showSchedule ? <FiChevronUp /> : <FiChevronDown />}
                   </button>
-
                   {showSchedule && (
                     <div className="mt-6 space-y-6">
-                      {scheduleData.map((day, index) => (
-                        <div key={day.day} className="border border-gray-200 rounded-xl overflow-hidden">
-                          <div className="bg-gray-50 p-4 border-b border-gray-200">
-                            <h3 className="text-xl font-bold text-purple-600">
-                              {day.title}
-                            </h3>
-                          </div>
-                          <div className="p-6">
-                            <div className="space-y-4">
-                              {day.activities.map((activity, activityIndex) => (
-                                <div key={activityIndex} className="flex items-start gap-4">
-                                  <div className="w-3 h-3 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
-                                  <p className="text-gray-700">{activity}</p>
-                                </div>
-                              ))}
+                      {tour.schedule && tour.schedule[lang] && tour.schedule[lang].length > 0 ? (
+                        tour.schedule[lang].map((day: any) => (
+                          <div key={day.day} className="border border-gray-200 rounded-xl overflow-hidden">
+                            <div className="bg-gray-50 p-4 border-b border-gray-200">
+                              <h3 className="text-xl font-bold text-purple-600">{day.title}</h3>
+                            </div>
+                            <div className="p-6">
+                              <div className="space-y-4">
+                                {day.activities.map((activity: string, activityIndex: number) => (
+                                  <div key={activityIndex} className="flex items-start gap-4">
+                                    <div className="w-3 h-3 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
+                                    <p className="text-gray-700">{activity}</p>
+                                  </div>
+                                ))}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
+                        ))
+                      ) : (
+                        <p className="text-gray-500">Chưa có lịch trình chi tiết.</p>
+                      )}
                     </div>
                   )}
                 </motion.div>
@@ -430,7 +422,7 @@ export default function TourDetail() {
                         Bao gồm
                       </h3>
                       <div className="space-y-3">
-                        {tour.includedServices.map((service, index) => (
+                        {mapMultiLangArray(tour.includedServices, lang).map((service: string, index: number) => (
                           <div key={index} className="flex items-center gap-3">
                             <FiCheck className="text-green-600 flex-shrink-0" />
                             <span className="text-gray-700">{service}</span>
@@ -444,18 +436,12 @@ export default function TourDetail() {
                         Không bao gồm
                       </h3>
                       <div className="space-y-3">
-                        <div className="flex items-center gap-3">
-                          <FiX className="text-red-600 flex-shrink-0" />
-                          <span className="text-gray-700">Thuế VAT</span>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <FiX className="text-red-600 flex-shrink-0" />
-                          <span className="text-gray-700">Tip cho Hướng dẫn viên</span>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <FiX className="text-red-600 flex-shrink-0" />
-                          <span className="text-gray-700">Ăn uống ngoài chương trình tour</span>
-                        </div>
+                        {mapMultiLangArray(tour.excludedServices, lang).map((service: string, index: number) => (
+                          <div key={index} className="flex items-center gap-3">
+                            <FiX className="text-red-600 flex-shrink-0" />
+                            <span className="text-gray-700">{service}</span>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
@@ -470,7 +456,7 @@ export default function TourDetail() {
                   className="bg-white rounded-2xl shadow-lg p-8"
                 >
                   <h2 className="text-2xl font-bold text-gray-800 mb-6">Đánh giá ({comments.length})</h2>
-                  
+
                   {/* Review Form */}
                   <div className="bg-gray-50 rounded-xl p-6 mb-8">
                     <h3 className="text-lg font-semibold mb-4 text-gray-800">Viết đánh giá</h3>
@@ -590,21 +576,36 @@ export default function TourDetail() {
                   className="bg-white rounded-2xl shadow-lg p-6 mb-6 sticky top-6"
                 >
                   <h3 className="text-xl font-bold text-gray-800 mb-4">Giá tour</h3>
-                  <div className="text-center mb-6">
-                    <div className="text-3xl font-bold text-gray-800 mb-2">
-                      {tour.price.perSlot.toLocaleString('vi-VN')} {tour.price.currency}
-                    </div>
-                    <div className="text-gray-600">mỗi slot</div>
-                    {tour.price.groupPrice && (
-                      <div className="mt-2">
-                        <div className="text-lg font-semibold text-purple-600">
-                          {tour.price.groupPrice.toLocaleString('vi-VN')} {tour.price.currency}
+                  <div className="text-center mb-6 space-y-2">
+                    {/* VND Price */}
+                    {tour.price?.VND && (
+                      <div className="space-y-2">
+                        <div className="flex items-baseline justify-center gap-2">
+                          <div className="text-2xl font-bold text-gray-800">
+                            {tour.price.VND.perSlot?.toLocaleString('vi-VN')} VND
+                          </div>
+                          <div className="text-gray-600 text-base">/slot</div>
                         </div>
-                        <div className="text-sm text-gray-500">giá nhóm</div>
+                        {tour.price.VND.groupPrice && (
+                          <div className="flex items-baseline justify-center gap-2">
+                            <div className="text-base font-semibold text-purple-600">
+                              {tour.price.VND.groupPrice.toLocaleString('vi-VN')} VND
+                            </div>
+                            <div className="text-sm text-gray-500">/giá nhóm</div>
+                          </div>
+                        )}
+                        {tour.price.VND.discountPrice && (
+                          <div className="flex items-baseline justify-center gap-2">
+                            <div className="text-base font-semibold text-green-600">
+                              {tour.price.VND.discountPrice.toLocaleString('vi-VN')} VND
+                            </div>
+                            <div className="text-sm text-gray-500">/khuyến mãi</div>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
-                  
+
                   <div className="space-y-3">
                     <button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold py-3 rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all duration-300">
                       Đặt tour ngay
@@ -626,15 +627,15 @@ export default function TourDetail() {
                   <div className="space-y-3">
                     <div className="flex items-center gap-3">
                       <FiStar className="text-yellow-300" />
-                      <span>Đánh giá: {tour.rating}/5</span>
+                      <span>Đánh giá: {tour.rating?.toFixed(1)}/5</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <FiMapPin className="text-purple-200" />
-                      <span>{tour.locations.length} địa điểm</span>
+                      <span>{mapMultiLangArray(tour.locations, lang).length} địa điểm</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <FiClock className="text-purple-200" />
-                      <span>2 ngày 1 đêm</span>
+                      <span>{tour.duration?.[lang] || tour.duration?.vi}</span>
                     </div>
                   </div>
                 </motion.div>

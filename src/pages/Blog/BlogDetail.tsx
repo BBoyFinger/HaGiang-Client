@@ -1,72 +1,11 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { Blog as BlogType } from "@/types/BlogType";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaArrowLeft, FaUser, FaCalendar, FaTags, FaHeart, FaShare, FaComment, FaFacebook, FaTwitter, FaLinkedin, FaBookmark } from "react-icons/fa";
 import { Helmet } from 'react-helmet-async';
-
-const blogs: BlogType[] = [
-  {
-    id: "1",
-    title: "Khám phá Hà Giang mùa hoa tam giác mạch - Trải nghiệm tuyệt vời không thể bỏ lỡ",
-    slug: "kham-pha-ha-giang-mua-hoa-tam-giac-mach",
-    content: `Hà Giang mùa hoa tam giác mạch là một trải nghiệm không thể bỏ lỡ cho những ai yêu thích khám phá thiên nhiên và văn hóa địa phương. Vào tháng 10-11 hàng năm, khi những cánh đồng tam giác mạch nở rộ, Hà Giang trở thành một bức tranh thiên nhiên tuyệt đẹp với sắc tím hồng phủ khắp các sườn núi.
-
-Những điểm đến không thể bỏ qua trong mùa hoa tam giác mạch:
-
-1. **Cao nguyên đá Đồng Văn**: Nơi có những cánh đồng tam giác mạch đẹp nhất, với khung cảnh núi đá hùng vĩ làm nền.
-
-2. **Đèo Mã Pì Lèng**: Từ đỉnh đèo, bạn có thể ngắm nhìn toàn cảnh thung lũng Nho Quế và những cánh đồng hoa xa xa.
-
-3. **Làng văn hóa Lũng Cú**: Không chỉ ngắm hoa, bạn còn được trải nghiệm văn hóa của người dân tộc H'Mong.
-
-4. **Sông Nho Quế**: Thuyền thưởng ngoạn trên sông để ngắm hoa từ góc nhìn khác.
-
-Lời khuyên khi du lịch Hà Giang mùa hoa tam giác mạch:
-- Thời gian tốt nhất: Cuối tháng 10 đến giữa tháng 11
-- Nên thuê xe máy để di chuyển linh hoạt
-- Mang theo áo ấm vì thời tiết có thể lạnh
-- Tôn trọng văn hóa địa phương và không hái hoa
-
-Hãy lên kế hoạch ngay để không bỏ lỡ mùa hoa đẹp nhất trong năm tại Hà Giang!`,
-    tags: "Hà Giang,Du lịch,Phong cảnh,Hoa tam giác mạch",
-    author: "Nguyễn Văn A",
-    thumbnail: "/src/assets/1.jpg",
-    createdDate: new Date("2024-05-01"),
-  },
-  {
-    id: "2",
-    title: "Hành trình chinh phục đèo Mã Pì Lèng - Tứ đại đỉnh đèo Việt Nam",
-    slug: "hanh-trinh-chinh-phuc-deo-ma-pi-leng",
-    content: `Đèo Mã Pì Lèng là một trong tứ đại đỉnh đèo của Việt Nam, nằm trên con đường Hạnh Phúc nối liền Hà Giang với Cao Bằng. Với độ cao hơn 1.500m so với mực nước biển, đèo Mã Pì Lèng được mệnh danh là "Vua của các đèo" với khung cảnh hùng vĩ và hiểm trở.
-
-Hành trình chinh phục đèo Mã Pì Lèng:
-
-**Chuẩn bị trước khi đi:**
-- Kiểm tra xe máy kỹ lưỡng
-- Mang đầy đủ đồ bảo hộ
-- Chuẩn bị tinh thần cho đường đèo hiểm trở
-- Nghiên cứu thời tiết và lộ trình
-
-**Những điểm dừng chân đẹp:**
-1. **Đỉnh đèo Mã Pì Lèng**: Ngắm toàn cảnh thung lũng Nho Quế
-2. **Vách đá Trắng**: Chụp ảnh với background núi đá hùng vĩ
-3. **Sông Nho Quế**: Thuyền thưởng ngoạn dưới chân đèo
-4. **Bản làng H'Mong**: Giao lưu với người dân địa phương
-
-**Lưu ý quan trọng:**
-- Đi chậm và cẩn thận trên đèo
-- Không đi vào ban đêm
-- Mang theo đầy đủ nước và đồ ăn
-- Tôn trọng luật giao thông và văn hóa địa phương
-
-Đèo Mã Pì Lèng không chỉ là thử thách về kỹ năng lái xe mà còn là trải nghiệm tinh thần tuyệt vời khi được chinh phục một trong những con đèo đẹp nhất Việt Nam.`,
-    tags: "Đèo,Phượt,Trải nghiệm,Mã Pì Lèng",
-    author: "Trần Thị B",
-    thumbnail: "/src/assets/2.png",
-    createdDate: new Date("2024-04-20"),
-  },
-];
+import axiosInstance from "@/config/axiosConfig";
+import { mockBlogs } from "@/data/mockBlogs";
+import { useTranslation } from "react-i18next";
 
 interface Comment {
   id: string;
@@ -96,6 +35,22 @@ const mockComments: Comment[] = [
 export default function BlogDetail() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
+  const [blogs, setBlogs] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language === 'en' ? 'en' : 'vi';
+
+  useEffect(() => {
+    axiosInstance.get("/blogs")
+      .then(res => {
+        setBlogs(res.data.blogs || res.data);
+      })
+      .catch(() => {
+        setBlogs(mockBlogs);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
   const blog = blogs.find((b) => b.slug === slug);
 
   const [comments, setComments] = useState<Comment[]>(mockComments);
@@ -103,6 +58,10 @@ export default function BlogDetail() {
   const [content, setContent] = useState("");
   const [isLiked, setIsLiked] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
+
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center text-lg">Đang tải bài viết...</div>;
+  }
 
   if (!blog) {
     return (
@@ -139,13 +98,14 @@ export default function BlogDetail() {
     setContent("");
   };
 
-  const relatedPosts = blogs.filter(b => b.id !== blog.id);
+  const tagsArr = blog.tags && blog.tags[lang] ? blog.tags[lang] : (blog.tags?.vi || []);
+  const relatedPosts = blogs.filter(b => b.slug !== blog.slug).slice(0, 3);
 
   return (
     <>
       <Helmet>
-        <title>{blog.title} | Homie Travel Blog</title>
-        <meta name="description" content={blog.content.substring(0, 160)} />
+        <title>{blog.title?.[lang] || blog.title?.vi || ''} | Homie Travel Blog</title>
+        <meta name="description" content={blog.content?.[lang] || blog.content?.vi || blog.content?.en || blog.content?.vi || ''} />
       </Helmet>
 
       <div className="min-h-screen bg-gray-50">
@@ -153,7 +113,7 @@ export default function BlogDetail() {
         <section className="relative h-96 md:h-[500px] overflow-hidden">
           <img 
             src={blog.thumbnail} 
-            alt={blog.title} 
+            alt={blog.title?.[lang] || blog.title?.vi || ''} 
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
@@ -192,7 +152,7 @@ export default function BlogDetail() {
                 transition={{ duration: 0.5 }}
               >
                 <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 leading-tight">
-                  {blog.title}
+                  {blog.title?.[lang] || blog.title?.vi || ''}
                 </h1>
                 <div className="flex items-center gap-6 text-white/90">
                   <div className="flex items-center gap-2">
@@ -224,9 +184,9 @@ export default function BlogDetail() {
                 >
                   {/* Tags */}
                   <div className="flex flex-wrap gap-2 mb-6">
-                    {blog.tags.split(",").map((tag) => (
+                    {tagsArr.map((tag: string) => (
                       <span key={tag} className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-medium">
-                        {tag.trim()}
+                        {tag}
                       </span>
                     ))}
                   </div>
@@ -234,7 +194,7 @@ export default function BlogDetail() {
                   {/* Content */}
                   <div className="prose prose-lg max-w-none">
                     <p className="text-gray-600 leading-relaxed whitespace-pre-line">
-                      {blog.content}
+                      {blog.content?.[lang] || blog.content?.vi || blog.content?.en || ''}
                     </p>
                   </div>
 
@@ -377,20 +337,20 @@ export default function BlogDetail() {
                       <div key={post.id} className="flex gap-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer">
                         <img 
                           src={post.thumbnail} 
-                          alt={post.title}
+                          alt={post.title?.[lang] || post.title?.vi || ''}
                           className="w-20 h-20 rounded-lg object-cover flex-shrink-0"
                         />
                         <div className="flex-1">
                           <h4 className="font-semibold text-gray-800 text-sm line-clamp-3 mb-2 leading-tight">
-                            {post.title}
+                            {post.title?.[lang] || post.title?.vi || ''}
                           </h4>
                           <p className="text-xs text-gray-500 mb-2">
                             {new Date(post.createdDate).toLocaleDateString('vi-VN')}
                           </p>
                           <div className="flex flex-wrap gap-1">
-                            {post.tags.split(",").slice(0, 2).map((tag) => (
+                            {(post.tags && (post.tags[lang] || post.tags.vi) || []).slice(0, 2).map((tag: any) => (
                               <span key={tag} className="bg-purple-100 text-purple-700 px-2 py-1 rounded-full text-xs">
-                                {tag.trim()}
+                                {tag}
                               </span>
                             ))}
                           </div>

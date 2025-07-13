@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { tours } from '../../data/tours';
 import { Tour } from '../../types/TourType';
 import AdminTourFormModal from './AdminTourFormModal';
 import ToastNotification, { Toast } from './ToastNotification';
+import * as tourApi from '../../api/tours';
+import { useGetToursQuery, useAddTourMutation, useUpdateTourMutation, useDeleteTourMutation } from '../../services/api';
 
 function exportToCSV(data: Tour[], notify?: (msg: string) => void) {
   const header = ['ID', 'Tên Tour', 'Giá', 'Địa điểm', 'Mô tả', 'Đánh giá'];
   const rows = data.map(tour => [
-    tour.id,
+    tour._id,
     tour.name,
     typeof tour.price === 'object' ? tour.price.perSlot : tour.price,
     (tour.locations || []).join('; '),
@@ -27,15 +29,27 @@ function exportToCSV(data: Tour[], notify?: (msg: string) => void) {
 }
 
 const AdminTourManager: React.FC = () => {
-  const [tourList, setTourList] = useState<Tour[]>(tours);
+  const { data, refetch, isLoading } = useGetToursQuery() as { data: { tours: Tour[] } | undefined; refetch: () => void; isLoading: boolean };
+  const tours = data?.tours || [];
+  const [addTour] = useAddTourMutation();
+  const [updateTour] = useUpdateTourMutation();
+  const [deleteTour] = useDeleteTourMutation();
   const [modalOpen, setModalOpen] = useState(false);
   const [editTour, setEditTour] = useState<Tour | null>(null);
   const [search, setSearch] = useState('');
   const [locationFilter, setLocationFilter] = useState('');
   const [toasts, setToasts] = useState<Toast[]>([]);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [showEditForm, setShowEditForm] = useState(false);
 
   // Lấy danh sách địa điểm duy nhất
-  const allLocations = Array.from(new Set(tours.flatMap(t => t.locations || [])));
+  const allLocations = Array.from(
+    new Set(
+      (tours as any[]).flatMap((t: any) => Array.isArray(t.locations?.vi) ? t.locations.vi : [])
+    )
+  );
+
+
 
   const showToast = (message: string, type: Toast['type'] = 'success') => {
     setToasts((prev) => [
@@ -46,70 +60,111 @@ const AdminTourManager: React.FC = () => {
   const removeToast = (id: string) => setToasts((prev) => prev.filter(t => t.id !== id));
 
   const handleAdd = () => {
+    setShowAddForm((prev) => !prev);
     setEditTour(null);
-    setModalOpen(true);
+    setModalOpen(false);
+    setShowEditForm(false);
   };
   const handleEdit = (id: string) => {
-    const tour = tourList.find(t => t.id === id);
+    const tour = (tours as Tour[]).find((t: Tour) => t._id === id);
     if (tour) {
       setEditTour(tour);
-      setModalOpen(true);
+      setShowEditForm(true);
+      setShowAddForm(false);
     }
   };
-  const handleDelete = (id: string) => {
-    setTourList(tourList.filter(t => t.id !== id));
+  const handleDelete = async (id: string) => {
+    await deleteTour(id);
     showToast('Xóa tour thành công!', 'success');
+    refetch();
   };
 
-  const handleModalSubmit = (data: any) => {
-    if (editTour) {
-      setTourList(tourList.map(t => t.id === editTour.id ? { ...t, ...data } : t));
-      showToast('Cập nhật tour thành công!', 'success');
-    } else {
-      setTourList([
-        ...tourList,
-        {
-          ...data,
-          id: (Math.random() * 1000000).toFixed(0),
-          price: { perSlot: data.price, currency: 'VND' },
-          locations: data.locations,
-        },
-      ]);
-      showToast('Thêm tour mới thành công!', 'success');
+  const handleModalSubmit = async (data: any) => {
+    try {
+      if (editTour) {
+        await updateTour({ id: editTour._id, data });
+        showToast('Cập nhật tour thành công!', 'success');
+        setShowEditForm(false);
+        setEditTour(null);
+      } else {
+        await addTour(data);
+        showToast('Thêm tour mới thành công!', 'success');
+        setShowAddForm(false);
+      }
+      setModalOpen(false);
+      refetch();
+    } catch (error: any) {
+      showToast('Có lỗi xảy ra khi cập nhật tour!', 'error');
+      console.error(error);
     }
-    setModalOpen(false);
+  };
+
+  const handleInlineAdd = async (data: any) => {
+    try {
+      console.log('Submitting tour data:', data);
+      const result = await addTour(data).unwrap();
+      console.log('Tour added successfully:', result);
+      showToast('Thêm tour mới thành công!', 'success');
+      setShowAddForm(false);
+      refetch();
+    } catch (error: any) {
+      console.error('Error adding tour:', error);
+      showToast(`Lỗi khi thêm tour: ${error?.data?.message || error?.message || 'Unknown error'}`, 'error');
+    }
   };
 
   // Lọc danh sách tour theo tìm kiếm và địa điểm
-  const filteredTours = tourList.filter(tour => {
-    const matchName = tour.name.toLowerCase().includes(search.toLowerCase());
-    const matchLocation = locationFilter ? (tour.locations?.includes(locationFilter)) : true;
+  const filteredTours = (tours as any[]).filter((tour: any) => {
+    const matchName =
+      (tour.name?.vi?.toLowerCase() || '').includes(search.toLowerCase()) ||
+      (tour.name?.en?.toLowerCase() || '').includes(search.toLowerCase());
+    const matchLocation = locationFilter ? (Array.isArray(tour.locations?.vi) ? tour.locations.vi.includes(locationFilter) : false) : true;
     return matchName && matchLocation;
   });
+
+  console.log(filteredTours)
 
   return (
     <div className="space-y-6">
       <ToastNotification toasts={toasts} onRemove={removeToast} />
-      <AdminTourFormModal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        onSubmit={handleModalSubmit}
-        initialData={editTour}
-      />
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Quản lý Tour</h2>
           <p className="text-gray-600 mt-1">Quản lý danh sách các tour du lịch</p>
         </div>
-        <button 
+        <button
           onClick={handleAdd}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors duration-200"
+          className={`bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors duration-200 ${showAddForm ? 'bg-gray-400 hover:bg-gray-500' : ''}`}
         >
-          <span>➕</span>
-          <span>Thêm Tour</span>
+          <span>{showAddForm ? '✖️' : '➕'}</span>
+          <span>{showAddForm ? 'Hủy' : 'Thêm Tour'}</span>
         </button>
       </div>
+      {/* Inline Edit Form */}
+      {showEditForm && editTour && (
+        <div className="bg-white p-6 rounded-lg shadow border border-yellow-200 mb-4">
+          <AdminTourFormModal
+            open={true}
+            onClose={() => { setShowEditForm(false); setEditTour(null); }}
+            onSubmit={handleModalSubmit}
+            initialData={editTour}
+            inlineMode={true}
+          />
+        </div>
+      )}
+      {/* Inline Add Form */}
+      {showAddForm && (
+        <div className="bg-white p-6 rounded-lg shadow border border-blue-200">
+          <AdminTourFormModal
+            open={true}
+            onClose={() => setShowAddForm(false)}
+            onSubmit={handleInlineAdd}
+            initialData={null}
+            inlineMode={true}
+          />
+        </div>
+      )}
 
       {/* Search & Filter & Export */}
       <div className="flex flex-col md:flex-row md:items-center md:space-x-4 space-y-2 md:space-y-0">
@@ -147,7 +202,7 @@ const AdminTourManager: React.FC = () => {
             </div>
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Tổng số Tour</p>
-              <p className="text-2xl font-bold text-gray-900">{tourList.length}</p>
+              <p className="text-2xl font-bold text-gray-900">{tours.length}</p>
             </div>
           </div>
         </div>
@@ -158,7 +213,7 @@ const AdminTourManager: React.FC = () => {
             </div>
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Đang hoạt động</p>
-              <p className="text-2xl font-bold text-gray-900">{tourList.length}</p>
+              <p className="text-2xl font-bold text-gray-900">{tours.length}</p>
             </div>
           </div>
         </div>
@@ -191,7 +246,7 @@ const AdminTourManager: React.FC = () => {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">STT</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tên Tour</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Giá</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Địa điểm</th>
@@ -200,22 +255,26 @@ const AdminTourManager: React.FC = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {filteredTours.map((tour, index) => (
+              {filteredTours.map((tour: any, index: number) => (
                 <tr key={tour.id} className="hover:bg-gray-50 transition-colors duration-200">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{tour.id}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index + 1}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div>
-                      <div className="text-sm font-medium text-gray-900">{tour.name}</div>
-                      <div className="text-sm text-gray-500">{tour.duration}</div>
+                      <div className="text-sm font-medium text-gray-900">{tour.name?.vi || ''}</div>
+                      <div className="text-sm text-gray-500">{tour.duration?.vi || ''}</div>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-gray-900">
-                      {typeof tour.price === 'object' ? `${tour.price.perSlot?.toLocaleString()} ${tour.price.currency}` : tour.price}
+                      {tour.price?.VND?.perSlot ? `${tour.price.VND.perSlot.toLocaleString('vi-VN')} VND` : 'N/A'}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{tour.locations?.join(', ')}</div>
+                    <div className="text-sm text-gray-900">
+                      {Array.isArray(tour.locations)
+                        ? tour.locations.map((loc: any) => loc.vi).join(', ')
+                        : ''}
+                    </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
@@ -225,14 +284,14 @@ const AdminTourManager: React.FC = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <div className="flex items-center space-x-2">
-                      <button 
-                        onClick={() => handleEdit(tour.id)}
+                      <button
+                        onClick={() => handleEdit(tour._id)}
                         className="text-blue-600 hover:text-blue-900 bg-blue-50 hover:bg-blue-100 px-3 py-1 rounded-md transition-colors duration-200"
                       >
                         ✏️ Sửa
                       </button>
-                      <button 
-                        onClick={() => handleDelete(tour.id)}
+                      <button
+                        onClick={() => handleDelete(tour._id)}
                         className="text-red-600 hover:text-red-900 bg-red-50 hover:bg-red-100 px-3 py-1 rounded-md transition-colors duration-200"
                       >
                         🗑️ Xóa

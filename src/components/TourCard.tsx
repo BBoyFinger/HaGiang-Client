@@ -12,8 +12,9 @@ const formatPrice = (price: number, currency: string) => {
   return price.toLocaleString("vi-VN") + " VND";
 };
 
-export default function TourCard({ tour }: { tour: Tour }) {
-  const { t } = useTranslation();
+export default function TourCard({ tour }: { tour: any }) {
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language === 'en' ? 'en' : 'vi';
   const [isFavorite, setIsFavorite] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
 
@@ -22,6 +23,10 @@ export default function TourCard({ tour }: { tour: Tour }) {
     e.stopPropagation();
     setIsFavorite(!isFavorite);
   };
+
+  const priceObj = tour.price?.VND || Object.values(tour.price || {})[0] || {};
+  const { perSlot, groupPrice, discountPrice } = priceObj;
+  const currency = tour.price?.VND ? 'VND' : Object.keys(tour.price || {})[0] || '';
 
   return (
     <motion.div
@@ -34,7 +39,7 @@ export default function TourCard({ tour }: { tour: Tour }) {
         <Link to={`/tours/${tour.slug}`}>
           <img 
             src={tour.imageUrls[0]} 
-            alt={tour.name} 
+            alt={tour.name?.[lang] || tour.name?.vi || ''} 
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" 
           />
         </Link>
@@ -67,7 +72,7 @@ export default function TourCard({ tour }: { tour: Tour }) {
         <div className="absolute top-4 right-4">
           <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-white/90 backdrop-blur-sm text-gray-800 shadow-sm">
             <FaTag className="mr-1.5 text-purple-500" />
-            {tour.type || 'Tour'}
+            {tour.type?.[lang] || tour.type?.vi || 'Tour'}
           </span>
         </div>
 
@@ -85,19 +90,19 @@ export default function TourCard({ tour }: { tour: Tour }) {
         {/* Title */}
         <Link to={`/tours/${tour.slug}`}>
           <h3 className="text-xl font-bold mb-3 text-gray-800 group-hover:text-purple-600 transition-colors duration-300 leading-tight line-clamp-2">
-            {tour.name}
+            {tour.name?.[lang] || tour.name?.vi || ''}
           </h3>
         </Link>
 
         {/* Description */}
         <p className="text-gray-600 mb-4 leading-relaxed text-sm line-clamp-2">
-          {tour.description}
+          {tour.shortDescription?.[lang] || tour.shortDescription?.vi || ''}
         </p>
 
         {/* Location */}
         <div className="flex items-center space-x-2 mb-4 text-sm text-gray-500">
           <FaMapMarkerAlt className="text-purple-500" />
-          <span className="line-clamp-1">{tour.locations.join(", ")}</span>
+          <span className="line-clamp-1">{Array.isArray(tour.locations) ? tour.locations.map((loc: any) => loc?.[lang] || loc?.vi || '').join(', ') : ''}</span>
         </div>
 
         {/* Tour Details */}
@@ -105,11 +110,11 @@ export default function TourCard({ tour }: { tour: Tour }) {
           <div className="flex items-center space-x-4 text-sm text-gray-500">
             <div className="flex items-center space-x-1">
               <FaClock className="text-purple-500" />
-              <span>{tour.duration}</span>
+              <span>{tour.duration?.[lang] || tour.duration?.vi || ''}</span>
             </div>
             <div className="flex items-center space-x-1">
               <FaUsers className="text-purple-500" />
-              <span>{tour.guideLanguage.join(", ")}</span>
+              <span>{Array.isArray(tour.guideLanguage) ? tour.guideLanguage.map((g: any) => g?.[lang] || g?.vi || '').join(', ') : ''}</span>
             </div>
           </div>
         </div>
@@ -117,36 +122,46 @@ export default function TourCard({ tour }: { tour: Tour }) {
         {/* Tags */}
         <div className="flex flex-wrap gap-2 mb-4">
           <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-purple-50 text-purple-600 border border-purple-100">
-            {tour.duration}
+            {tour.duration?.[lang] || tour.duration?.vi || ''}
           </span>
           <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-green-50 text-green-600 border border-green-100">
-            {tour.guideLanguage.join(", ")}
+            {Array.isArray(tour.guideLanguage) ? tour.guideLanguage.map((g: any) => g?.[lang] || g?.vi || '').join(', ') : ''}
           </span>
         </div>
 
         {/* Price */}
         <div className="mb-6">
           <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-500">Giá từ</p>
-              <p className="text-2xl font-bold text-purple-600">
-                {formatPrice(tour.price.groupPrice || tour.price.perSlot, tour.price.currency)}
-              </p>
-              <p className="text-xs text-gray-500">/ người</p>
+            {/* Giá + /người */}
+            <div className="flex items-baseline flex-col">
+              {discountPrice ? (
+                <>
+                  <span className="text-sm text-gray-400 line-through">
+                    {formatPrice(groupPrice || perSlot || 0, currency)}
+                  </span>
+                  <span className="text-sm font-bold text-purple-600 mt-1">
+                    {formatPrice(discountPrice, currency)}
+                  </span>
+                </>
+              ) : (
+                <span className="text-lg font-bold text-purple-600">
+                  {formatPrice(groupPrice || perSlot || 0, currency)}
+                </span>
+              )}
+              <span className="text-xs text-gray-500 ml-2">/ người</span>
             </div>
-            <div className="text-right">
-              <div className="flex items-center space-x-1 mb-1">
-                <ReactStars
-                  count={5}
-                  value={tour.rating}
-                  size={16}
-                  isHalf={true}
-                  edit={false}
-                  activeColor="#ffd700"
-                />
-                <span className="text-sm font-medium text-gray-700">{tour.rating.toFixed(1)}</span>
-              </div>
-              <p className="text-xs text-gray-500">Đánh giá</p>
+            {/* Đánh giá + ReactStars */}
+            <div className="flex items-center">
+              <span className="text-xs text-gray-500 mr-1">Đánh giá</span>
+              <ReactStars
+                count={5}
+                value={tour.rating}
+                size={16}
+                isHalf={true}
+                edit={false}
+                activeColor="#ffd700"
+              />
+              <span className="text-sm font-medium text-gray-700 ml-1">{tour.rating.toFixed(1)}</span>
             </div>
           </div>
         </div>

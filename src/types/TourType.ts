@@ -1,5 +1,5 @@
 export interface Tour {
-    id: string;
+    _id: string;
     name: string;
     type: 'trekking' | 'luxury' | 'hang_dong' | 'song' | 'nui';
     slug: string;
@@ -8,6 +8,7 @@ export interface Tour {
     price: {
         perSlot: number;
         groupPrice?: number;
+        discountPrice?: number;
         currency: string;
     };
     duration: string;

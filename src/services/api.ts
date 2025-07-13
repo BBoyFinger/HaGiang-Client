@@ -38,7 +38,33 @@ export const api = createApi({
         body,
       }),
     }),
+    getTours: builder.query<any, void>({
+      query: () => '/tours',
+    }),
+    getTourById: builder.query<any, string>({
+      query: (id) => `/tours/${id}`,
+    }),
+    addTour: builder.mutation<any, Partial<any>>({
+      query: (body) => ({
+        url: '/tours',
+        method: 'POST',
+        body,
+      }),
+    }),
+    updateTour: builder.mutation<any, { id: string; data: Partial<any> }>({
+      query: ({ id, data }) => ({
+        url: `/tours/${id}`,
+        method: 'PUT',
+        body: data,
+      }),
+    }),
+    deleteTour: builder.mutation<any, string>({
+      query: (id) => ({
+        url: `/tours/${id}`,
+        method: 'DELETE',
+      }),
+    }),
   }),
 });
 
-export const { useGetDestinationsQuery, useAddDestinationMutation, useUpdateDestinationMutation, useDeleteDestinationMutation, useGetCurrentUserQuery, useUpdateProfileMutation } = api; 
+export const { useGetDestinationsQuery, useAddDestinationMutation, useUpdateDestinationMutation, useDeleteDestinationMutation, useGetCurrentUserQuery, useUpdateProfileMutation, useGetToursQuery, useGetTourByIdQuery, useAddTourMutation, useUpdateTourMutation, useDeleteTourMutation } = api; 

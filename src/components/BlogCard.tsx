@@ -2,11 +2,15 @@ import { Blog } from "@/types/BlogType";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaUser, FaCalendar, FaTag, FaArrowRight, FaEye, FaHeart, FaClock } from 'react-icons/fa';
+import { useTranslation } from "react-i18next";
 
-export default function BlogCard({ blog }: { blog: Blog }) {
-  const getTimeAgo = (date: Date) => {
+export default function BlogCard({ blog }: { blog: any }) {
+  const { i18n } = useTranslation();
+  const lang = i18n.language === 'en' ? 'en' : 'vi';
+  const getTimeAgo = (date: Date | string) => {
+    const d = typeof date === 'string' ? new Date(date) : date;
     const now = new Date();
-    const diffInDays = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
+    const diffInDays = Math.floor((now.getTime() - d.getTime()) / (1000 * 60 * 60 * 24));
     
     if (diffInDays === 0) return 'Hôm nay';
     if (diffInDays === 1) return 'Hôm qua';
@@ -15,14 +19,15 @@ export default function BlogCard({ blog }: { blog: Blog }) {
     if (diffInDays < 365) return `${Math.floor(diffInDays / 30)} tháng trước`;
     return `${Math.floor(diffInDays / 365)} năm trước`;
   };
-
+  // Lấy tags theo ngôn ngữ
+  const tagsArr = blog.tags && blog.tags[lang] ? blog.tags[lang] : (blog.tags?.vi || []);
   return (
     <div className="blog-card bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-200 group">
       {/* Image Container */}
       <div className="blog-image-container relative h-56 overflow-hidden">
         <img 
           src={blog.thumbnail} 
-          alt={blog.title} 
+          alt={blog.title?.[lang] || blog.title?.vi || ''} 
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
         />
         
@@ -32,7 +37,7 @@ export default function BlogCard({ blog }: { blog: Blog }) {
         {/* Category Badge */}
         <div className="absolute top-3 left-3">
           <span className="bg-white/95 text-gray-800 px-3 py-1 rounded-full text-xs font-semibold shadow-sm">
-            {blog.tags.split(",")[0].trim()}
+            {tagsArr[0]}
           </span>
         </div>
 
@@ -63,33 +68,33 @@ export default function BlogCard({ blog }: { blog: Blog }) {
           </div>
           <div className="flex items-center space-x-1 text-gray-500">
             <FaClock className="text-xs" />
-            <span className="text-xs">{getTimeAgo(blog.createdDate)}</span>
+            <span className="text-xs">{getTimeAgo(blog.createdAt || blog.createdDate)}</span>
           </div>
         </div>
 
         {/* Title */}
         <h3 className="text-lg font-bold text-gray-800 mb-3 group-hover:text-purple-600 transition-colors duration-300 line-clamp-2">
-          {blog.title}
+          {blog.title?.[lang] || blog.title?.vi || ''}
         </h3>
 
         {/* Content */}
         <p className="text-gray-600 text-sm mb-4 line-clamp-3 leading-relaxed">
-          {blog.content}
+          {blog.content?.[lang] || blog.content?.vi || ''}
         </p>
 
         {/* Tags */}
         <div className="flex flex-wrap gap-1 mb-4">
-          {blog.tags.split(",").slice(0, 2).map((tag, index) => (
+          {tagsArr.slice(0, 2).map((tag: string, index: number) => (
             <span 
               key={index} 
               className="bg-purple-100 text-purple-700 px-2 py-1 rounded-full text-xs font-medium"
             >
-              {tag.trim()}
+              {tag}
             </span>
           ))}
-          {blog.tags.split(",").length > 2 && (
+          {tagsArr.length > 2 && (
             <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-xs">
-              +{blog.tags.split(",").length - 2}
+              +{tagsArr.length - 2}
             </span>
           )}
         </div>

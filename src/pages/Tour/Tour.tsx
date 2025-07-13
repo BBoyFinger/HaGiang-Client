@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
-import { tours } from "@/data/tours";
+import { mockTours } from "../../data/tours";
+import axiosInstance from "../../config/axiosConfig";
 import TourCard from "@/components/TourCard";
 import ModalBookingForm from "@/components/ModalBookingForm";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { FaSearch, FaFilter, FaMapMarkerAlt, FaCalendar, FaStar, FaUsers, FaClock, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { useGetToursQuery } from '@/services/api';
+import { Tour } from '@/types/TourType';
 
 const tourTypes = [
   { value: '', label: 'Tất cả', icon: FaMapMarkerAlt },
@@ -23,35 +26,53 @@ const sortOptions = [
   { value: 'duration', label: 'Thời gian' },
 ];
 
-export default function Tour() {
+export default function TourPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedTourId, setSelectedTourId] = useState(null);
   const [type, setType] = useState('');
   const [sortBy, setSortBy] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [priceRange, setPriceRange] = useState({ min: '', max: '' });
+  const [tours, setTours] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    axiosInstance.get("/tours")
+      .then(res => {
+        setTours(res.data.tours);
+      })
+      .catch(() => {
+        setTours(mockTours);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
 
   const handleBook = (tourId: any) => {
     setSelectedTourId(tourId);
     setModalOpen(true);
   };
 
-  const { t } = useTranslation();
+  
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language === 'en' ? 'en' : 'vi';
 
   // Filter tours
-  let filteredTours = tours.filter(tour => {
-    const matchesType = !type || tour.type === type;
-    const matchesSearch = !searchTerm || 
-      tour.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      tour.description?.toLowerCase().includes(searchTerm.toLowerCase());
+  let filteredTours = tours.filter((tour: any) => {
+    const matchesType = !type || (tour.type?.[lang] || tour.type?.vi || '').toLowerCase() === type.toLowerCase();
+    const matchesSearch = !searchTerm ||
+      (tour.name?.[lang]?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+      (tour.description?.[lang]?.toLowerCase() || '').includes(searchTerm.toLowerCase());
     const tourPrice = tour.price?.perSlot || 0;
     const minPrice = priceRange.min ? (parseInt(priceRange.min) || 0) : 0;
     const maxPrice = priceRange.max ? (parseInt(priceRange.max) || 0) : 0;
     const matchesPrice = !priceRange.min || tourPrice >= minPrice;
     const matchesMaxPrice = !priceRange.max || tourPrice <= maxPrice;
-    
     return matchesType && matchesSearch && matchesPrice && matchesMaxPrice;
   });
+
+
 
   // Sort tours
   if (sortBy === 'price') {
@@ -61,13 +82,13 @@ export default function Tour() {
   } else if (sortBy === 'rating') {
     filteredTours = [...filteredTours].sort((a, b) => (b.rating || 0) - (a.rating || 0));
   } else if (sortBy === 'name') {
-    filteredTours = [...filteredTours].sort((a, b) => a.name.localeCompare(b.name));
+    filteredTours = [...filteredTours].sort((a, b) => (a.name?.[lang] || '').localeCompare(b.name?.[lang] || ''));
   } else if (sortBy === 'duration') {
-    filteredTours = [...filteredTours].sort((a, b) => (a.duration || 0) - (b.duration || 0));
+    filteredTours = [...filteredTours].sort((a, b) => (a.duration?.[lang]?.length || 0) - (b.duration?.[lang]?.length || 0));
   }
 
   // Carousel images
-  const carouselImages = tours.slice(0, 5).map(t => t.imageUrls[0]);
+  const carouselImages = tours.slice(0, 5).map((t: Tour) => t.imageUrls[0]);
   const [carouselIdx, setCarouselIdx] = useState(0);
 
   // Auto slide carousel
@@ -86,6 +107,10 @@ export default function Tour() {
   const prevSlide = () => {
     setCarouselIdx((carouselIdx - 1 + carouselImages.length) % carouselImages.length);
   };
+
+  if (loading) {
+    return <div className="text-center py-16">Đang tải dữ liệu tour...</div>;
+  }
 
   return (
     <>
@@ -156,7 +181,7 @@ export default function Tour() {
 
           {/* Dots */}
           <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-3">
-            {carouselImages.map((_, idx) => (
+            {carouselImages.map((_: string, idx: number) => (
               <button
                 key={idx}
                 onClick={() => setCarouselIdx(idx)}
@@ -287,8 +312,8 @@ export default function Tour() {
           {/* Tours Grid */}
           {filteredTours.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredTours.map((tour) => (
-                <div key={tour.id} className="group">
+              {filteredTours.map((tour: any) => (
+                <div key={tour._id} className="group">
                   <TourCard tour={tour} />
                 </div>
               ))}
