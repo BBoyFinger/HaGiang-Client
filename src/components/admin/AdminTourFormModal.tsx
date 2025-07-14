@@ -4,9 +4,12 @@ import DestinationCard from '../DestinationCard';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { NumericFormat } from 'react-number-format';
+
 // @ts-ignore
 import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+
+// Styles bắt buộc
 import 'react-quill/dist/quill.snow.css';
 
 interface TourFormModalProps {

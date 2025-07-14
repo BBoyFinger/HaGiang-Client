@@ -8,5 +8,10 @@ export default defineConfig({
       '@': '/src'
     }
   },
-  publicDir: 'public'
+  publicDir: 'public',
+  build: {
+    rollupOptions: {
+      external: ['react-quill']
+    }
+  }
 })
