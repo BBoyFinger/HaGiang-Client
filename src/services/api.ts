@@ -6,25 +6,25 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: axiosInstance.defaults.baseURL, credentials: 'include' }),
   endpoints: (builder) => ({
     getDestinations: builder.query<any, void>({
-      query: () => '/destination',
+      query: () => '/destinations',
     }),
     addDestination: builder.mutation<any, Partial<any>>({
       query: (body) => ({
-        url: '/destination',
+        url: '/destinations',
         method: 'POST',
         body,
       }),
     }),
     updateDestination: builder.mutation<any, { id: number; data: Partial<any> }>({
       query: ({ id, data }) => ({
-        url: `/destination/${id}`,
+        url: `/destinations/${id}`,
         method: 'PUT',
         body: data,
       }),
     }),
     deleteDestination: builder.mutation<any, number>({
       query: (id) => ({
-        url: `/destination/${id}`,
+        url: `/destinations/${id}`,
         method: 'DELETE',
       }),
     }),
