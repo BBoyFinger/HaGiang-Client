@@ -9,9 +9,9 @@ export default defineConfig({
     }
   },
   publicDir: 'public',
-  build: {
-    rollupOptions: {
-      external: ['react-quill']
-    }
-  }
+  // build: {
+  //   rollupOptions: {
+  //     external: ['react-quill']
+  //   }
+  // }
 })
