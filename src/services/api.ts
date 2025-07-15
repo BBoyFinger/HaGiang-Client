@@ -64,7 +64,120 @@ export const api = createApi({
         method: 'DELETE',
       }),
     }),
+    getBlogs: builder.query<any, void>({
+      query: () => '/blogs',
+    }),
+    addBlog: builder.mutation<any, Partial<any>>({
+      query: (body) => ({
+        url: '/blogs',
+        method: 'POST',
+        body,
+      }),
+    }),
+    updateBlog: builder.mutation<any, { id: string; data: Partial<any> }>({
+      query: ({ id, data }) => ({
+        url: `/blogs/${id}`,
+        method: 'PUT',
+        body: data,
+      }),
+    }),
+    deleteBlog: builder.mutation<any, string>({
+      query: (id) => ({
+        url: `/blogs/${id}`,
+        method: 'DELETE',
+      }),
+    }),
+    getComments: builder.query<any, { status?: string; refType?: string; refId?: string }>({
+      query: (params) => ({
+        url: '/comments',
+        params,
+      }),
+    }),
+    approveComment: builder.mutation<any, string>({
+      query: (id) => ({
+        url: `/comments/${id}/approve`,
+        method: 'PUT',
+      }),
+    }),
+    rejectComment: builder.mutation<any, string>({
+      query: (id) => ({
+        url: `/comments/${id}/reject`,
+        method: 'PUT',
+      }),
+    }),
+    deleteComment: builder.mutation<any, string>({
+      query: (id) => ({
+        url: `/comments/${id}`,
+        method: 'DELETE',
+      }),
+    }),
+    updateComment: builder.mutation<any, { id: string; content: string }>({
+      query: ({ id, content }) => ({
+        url: `/comments/${id}`,
+        method: 'PUT',
+        body: { content },
+      }),
+    }),
+    getUsers: builder.query<any, void>({
+      query: () => '/users',
+    }),
+    addUser: builder.mutation<any, Partial<any>>({
+      query: (body) => ({
+        url: '/users',
+        method: 'POST',
+        body,
+      }),
+    }),
+    updateUser: builder.mutation<any, { id: string; data: Partial<any> }>({
+      query: ({ id, data }) => ({
+        url: `/users/${id}`,
+        method: 'PUT',
+        body: data,
+      }),
+    }),
+    deleteUser: builder.mutation<any, string>({
+      query: (id) => ({
+        url: `/users/${id}`,
+        method: 'DELETE',
+      }),
+    }),
+    changeUserRole: builder.mutation<any, { id: string; role: string }>({
+      query: ({ id, role }) => ({
+        url: `/users/${id}/role`,
+        method: 'PUT',
+        body: { role },
+      }),
+    }),
+    toggleUserActive: builder.mutation<any, string>({
+      query: (id) => ({
+        url: `/users/${id}/toggle-active`,
+        method: 'PUT',
+      }),
+    }),
+    getBookings: builder.query<any, void>({
+      query: () => '/bookings',
+    }),
+    addBooking: builder.mutation<any, Partial<any>>({
+      query: (body) => ({
+        url: '/bookings',
+        method: 'POST',
+        body,
+      }),
+    }),
+    updateBooking: builder.mutation<any, { id: string; data: Partial<any> }>({
+      query: ({ id, data }) => ({
+        url: `/bookings/${id}`,
+        method: 'PUT',
+        body: data,
+      }),
+    }),
+    deleteBooking: builder.mutation<any, string>({
+      query: (id) => ({
+        url: `/bookings/${id}`,
+        method: 'DELETE',
+      }),
+    }),
   }),
 });
 
-export const { useGetDestinationsQuery, useAddDestinationMutation, useUpdateDestinationMutation, useDeleteDestinationMutation, useGetCurrentUserQuery, useUpdateProfileMutation, useGetToursQuery, useGetTourByIdQuery, useAddTourMutation, useUpdateTourMutation, useDeleteTourMutation } = api; 
+export const { useGetDestinationsQuery, useAddDestinationMutation, useUpdateDestinationMutation, useDeleteDestinationMutation, useGetCurrentUserQuery, useUpdateProfileMutation, useGetToursQuery, useGetTourByIdQuery, useAddTourMutation, useUpdateTourMutation, useDeleteTourMutation, useGetBlogsQuery, useAddBlogMutation, useUpdateBlogMutation, useDeleteBlogMutation, useGetCommentsQuery, useApproveCommentMutation, useRejectCommentMutation, useDeleteCommentMutation, useUpdateCommentMutation, useGetUsersQuery, useAddUserMutation, useUpdateUserMutation, useDeleteUserMutation, useChangeUserRoleMutation, useToggleUserActiveMutation, useGetBookingsQuery, useAddBookingMutation, useUpdateBookingMutation, useDeleteBookingMutation } = api; 

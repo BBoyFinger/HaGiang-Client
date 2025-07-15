@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ToastNotification, { Toast } from './ToastNotification';
+import { toast } from 'react-toastify';
 import {
   useGetDestinationsQuery,
   useAddDestinationMutation,
@@ -17,18 +17,20 @@ const AdminDestinationManager: React.FC = () => {
   const [addDestination] = useAddDestinationMutation();
   const [updateDestination] = useUpdateDestinationMutation();
   const [deleteDestination] = useDeleteDestinationMutation();
-  const [toasts, setToasts] = useState<Toast[]>([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
   const [editDestination, setEditDestination] = useState<any | null>(null);
 
-  const showToast = (message: string, type: Toast['type'] = 'success') => {
-    setToasts((prev) => [
-      ...prev,
-      { id: Math.random().toString(36).slice(2), type, message },
-    ]);
+  const showToast = (message: string, type: 'success' | 'error' = 'success') => {
+    if (type === 'success') {
+      toast.success(message);
+    } else {
+      toast.error(message);
+    }
   };
-  const removeToast = (id: string) => setToasts((prev) => prev.filter(t => t.id !== id));
+  const removeToast = (id: string) => {
+    // No-op for react-toastify
+  };
 
   const handleAdd = () => {
     setShowAddForm((prev) => !prev);
@@ -86,7 +88,6 @@ const AdminDestinationManager: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <ToastNotification toasts={toasts} onRemove={removeToast} />
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>

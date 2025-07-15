@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { tours } from '../../data/tours';
 import { Tour } from '../../types/TourType';
 import AdminTourFormModal from './AdminTourFormModal';
-import ToastNotification, { Toast } from './ToastNotification';
+import { toast } from 'react-toastify';
 import * as tourApi from '../../api/tours';
 import { useGetToursQuery, useAddTourMutation, useUpdateTourMutation, useDeleteTourMutation } from '../../services/api';
 
@@ -38,7 +38,6 @@ const AdminTourManager: React.FC = () => {
   const [editTour, setEditTour] = useState<Tour | null>(null);
   const [search, setSearch] = useState('');
   const [locationFilter, setLocationFilter] = useState('');
-  const [toasts, setToasts] = useState<Toast[]>([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
 
@@ -51,13 +50,16 @@ const AdminTourManager: React.FC = () => {
 
 
 
-  const showToast = (message: string, type: Toast['type'] = 'success') => {
-    setToasts((prev) => [
-      ...prev,
-      { id: Math.random().toString(36).slice(2), type, message },
-    ]);
+  const showToast = (message: string, type: 'success' | 'error' = 'success') => {
+    if (type === 'success') {
+      toast.success(message);
+    } else {
+      toast.error(message);
+    }
   };
-  const removeToast = (id: string) => setToasts((prev) => prev.filter(t => t.id !== id));
+  const removeToast = (id: string) => {
+    // No-op for react-toastify
+  };
 
   const handleAdd = () => {
     setShowAddForm((prev) => !prev);
@@ -126,7 +128,6 @@ const AdminTourManager: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <ToastNotification toasts={toasts} onRemove={removeToast} />
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
