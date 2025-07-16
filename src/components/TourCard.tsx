@@ -172,7 +172,7 @@ export default function TourCard({ tour }: { tour: any }) {
             to={`/tours/${tour.slug}`}
             className="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-3 px-4 rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all duration-300 text-center shadow-lg hover:shadow-xl"
           >
-            Xem chi tiết
+            {t('common.viewDetails')}
           </Link>
           <button
             onClick={toggleFavorite}

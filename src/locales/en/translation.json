@@ -37,6 +37,8 @@
   },
   "home": {
     "featuredDestinations": "Featured Destinations",
+    "featuredDestinationsDesc": "Discover the most beautiful destinations in Ha Giang with majestic natural landscapes and unique culture",
+    "seeAllDestinations": "See all destinations",
     "about": {
       "title": "About Homie Travel",
       "description1": "We are the leading travel company in Ha Giang, specializing in high-quality tours with professional and experienced guides.",
@@ -44,7 +46,32 @@
       "learnMore": "Learn More"
     },
     "title": "Ha Giang Travel - Discover Ha Giang Tourism",
-    "description": "Explore tours, destinations, experiences, and the latest Ha Giang travel guides. Book tours, rent motorbikes, and hotels easily."
+    "description": "Explore tours, destinations, experiences, and the latest Ha Giang travel guides. Book tours, rent motorbikes, and hotels easily.",
+    "whyChooseUsTitle": "Why Choose Homie Travel?",
+    "whyChooseUsCharity": "Committed to giving back to the local community",
+    "whyChooseUsProfessional": "Professional tour guides",
+    "contactNow": "Contact now",
+    "seeToursNow": "See tours now",
+    "freeConsult": "Free consultation",
+    "stats": {
+      "satisfiedCustomers": "Satisfied customers",
+      "satisfiedCustomersValue": "500+",
+      "averageRating": "Average rating",
+      "averageRatingValue": "4.8",
+      "customerSupport": "Customer support",
+      "customerSupportValue": "24/7",
+      "destinations": "Destinations to explore",
+      "destinationsValue": "50+"
+    },
+    "featuredToursTitle": "Featured Tours",
+    "featuredToursDesc": "Discover the most popular Ha Giang tours with unique experiences and high-quality service",
+    "seeAllTours": "See all tours",
+    "experienceDesc": "Over 10 years of experience in the travel industry",
+    "featuredBlogsTitle": "Featured Blogs",
+    "featuredBlogsDesc": "Explore the latest articles, experiences, and travel stories about Ha Giang from the Homie Travel community",
+    "seeAllBlogs": "See all blogs",
+    "ctaTitle": "Ready to explore Ha Giang?",
+    "ctaDesc": "Let us help you create unforgettable memories in the northernmost land of Vietnam"
   },
   "footer": {
     "company": {
@@ -89,7 +116,17 @@
     "readMore": "Read More",
     "bookNow": "Book Now",
     "viewDetails": "View Details",
-    "contactUs": "Contact Us"
+    "contactUs": "Contact Us",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "add": "Add",
+    "send": "Send",
+    "inputMessage": "Enter your message...",
+    "favorite": "Favorite",
+    "close": "Close",
+    "submit": "Submit"
   },
   "destinations": {
     "title": "Destinations",
@@ -116,21 +153,62 @@
     "reviews": "Reviews"
   },
   "tour": {
-    "title": "Tour with Homie Travel",
-    "name": "Full Name",
-    "namePlaceholder": "Enter your full name",
-    "email": "Email",
-    "emailPlaceholder": "Enter your email",
-    "phone": "Phone number",
-    "phonePlaceholder": "Enter your phone number",
-    "tour": "Select tour",
-    "date": "Departure date",
-    "people": "Number of people",
-    "note": "Note",
-    "notePlaceholder": "Special requests (if any)",
-    "submit": "Book tour",
-    "success": "Booking successful! We will contact you soon.",
-    "time": "days"
+    "title": "Ha Giang Tours",
+    "description": "Discover amazing Ha Giang tours with Homie Travel.",
+    "loading": "Loading tour data...",
+    "hero": {
+      "title": "Experience Ha Giang",
+      "subtitle": "Explore the wild beauty with Homie Travel",
+      "customers": "500+ customers",
+      "rating": "4.8/5 rating",
+      "support": "24/7 support"
+    },
+    "search": {
+      "placeholder": "Search tours..."
+    },
+    "filter": {
+      "type": "Tour type",
+      "all": "All",
+      "river": "River",
+      "cave": "Cave",
+      "mountain": "Mountain",
+      "luxury": "Luxury",
+      "priceRange": "Price range",
+      "priceMin": "Min price",
+      "priceMax": "Max price"
+    },
+    "sort": {
+      "label": "Sort by",
+      "default": "Default",
+      "price_asc": "Price ascending",
+      "price_desc": "Price descending",
+      "rating": "Top rated",
+      "name": "A-Z",
+      "duration": "Duration"
+    },
+    "section": {
+      "title": "Explore Ha Giang Tours",
+      "subtitle": "Choose the right tour and create unforgettable memories in the northernmost land of Vietnam"
+    },
+    "resultCount": "Found {{count}} tours",
+    "display": "Display",
+    "displayGrid": "Grid",
+    "displayList": "List",
+    "notFound": {
+      "title": "No tours found",
+      "subtitle": "Try changing the filters or search keywords",
+      "clearFilter": "Clear filters"
+    },
+    "why": {
+      "title": "Why Choose Homie Travel?",
+      "subtitle": "We are committed to bringing you the best travel experience",
+      "guideTitle": "Professional guides",
+      "guideDesc": "Experienced guides with deep local knowledge",
+      "qualityTitle": "High service quality",
+      "qualityDesc": "Guaranteed service quality with over 500+ satisfied customers",
+      "supportTitle": "24/7 support",
+      "supportDesc": "Our support team is ready to assist you anytime, anywhere"
+    }
   },
   "booking": {
     "title": "Book a tour with Homie Travel",
@@ -154,55 +232,68 @@
     "experience": "7 years of experience organizing Ha Giang tours"
   },
   "rent": {
-    "title": "Rent a vehicle",
-    "name": "Full Name",
-    "namePlaceholder": "Enter your full name",
-    "email": "Email",
-    "emailPlaceholder": "Enter your email",
-    "phone": "Phone number",
-    "phonePlaceholder": "Enter your phone number",
-    "vehicleType": "Vehicle type",
-    "vehicleTypeOptions": {
-      "motorbike": "Motorbike",
-      "car": "Car",
-      "bike": "Bicycle"
-    },
-    "date": "Rental date",
-    "days": "Number of days",
-    "note": "Note",
-    "notePlaceholder": "Special requests (if any)",
-    "submit": "Book rental",
-    "success": " successful! We will contact you soon."
+    "title": "Ha Giang Vehicle Rental",
+    "description": "Rent a vehicle in Ha Giang - Explore the wild land freely",
+    "heroDesc": "Rent a vehicle in Ha Giang - Explore the wild land freely",
+    "whyTitle": "Why Rent a Vehicle at Homie Travel?",
+    "whyDesc": "We are committed to providing high-quality vehicle rental services at reasonable prices",
+    "whyOption1Title": "Diverse Vehicles",
+    "whyOption1Desc": "From motorbikes, cars to bicycles, we have all types of vehicles to suit your needs",
+    "whyOption2Title": "Guaranteed Quality",
+    "whyOption2Desc": "All vehicles are thoroughly checked to ensure safety and good operation",
+    "whyOption3Title": "Reasonable Price",
+    "whyOption3Desc": "Competitive, transparent rental prices, no hidden fees",
+    "ctaTitle": "Ready to explore Ha Giang?",
+    "ctaDesc": "Rent a vehicle today and start your journey to discover the northernmost land of Vietnam",
+    "ctaButton": "Rent now",
+    "seeAllVehicles": "See all vehicles",
+    "freeConsult": "Free consultation",
+    "bookNow": "Book now",
+    "chatWhatsApp": "Chat WhatsApp",
+    "contactTitle": "Contact for vehicle rental",
+    "location": "Ha Giang, Vietnam",
+    "support": "24/7 - Customer support",
+    "searchPlaceholder": "Search vehicles...",
+    "categoryLabel": "Vehicle type",
+    "availableVehiclesTitle": "Available Vehicles",
+    "availableVehiclesDesc": "Choose the right vehicle to explore Ha Giang conveniently and safely",
+    "resultCount": "Found {{count}} vehicles"
   },
   "stay": {
-    "title": "Book Homestay & Hotel in Ha Giang at Best Price | Homie Travel",
-    "name": "Full Name",
-    "namePlaceholder": "Enter your full name",
-    "email": "Email",
-    "emailPlaceholder": "Enter your email",
-    "phone": "Phone number",
-    "phonePlaceholder": "Enter your phone number",
-    "roomType": "Room type",
-    "roomTypeOptions": {
-      "homestay": "Homestay",
-      "hotel": "Hotel",
-      "dorm": "Dormitory"
-    },
-    "checkin": "Check-in date",
-    "nights": "Number of nights",
-    "people": "Number of people",
-    "note": "Note",
-    "notePlaceholder": "Special requests (if any)",
-    "submit": "Book room",
-    "success": "Booking successful! We will contact you soon.",
-    "description": "Find and book homestays, hotels, and guesthouses in Ha Giang. Best price guarantee, great locations, trusted service, 24/7 support."
+    "title": "Ha Giang Accommodation",
+    "description": "Find and book homestays, hotels in Ha Giang - Unique stay experiences",
+    "heroDesc": "Find and book homestays, hotels in Ha Giang - Unique stay experiences",
+    "whyChooseUsTitle": "Why stay with Homie Travel?",
+    "whyChooseUsDesc": "We offer a wide range of quality accommodations, convenient locations, and dedicated service.",
+    "whyChooseUsOption1Title": "Diverse options",
+    "whyChooseUsOption1Desc": "From traditional homestays to modern hotels, suitable for all needs.",
+    "whyChooseUsOption2Title": "Convenient locations",
+    "whyChooseUsOption2Desc": "Located near famous attractions, easy to explore Ha Giang.",
+    "whyChooseUsOption3Title": "Dedicated service",
+    "whyChooseUsOption3Desc": "Friendly staff, 24/7 support, for a memorable experience.",
+    "ctaTitle": "Ready for a great stay experience?",
+    "ctaDesc": "Book your room today to enjoy a perfect holiday in Ha Giang.",
+    "ctaButton": "Book now",
+    "searchPlaceholder": "Search homestays, hotels...",
+    "roomTypeLabel": "Room type",
+    "priceLabel": "Price",
+    "accommodationTitle": "Featured Accommodations",
+    "accommodationDesc": "Discover the most popular homestays and hotels in Ha Giang.",
+    "foundAccommodations": "Found {{count}} accommodations",
+    "roomTypeHomestay": "Homestay",
+    "roomTypeHotel": "Hotel"
   },
   "about": {
     "title": "About Homie Travel",
     "mission": "Our mission is to deliver the most professional, reputable, and dedicated Ha Giang travel experiences.",
     "values": "Core values: Customer-centric, transparency, creativity, community responsibility.",
     "team": "The Homie Travel team consists of travel experts with years of experience and deep knowledge of Ha Giang.",
-    "logoAlt": "Homie Travel Logo"
+    "logoAlt": "Homie Travel Logo",
+    "satisfiedCustomers": "Satisfied Customers",
+    "ctaTitle": "Ready to Explore Ha Giang?",
+    "ctaDesc": "Let us accompany you on your journey to discover the wild beauty of Ha Giang",
+    "seeToursNow": "See Tours Now",
+    "contactConsult": "Contact for Consultation"
   },
   "contact": {
     "title": "Contact Us",
@@ -213,7 +304,11 @@
     "message": "Message",
     "messagePlaceholder": "How can we help you?",
     "submit": "Send Message",
-    "success": "Your message has been sent! We will respond as soon as possible."
+    "success": "Your message has been sent! We will respond as soon as possible.",
+    "sending": "Sending...",
+    "swipeHint": "Swipe left/right to see more",
+    "ctaDesc": "Let our experts accompany you on your journey to discover Ha Giang",
+    "ctaButton": "Contact for Consultation Now"
   },
   "login": {
     "title": "Login",
@@ -227,10 +322,66 @@
     "error": "Please enter both username and password."
   },
   "blog": {
-    "title": "Ha Giang Travel Blog - Tips & Guides",
-    "description": "Collection of articles, tips, and experiences about Ha Giang travel. Updated information, reviews of destinations, food, and exciting journeys."
+    "title": "Ha Giang Travel Blog",
+    "description": "Discover stories, experiences, and travel tips for Ha Giang from travel lovers",
+    "heroTitle": "Ha Giang Travel Blog",
+    "heroDesc": "Discover stories, experiences, and travel tips for Ha Giang from travel lovers",
+    "searchPlaceholder": "Search blog posts...",
+    "categoryLabel": "Category",
+    "category": {
+      "all": "All",
+      "travel": "Travel",
+      "culture": "Culture",
+      "food": "Food",
+      "experience": "Experience"
+    },
+    "sortLabel": "Sort by",
+    "sortLatest": "Latest",
+    "sortOldest": "Oldest",
+    "latestTitle": "Latest Posts",
+    "latestDesc": "Discover interesting stories and Ha Giang travel experiences from the community",
+    "resultCount": "Found {{count}} posts",
+    "notFoundTitle": "No posts found",
+    "notFoundDesc": "Try changing the search keyword or category",
+    "clearFilter": "Clear filter",
+    "newsletterTitle": "Subscribe to Newsletter",
+    "newsletterDesc": "Get the latest Ha Giang travel posts via email",
+    "newsletterPlaceholder": "Your email",
+    "newsletterButton": "Subscribe",
+    "featuredCategoriesTitle": "Featured Categories",
+    "featuredCategoriesDesc": "Explore the most popular Ha Giang travel topics",
+    "featured": {
+      "travel": "Discover beautiful travel destinations",
+      "culture": "Learn about unique local culture",
+      "food": "Enjoy special cuisine",
+      "experience": "Share real experiences"
+    }
+  },
+  "blogDetail": {
+    "loading": "Loading post...",
+    "notFoundTitle": "Post not found",
+    "notFoundDesc": "The post you are looking for does not exist or has been moved.",
+    "seeAll": "See all posts",
+    "liked": "Liked",
+    "like": "Like",
+    "commentCount": "{{count}} comments",
+    "share": "Share:",
+    "commentTitle": "Comments ({{count}})",
+    "commentNamePlaceholder": "Your name",
+    "commentContentPlaceholder": "Comment content...",
+    "commentSubmit": "Submit comment",
+    "noComment": "No comments yet. Be the first to comment!",
+    "authorTitle": "Author",
+    "authorDesc": "Travel Blogger & Photographer",
+    "authorBio": "Specializes in Ha Giang travel writing",
+    "authorExp": "5+ years experience",
+    "relatedTitle": "Related posts"
   },
   "vehicle": {
-    "location": "Hà Giang City"
+    "location": "Hà Giang City",
+    "specs": "Specs:",
+    "ratingCount": "({{count}} reviews)",
+    "bookNow": "Book Now",
+    "detail": "Details"
   }
 }

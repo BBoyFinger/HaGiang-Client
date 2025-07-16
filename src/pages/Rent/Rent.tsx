@@ -33,9 +33,9 @@ export default function Rent() {
   });
 
   const categories = [
-    { id: "all", name: "Tất cả", icon: FaMotorcycle },
-    { id: "motorcycle", name: "Xe máy", icon: FaMotorcycle },
-    { id: "bicycle", name: "Xe đạp", icon: FaBicycle },
+    { id: "all", name: t("rent.all"), icon: FaMotorcycle },
+    { id: "motorcycle", name: t("rent.motorcycle"), icon: FaMotorcycle },
+    { id: "bicycle", name: t("rent.bicycle"), icon: FaBicycle },
   ];
 
   return (
@@ -61,7 +61,7 @@ export default function Rent() {
           <div className="text-center text-white">
             <h1 className="text-5xl font-bold mb-4">{t('rent.title')}</h1>
             <p className="text-xl max-w-2xl mx-auto px-4">
-              Thuê phương tiện di chuyển tại Hà Giang - Khám phá vùng đất hoang dã một cách tự do
+              {t('rent.heroDesc')}
             </p>
           </div>
         </div>
@@ -80,7 +80,7 @@ export default function Rent() {
                 </div>
                 <input
                   type="text"
-                  placeholder="Tìm kiếm phương tiện..."
+                  placeholder={t('rent.searchPlaceholder')}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
@@ -91,7 +91,7 @@ export default function Rent() {
               <div className="flex items-center space-x-4">
                 <div className="flex items-center text-gray-600">
                   <FaFilter className="mr-2" />
-                  <span className="font-medium">Loại xe:</span>
+                  <span className="font-medium">{t('rent.categoryLabel')}:</span>
                 </div>
                 <div className="flex space-x-2">
                   {categories.map((category) => {
@@ -122,16 +122,16 @@ export default function Rent() {
         <div className="max-w-7xl mx-auto px-4">
           {/* Section Header */}
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">Phương Tiện Có Sẵn</h2>
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">{t('rent.availableVehiclesTitle')}</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Chọn phương tiện phù hợp để khám phá Hà Giang một cách thuận tiện và an toàn
+              {t('rent.availableVehiclesDesc')}
             </p>
           </div>
 
           {/* Results Count */}
           <div className="mb-8">
             <p className="text-gray-600">
-              Tìm thấy <span className="font-semibold text-blue-600">{filteredVehicles.length}</span> phương tiện
+              {t('rent.resultCount', { count: filteredVehicles.length })}
             </p>
           </div>
 
@@ -153,9 +153,9 @@ export default function Rent() {
               <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaSearch className="text-3xl text-gray-400" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Không tìm thấy phương tiện</h3>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">{t('rent.notFoundTitle')}</h3>
               <p className="text-gray-600 mb-6">
-                Hãy thử thay đổi từ khóa tìm kiếm hoặc loại phương tiện
+                {t('rent.notFoundDesc')}
               </p>
               <button
                 onClick={() => {
@@ -164,7 +164,7 @@ export default function Rent() {
                 }}
                 className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
               >
-                Xóa bộ lọc
+                {t('rent.clearFilter')}
               </button>
             </div>
           )}
@@ -175,9 +175,9 @@ export default function Rent() {
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">Tại Sao Chọn Thuê Xe Tại Homie Travel?</h2>
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">{t('rent.whyTitle')}</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Chúng tôi cam kết mang đến dịch vụ thuê xe chất lượng cao với giá cả hợp lý
+              {t('rent.whyDesc')}
             </p>
           </div>
 
@@ -186,9 +186,9 @@ export default function Rent() {
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaMotorcycle className="text-2xl text-blue-600" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Đa Dạng Phương Tiện</h3>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">{t('rent.whyOption1Title')}</h3>
               <p className="text-gray-600">
-                Từ xe máy, ô tô đến xe đạp, chúng tôi có đầy đủ các loại phương tiện phù hợp với nhu cầu của bạn
+                {t('rent.whyOption1Desc')}
               </p>
             </div>
 
@@ -196,9 +196,9 @@ export default function Rent() {
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaSearch className="text-2xl text-green-600" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Chất Lượng Đảm Bảo</h3>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">{t('rent.whyOption2Title')}</h3>
               <p className="text-gray-600">
-                Tất cả phương tiện đều được kiểm tra kỹ lưỡng, đảm bảo an toàn và vận hành tốt
+                {t('rent.whyOption2Desc')}
               </p>
             </div>
 
@@ -206,9 +206,9 @@ export default function Rent() {
               <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaCar className="text-2xl text-purple-600" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Giá Cả Hợp Lý</h3>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">{t('rent.whyOption3Title')}</h3>
               <p className="text-gray-600">
-                Giá thuê cạnh tranh, minh bạch, không phát sinh chi phí ẩn
+                {t('rent.whyOption3Desc')}
               </p>
             </div>
           </div>
@@ -218,15 +218,15 @@ export default function Rent() {
       {/* CTA Section */}
       <section className="py-16 bg-gradient-to-r from-blue-600 to-purple-600">
         <div className="max-w-4xl mx-auto text-center px-4">
-          <h2 className="text-3xl font-bold text-white mb-4">Sẵn Sàng Khám Phá Hà Giang?</h2>
+          <h2 className="text-3xl font-bold text-white mb-4">{t('rent.ctaTitle')}</h2>
           <p className="text-xl text-blue-100 mb-8">
-            Hãy chọn phương tiện phù hợp và bắt đầu hành trình khám phá vùng đất hoang dã
+            {t('rent.ctaDesc')}
           </p>
           <button
             onClick={() => setModalOpen(true)}
             className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
           >
-            Đặt Thuê Ngay
+            {t('rent.ctaButton')}
           </button>
         </div>
       </section>

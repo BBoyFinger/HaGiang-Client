@@ -186,7 +186,7 @@ export default function Contact() {
             {/* Contact Information */}
             <div className="space-y-8">
               <div>
-                <h2 className="text-3xl font-bold text-gray-800 mb-6">Liên Hệ Với Chúng Tôi</h2>
+                <h2 className="text-3xl font-bold text-gray-800 mb-6">{t('contact.contactUs')}</h2>
                 <p className="text-lg text-gray-600 leading-relaxed">
                   Bạn có câu hỏi về tour du lịch Hà Giang? Chúng tôi luôn sẵn sàng hỗ trợ và tư vấn
                   để mang đến cho bạn trải nghiệm du lịch tuyệt vời nhất.
@@ -200,7 +200,7 @@ export default function Contact() {
                     <FaPhone className="text-blue-600" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-1">Điện Thoại</h3>
+                    <h3 className="text-lg font-semibold text-gray-800 mb-1">{t('contact.phone')}</h3>
                     <p className="text-gray-600">+84 983648362</p>
                     {/* <p className="text-gray-600">+84 987 654 321</p> */}
                   </div>
@@ -211,7 +211,7 @@ export default function Contact() {
                     <FaEnvelope className="text-green-600" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-1">Email</h3>
+                    <h3 className="text-lg font-semibold text-gray-800 mb-1">{t('contact.email')}</h3>
                     <p className="text-gray-600">Anhbuonanhkhocvianhyeuem@gmail.com</p>
                     <p className="text-gray-600">support@homietravel.com</p>
                   </div>
@@ -222,7 +222,7 @@ export default function Contact() {
                     <FaMapMarkerAlt className="text-purple-600" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-1">Địa Chỉ</h3>
+                    <h3 className="text-lg font-semibold text-gray-800 mb-1">{t('contact.address')}</h3>
                     {/* <p className="text-gray-600">123 Đường ABC, Phường XYZ</p> */}
                     <p className="text-gray-600">Thành phố Hà Giang, Việt Nam</p>
                   </div>
@@ -233,16 +233,16 @@ export default function Contact() {
                     <FaClock className="text-orange-600" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-1">Giờ Làm Việc</h3>
-                    <p className="text-gray-600">Thứ 2 - Thứ 6: 8:00 - 18:00</p>
-                    <p className="text-gray-600">Thứ 7 - Chủ nhật: 9:00 - 17:00</p>
+                    <h3 className="text-lg font-semibold text-gray-800 mb-1">{t('contact.businessHours')}</h3>
+                    <p className="text-gray-600">{t('contact.monFri')}</p>
+                    <p className="text-gray-600">{t('contact.satSun')}</p>
                   </div>
                 </div>
               </div>
 
               {/* Social Media */}
               <div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-4">Kết Nối Với Chúng Tôi</h3>
+                <h3 className="text-xl font-semibold text-gray-800 mb-4">{t('contact.connectWithUs')}</h3>
                 <div className="flex space-x-4">
                   <a href="#" className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center text-white hover:bg-blue-700 transition-colors">
                     <FaFacebook className="text-xl" />
@@ -259,7 +259,7 @@ export default function Contact() {
 
             {/* Contact Form */}
             <div className="bg-white rounded-2xl shadow-xl p-8">
-              <h3 className="text-2xl font-bold text-gray-800 mb-6">Gửi Tin Nhắn</h3>
+              <h3 className="text-2xl font-bold text-gray-800 mb-6">{t('contact.sendMessage')}</h3>
 
               {success && (
                 <div className="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
@@ -310,7 +310,7 @@ export default function Contact() {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Số điện thoại
+                      {t('contact.phone')}
                     </label>
                     <input
                       name="phone"
@@ -318,13 +318,13 @@ export default function Contact() {
                       value={form.phone}
                       onChange={handleChange}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                      placeholder="Nhập số điện thoại"
+                      placeholder={t('contact.phonePlaceholder')}
                     />
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Chủ đề
+                      {t('contact.subject')}
                     </label>
                     <select
                       name="subject"
@@ -332,12 +332,12 @@ export default function Contact() {
                       onChange={handleChange}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
                     >
-                      <option value="">Chọn chủ đề</option>
-                      <option value="tour">Tư vấn tour</option>
-                      <option value="booking">Đặt tour</option>
-                      <option value="support">Hỗ trợ</option>
-                      <option value="feedback">Góp ý</option>
-                      <option value="other">Khác</option>
+                      <option value="">{t('contact.chooseSubject')}</option>
+                      <option value="tour">{t('contact.tourConsultation')}</option>
+                      <option value="booking">{t('contact.bookingTour')}</option>
+                      <option value="support">{t('contact.support')}</option>
+                      <option value="feedback">{t('contact.feedback')}</option>
+                      <option value="other">{t('contact.other')}</option>
                     </select>
                   </div>
                 </div>
@@ -365,7 +365,7 @@ export default function Contact() {
                   {isSubmitting ? (
                     <>
                       <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      <span>Đang gửi...</span>
+                      <span>{t('contact.sending')}</span>
                     </>
                   ) : (
                     <>
@@ -384,7 +384,7 @@ export default function Contact() {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">Vị Trí Của Chúng Tôi</h2>
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">{t('contact.ourLocation')}</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Ghé thăm văn phòng của chúng tôi tại Hà Giang để được tư vấn trực tiếp
             </p>
@@ -399,7 +399,7 @@ export default function Contact() {
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Vị trí Homie Travel tại Hà Giang"
+              title={t('contact.mapTitle')}
             ></iframe>
           </div>
         </div>
@@ -409,7 +409,7 @@ export default function Contact() {
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">Meet the Outdoor Travel Experts</h2>
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">{t('contact.meetExperts')}</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Đội ngũ chuyên gia du lịch giàu kinh nghiệm, am hiểu sâu sắc về Hà Giang
             </p>
@@ -507,17 +507,17 @@ export default function Contact() {
 
             {/* Mobile Swipe Instructions */}
             <div className="md:hidden text-center mt-4">
-              <p className="text-xs text-gray-500">Vuốt sang trái/phải để xem thêm</p>
+              <p className="text-xs text-gray-500">{t('contact.swipeHint')}</p>
             </div>
           </div>
 
           {/* Call to Action */}
           <div className="text-center mt-8 md:mt-12">
             <p className="text-base md:text-lg text-gray-600 mb-4 md:mb-6 px-4">
-              Hãy để các chuyên gia của chúng tôi đồng hành cùng bạn trong hành trình khám phá Hà Giang
+              {t('contact.ctaDesc')}
             </p>
             <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 md:px-8 py-2 md:py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 text-sm md:text-base">
-              Liên Hệ Tư Vấn Ngay
+              {t('contact.ctaButton')}
             </button>
           </div>
         </div>
@@ -527,7 +527,7 @@ export default function Contact() {
       <section className="py-16 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">Câu Hỏi Thường Gặp</h2>
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">{t('contact.faqTitle')}</h2>
             <p className="text-lg text-gray-600">
               Tìm câu trả lời cho những câu hỏi phổ biến
             </p>
@@ -536,7 +536,7 @@ export default function Contact() {
           <div className="space-y-6">
             <div className="bg-white rounded-lg shadow-md p-6">
               <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                Làm thế nào để đặt tour Hà Giang?
+                {t('contact.howToBookTour')}
               </h3>
               <p className="text-gray-600">
                 Bạn có thể đặt tour thông qua website, gọi điện thoại hoặc đến văn phòng của chúng tôi.
@@ -546,7 +546,7 @@ export default function Contact() {
 
             <div className="bg-white rounded-lg shadow-md p-6">
               <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                Tour có bao gồm bảo hiểm không?
+                {t('contact.doesTourIncludeInsurance')}
               </h3>
               <p className="text-gray-600">
                 Tất cả các tour của chúng tôi đều bao gồm bảo hiểm du lịch để đảm bảo an toàn cho khách hàng.
@@ -555,7 +555,7 @@ export default function Contact() {
 
             <div className="bg-white rounded-lg shadow-md p-6">
               <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                Có thể hủy tour không?
+                {t('contact.canCancelTour')}
               </h3>
               <p className="text-gray-600">
                 Bạn có thể hủy tour trước 7 ngày khởi hành. Chúng tôi sẽ hoàn tiền theo chính sách hủy tour.

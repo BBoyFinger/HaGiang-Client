@@ -44,10 +44,10 @@ export default function Stay() {
   });
 
   const priceRanges = [
-    { value: "all", name: "Tất cả giá" },
-    { value: "budget", name: "Dưới 500k" },
-    { value: "mid", name: "500k - 1M" },
-    { value: "luxury", name: "Trên 1M" },
+    { value: "all", name: t("stay.allPrices") },
+    { value: "budget", name: t("stay.budget") },
+    { value: "mid", name: t("stay.mid") },
+    { value: "luxury", name: t("stay.luxury") },
   ];
 
   return (
@@ -73,7 +73,7 @@ export default function Stay() {
           <div className="text-center text-white">
             <h1 className="text-5xl font-bold mb-4">{t('stay.title')}</h1>
             <p className="text-xl max-w-2xl mx-auto px-4">
-              Tìm và đặt homestay, khách sạn tại Hà Giang - Trải nghiệm lưu trú độc đáo
+              {t('stay.heroDesc')}
             </p>
           </div>
         </div>
@@ -92,7 +92,7 @@ export default function Stay() {
                 </div>
                 <input
                   type="text"
-                  placeholder="Tìm kiếm homestay, khách sạn..."
+                  placeholder={t('stay.searchPlaceholder')}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
@@ -103,7 +103,7 @@ export default function Stay() {
               <div className="flex items-center space-x-4 w-full">
                 <div className="flex items-center text-gray-600">
                   <FaFilter className="mr-2" />
-                  <span className="font-medium">Loại:</span>
+                  <span className="font-medium">{t('stay.roomTypeLabel')}:</span>
                 </div>
                 <div className="flex space-x-2 ">
                   {roomTypes.map((type) => {
@@ -129,7 +129,7 @@ export default function Stay() {
               <div className="flex items-center space-x-4">
                 <div className="flex items-center text-gray-600">
                   <FaStar className="mr-2" />
-                  <span className="font-medium">Giá:</span>
+                  <span className="font-medium">{t('stay.priceLabel')}:</span>
                 </div>
                 <select
                   value={priceRange}
@@ -153,16 +153,16 @@ export default function Stay() {
         <div className="max-w-7xl mx-auto px-4">
           {/* Section Header */}
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">Homestay & Khách Sạn Tại Hà Giang</h2>
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">{t('stay.accommodationTitle')}</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Chọn nơi lưu trú phù hợp để có trải nghiệm tuyệt vời tại vùng đất hoang dã
+              {t('stay.accommodationDesc')}
             </p>
           </div>
 
           {/* Results Count */}
           <div className="mb-8">
             <p className="text-gray-600">
-              Tìm thấy <span className="font-semibold text-green-600">{filteredStays.length}</span> nơi lưu trú
+              {t('stay.foundAccommodations', { count: filteredStays.length })}
             </p>
           </div>
 
@@ -183,9 +183,9 @@ export default function Stay() {
               <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaSearch className="text-3xl text-gray-400" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Không tìm thấy nơi lưu trú</h3>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">{t('stay.notFoundTitle')}</h3>
               <p className="text-gray-600 mb-6">
-                Hãy thử thay đổi từ khóa tìm kiếm hoặc bộ lọc
+                {t('stay.notFoundDesc')}
               </p>
               <button
                 onClick={() => {
@@ -193,9 +193,9 @@ export default function Stay() {
                   setSelectedRoomType("all");
                   setPriceRange("all");
                 }}
-                className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
               >
-                Xóa bộ lọc
+                {t('stay.clearFilter')}
               </button>
             </div>
           )}
@@ -206,9 +206,9 @@ export default function Stay() {
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">Tại Sao Chọn Lưu Trú Tại Homie Travel?</h2>
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">{t('stay.whyChooseUsTitle')}</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Chúng tôi cam kết mang đến trải nghiệm lưu trú tuyệt vời với giá cả hợp lý
+              {t('stay.whyChooseUsDesc')}
             </p>
           </div>
 
@@ -217,9 +217,9 @@ export default function Stay() {
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaHome className="text-2xl text-green-600" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Đa Dạng Lựa Chọn</h3>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">{t('stay.whyChooseUsOption1Title')}</h3>
               <p className="text-gray-600">
-                Từ homestay truyền thống đến khách sạn hiện đại, đáp ứng mọi nhu cầu và ngân sách
+                {t('stay.whyChooseUsOption1Desc')}
               </p>
             </div>
 
@@ -227,9 +227,9 @@ export default function Stay() {
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaMapMarkerAlt className="text-2xl text-blue-600" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Vị Trí Đắc Địa</h3>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">{t('stay.whyChooseUsOption2Title')}</h3>
               <p className="text-gray-600">
-                Tất cả đều nằm ở vị trí thuận tiện, gần các điểm du lịch nổi tiếng của Hà Giang
+                {t('stay.whyChooseUsOption2Desc')}
               </p>
             </div>
 
@@ -237,9 +237,9 @@ export default function Stay() {
               <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaStar className="text-2xl text-purple-600" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Chất Lượng Đảm Bảo</h3>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">{t('stay.whyChooseUsOption3Title')}</h3>
               <p className="text-gray-600">
-                Tất cả đều được kiểm tra và đánh giá chất lượng, đảm bảo sự hài lòng của khách hàng
+                {t('stay.whyChooseUsOption3Desc')}
               </p>
             </div>
           </div>
@@ -249,15 +249,15 @@ export default function Stay() {
       {/* CTA Section */}
       <section className="py-16 bg-gradient-to-r from-green-600 to-blue-600">
         <div className="max-w-4xl mx-auto text-center px-4">
-          <h2 className="text-3xl font-bold text-white mb-4">Sẵn Sàng Đặt Phòng?</h2>
+          <h2 className="text-3xl font-bold text-white mb-4">{t('stay.ctaTitle')}</h2>
           <p className="text-xl text-green-100 mb-8">
-            Hãy chọn nơi lưu trú phù hợp và tận hưởng kỳ nghỉ tuyệt vời tại Hà Giang
+            {t('stay.ctaDesc')}
           </p>
           <button
             onClick={() => setModalOpen(true)}
             className="bg-white text-green-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
           >
-            Đặt Phòng Ngay
+            {t('stay.ctaButton')}
           </button>
         </div>
       </section>

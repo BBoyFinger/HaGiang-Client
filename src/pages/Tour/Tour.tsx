@@ -9,23 +9,6 @@ import { FaSearch, FaFilter, FaMapMarkerAlt, FaCalendar, FaStar, FaUsers, FaCloc
 import { useGetToursQuery } from '@/services/api';
 import { Tour } from '@/types/TourType';
 
-const tourTypes = [
-  { value: '', label: 'Tất cả', icon: FaMapMarkerAlt },
-  { value: 'song', label: 'Sông', icon: FaMapMarkerAlt },
-  { value: 'hang_dong', label: 'Hang động', icon: FaMapMarkerAlt },
-  { value: 'nui', label: 'Núi', icon: FaMapMarkerAlt },
-  { value: 'luxury', label: 'Luxury', icon: FaStar },
-];
-
-const sortOptions = [
-  { value: '', label: 'Mặc định' },
-  { value: 'price', label: 'Giá tăng dần' },
-  { value: 'price_desc', label: 'Giá giảm dần' },
-  { value: 'rating', label: 'Đánh giá cao' },
-  { value: 'name', label: 'A-Z' },
-  { value: 'duration', label: 'Thời gian' },
-];
-
 export default function TourPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedTourId, setSelectedTourId] = useState(null);
@@ -35,6 +18,27 @@ export default function TourPage() {
   const [priceRange, setPriceRange] = useState({ min: '', max: '' });
   const [tours, setTours] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Di chuyển hook và mảng vào trong function component
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language === 'en' ? 'en' : 'vi';
+
+  const tourTypes = [
+    { value: '', label: t('tour.filter.all'), icon: FaMapMarkerAlt },
+    { value: 'song', label: t('tour.filter.river'), icon: FaMapMarkerAlt },
+    { value: 'hang_dong', label: t('tour.filter.cave'), icon: FaMapMarkerAlt },
+    { value: 'nui', label: t('tour.filter.mountain'), icon: FaMapMarkerAlt },
+    { value: 'luxury', label: t('tour.filter.luxury'), icon: FaStar },
+  ];
+
+  const sortOptions = [
+    { value: '', label: t('tour.sort.default') },
+    { value: 'price', label: t('tour.sort.price_asc') },
+    { value: 'price_desc', label: t('tour.sort.price_desc') },
+    { value: 'rating', label: t('tour.sort.rating') },
+    { value: 'name', label: t('tour.sort.name') },
+    { value: 'duration', label: t('tour.sort.duration') },
+  ];
 
   useEffect(() => {
     axiosInstance.get("/tours")
@@ -55,9 +59,6 @@ export default function TourPage() {
   };
 
   
-  const { t, i18n } = useTranslation();
-  const lang = i18n.language === 'en' ? 'en' : 'vi';
-
   // Filter tours
   let filteredTours = tours.filter((tour: any) => {
     const matchesType = !type || (tour.type?.[lang] || tour.type?.vi || '').toLowerCase() === type.toLowerCase();
@@ -109,7 +110,7 @@ export default function TourPage() {
   };
 
   if (loading) {
-    return <div className="text-center py-16">Đang tải dữ liệu tour...</div>;
+    return <div className="text-center py-16">{t('tour.loading')}</div>;
   }
 
   return (
@@ -143,23 +144,23 @@ export default function TourPage() {
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center text-white px-4">
               <h1 className="text-4xl lg:text-6xl font-bold mb-4">
-                Trải Nghiệm Hà Giang
+                {t('tour.hero.title')}
               </h1>
               <p className="text-xl lg:text-2xl mb-6 opacity-90">
-                Khám phá vẻ đẹp hoang dã cùng Homie Travel
+                {t('tour.hero.subtitle')}
               </p>
               <div className="flex items-center justify-center space-x-6 text-sm lg:text-base">
                 <div className="flex items-center space-x-2">
                   <FaUsers className="text-yellow-400" />
-                  <span>500+ khách hàng</span>
+                  <span>{t('tour.hero.customers')}</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <FaStar className="text-yellow-400" />
-                  <span>4.8/5 đánh giá</span>
+                  <span>{t('tour.hero.rating')}</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <FaClock className="text-yellow-400" />
-                  <span>24/7 hỗ trợ</span>
+                  <span>{t('tour.hero.support')}</span>
                 </div>
               </div>
             </div>
@@ -208,7 +209,7 @@ export default function TourPage() {
                 </div>
                 <input
                   type="text"
-                  placeholder="Tìm kiếm tour..."
+                  placeholder={t('tour.search.placeholder')}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors"
@@ -222,7 +223,7 @@ export default function TourPage() {
               <div className="flex-1">
                 <div className="flex items-center text-gray-600 mb-3">
                   <FaFilter className="mr-2" />
-                  <span className="font-medium text-sm">Loại tour:</span>
+                  <span className="font-medium text-sm">{t('tour.filter.type')}:</span>
                 </div>
                 <select
                   value={type}
@@ -239,19 +240,19 @@ export default function TourPage() {
               <div className="flex-1 space-y-3">
                 <div className="flex items-center text-gray-600">
                   <FaMapMarkerAlt className="mr-2" />
-                  <span className="font-medium text-sm">Khoảng giá:</span>
+                  <span className="font-medium text-sm">{t('tour.filter.priceRange')}:</span>
                 </div>
                 <div className="flex space-x-2">
                   <input
                     type="number"
-                    placeholder="Giá min"
+                    placeholder={t('tour.filter.priceMin')}
                     value={priceRange.min}
                     onChange={(e) => setPriceRange(prev => ({ ...prev, min: e.target.value }))}
                     className="flex-1 px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors"
                   />
                   <input
                     type="number"
-                    placeholder="Giá max"
+                    placeholder={t('tour.filter.priceMax')}
                     value={priceRange.max}
                     onChange={(e) => setPriceRange(prev => ({ ...prev, max: e.target.value }))}
                     className="flex-1 px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors"
@@ -263,7 +264,7 @@ export default function TourPage() {
               <div className="flex-1">
                 <div className="flex items-center text-gray-600 mb-3">
                   <FaCalendar className="mr-2" />
-                  <span className="font-medium text-sm">Sắp xếp:</span>
+                  <span className="font-medium text-sm">{t('tour.sort.label')}:</span>
                 </div>
                 <select
                   value={sortBy}
@@ -285,25 +286,25 @@ export default function TourPage() {
         <div className="max-w-7xl mx-auto px-4">
           {/* Section Header */}
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">Khám Phá Tour Hà Giang</h2>
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">{t('tour.section.title')}</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Chọn tour phù hợp và tạo ra những kỷ niệm đáng nhớ tại vùng đất địa đầu Tổ quốc
+              {t('tour.section.subtitle')}
             </p>
           </div>
 
           {/* Results Count */}
           <div className="mb-8 flex items-center justify-between">
             <p className="text-gray-600">
-              Tìm thấy <span className="font-semibold text-purple-600">{filteredTours.length}</span> tour
+              {t('tour.resultCount', { count: filteredTours.length })}
             </p>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-500">Hiển thị:</span>
+              <span className="text-sm text-gray-500">{t('tour.display')}:</span>
               <div className="flex space-x-2">
                 <button className="px-3 py-1 bg-purple-100 text-purple-600 rounded-lg text-sm font-medium">
-                  Grid
+                  {t('tour.displayGrid')}
                 </button>
                 <button className="px-3 py-1 bg-gray-100 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-200">
-                  List
+                  {t('tour.displayList')}
                 </button>
               </div>
             </div>
@@ -323,9 +324,9 @@ export default function TourPage() {
               <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaSearch className="text-3xl text-gray-400" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Không tìm thấy tour</h3>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">{t('tour.notFound.title')}</h3>
               <p className="text-gray-600 mb-6">
-                Hãy thử thay đổi bộ lọc hoặc từ khóa tìm kiếm
+                {t('tour.notFound.subtitle')}
               </p>
               <button
                 onClick={() => {
@@ -335,7 +336,7 @@ export default function TourPage() {
                 }}
                 className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors"
               >
-                Xóa bộ lọc
+                {t('tour.notFound.clearFilter')}
               </button>
             </div>
           )}
@@ -346,9 +347,9 @@ export default function TourPage() {
       <section className="py-16 bg-gradient-to-r from-purple-600 to-pink-600">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-4">Tại Sao Chọn Homie Travel?</h2>
+            <h2 className="text-3xl font-bold text-white mb-4">{t('tour.why.title')}</h2>
             <p className="text-xl text-purple-100 max-w-2xl mx-auto">
-              Chúng tôi cam kết mang đến trải nghiệm du lịch tốt nhất cho bạn
+              {t('tour.why.subtitle')}
             </p>
           </div>
 
@@ -357,27 +358,27 @@ export default function TourPage() {
               <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaUsers className="text-2xl" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Hướng dẫn viên chuyên nghiệp</h3>
+              <h3 className="text-xl font-semibold mb-2">{t('tour.why.guideTitle')}</h3>
               <p className="text-purple-100">
-                Đội ngũ hướng dẫn viên giàu kinh nghiệm, am hiểu văn hóa địa phương
+                {t('tour.why.guideDesc')}
               </p>
             </div>
             <div className="text-center text-white">
               <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaStar className="text-2xl" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Chất lượng dịch vụ cao</h3>
+              <h3 className="text-xl font-semibold mb-2">{t('tour.why.qualityTitle')}</h3>
               <p className="text-purple-100">
-                Cam kết chất lượng dịch vụ với hơn 500+ khách hàng hài lòng
+                {t('tour.why.qualityDesc')}
               </p>
             </div>
             <div className="text-center text-white">
               <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaClock className="text-2xl" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Hỗ trợ 24/7</h3>
+              <h3 className="text-xl font-semibold mb-2">{t('tour.why.supportTitle')}</h3>
               <p className="text-purple-100">
-                Đội ngũ hỗ trợ khách hàng sẵn sàng phục vụ mọi lúc, mọi nơi
+                {t('tour.why.supportDesc')}
               </p>
             </div>
           </div>

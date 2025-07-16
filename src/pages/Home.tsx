@@ -92,29 +92,29 @@ export default function Home() {
                 <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
                   <FaUsers className="text-white text-2xl" />
                 </div>
-                <h3 className="text-3xl font-bold text-gray-800 mb-2">500+</h3>
-                <p className="text-gray-600">Khách hàng hài lòng</p>
+                <h3 className="text-3xl font-bold text-gray-800 mb-2">{t('home.stats.satisfiedCustomersValue')}</h3>
+                <p className="text-gray-600">{t('home.stats.satisfiedCustomers')}</p>
               </div>
               <div className="text-center">
                 <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
                   <FaStar className="text-white text-2xl" />
                 </div>
-                <h3 className="text-3xl font-bold text-gray-800 mb-2">4.8</h3>
-                <p className="text-gray-600">Đánh giá trung bình</p>
+                <h3 className="text-3xl font-bold text-gray-800 mb-2">{t('home.stats.averageRatingValue')}</h3>
+                <p className="text-gray-600">{t('home.stats.averageRating')}</p>
               </div>
               <div className="text-center">
                 <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
                   <FaClock className="text-white text-2xl" />
                 </div>
-                <h3 className="text-3xl font-bold text-gray-800 mb-2">24/7</h3>
-                <p className="text-gray-600">Hỗ trợ khách hàng</p>
+                <h3 className="text-3xl font-bold text-gray-800 mb-2">{t('home.stats.customerSupportValue')}</h3>
+                <p className="text-gray-600">{t('home.stats.customerSupport')}</p>
               </div>
               <div className="text-center">
                 <div className="w-16 h-16 bg-gradient-to-r from-pink-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
                   <FaMapMarkerAlt className="text-white text-2xl" />
                 </div>
-                <h3 className="text-3xl font-bold text-gray-800 mb-2">50+</h3>
-                <p className="text-gray-600">Điểm đến khám phá</p>
+                <h3 className="text-3xl font-bold text-gray-800 mb-2">{t('home.stats.destinationsValue')}</h3>
+                <p className="text-gray-600">{t('home.stats.destinations')}</p>
               </div>
             </div>
           </div>
@@ -137,7 +137,7 @@ export default function Home() {
 
                 {/* Right: Info */}
                 <div className="flex-1 text-center lg:text-left">
-                  <h2 className="text-3xl font-bold text-gray-800 mb-8">Tại Sao Chọn Homie Travel?</h2>
+                  <h2 className="text-3xl font-bold text-gray-800 mb-8">{t('home.whyChooseUsTitle')}</h2>
                   <div className="space-y-6">
                     <div className="flex items-center justify-center lg:justify-start gap-4">
                       <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
@@ -145,7 +145,7 @@ export default function Home() {
                       </div>
                       <div>
                         <h3 className="text-lg font-semibold text-gray-800">{t('brand.charity')}</h3>
-                        <p className="text-gray-600">Cam kết đóng góp cho cộng đồng địa phương</p>
+                        <p className="text-gray-600">{t('home.whyChooseUsCharity')}</p>
                       </div>
                     </div>
                     <div className="flex items-center justify-center lg:justify-start gap-4">
@@ -154,7 +154,7 @@ export default function Home() {
                       </div>
                       <div>
                         <h3 className="text-lg font-semibold text-gray-800">{t('brand.professional')}</h3>
-                        <p className="text-gray-600">Đội ngũ hướng dẫn viên chuyên nghiệp</p>
+                        <p className="text-gray-600">{t('home.whyChooseUsProfessional')}</p>
                       </div>
                     </div>
                     <div className="flex items-center justify-center lg:justify-start gap-4">
@@ -163,7 +163,7 @@ export default function Home() {
                       </div>
                       <div>
                         <h3 className="text-lg font-semibold text-gray-800">{t('brand.experience')}</h3>
-                        <p className="text-gray-600">Kinh nghiệm 10+ năm trong lĩnh vực du lịch</p>
+                        <p className="text-gray-600">{t('home.experienceDesc')}</p>
                       </div>
                     </div>
                   </div>
@@ -177,9 +177,9 @@ export default function Home() {
         <section className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold text-gray-800 mb-4">Tour Nổi Bật</h2>
+              <h2 className="text-4xl font-bold text-gray-800 mb-4">{t('home.featuredToursTitle')}</h2>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Khám phá những tour du lịch Hà Giang được yêu thích nhất với trải nghiệm độc đáo và dịch vụ chất lượng cao
+                {t('home.featuredToursDesc')}
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -200,7 +200,7 @@ export default function Home() {
                 to="/tour"
                 className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl"
               >
-                Xem tất cả tour
+                {t('home.seeAllTours')}
                 <FaArrowRight className="ml-2" />
               </Link>
             </div>
@@ -215,7 +215,7 @@ export default function Home() {
                 {t("home.featuredDestinations")}
               </h2>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Khám phá những điểm đến tuyệt đẹp tại Hà Giang với cảnh quan thiên nhiên hùng vĩ và văn hóa độc đáo
+                {t('home.featuredDestinationsDesc')}
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
@@ -236,7 +236,7 @@ export default function Home() {
                 to="/destinations"
                 className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl"
               >
-                Khám phá tất cả điểm đến
+                {t('home.seeAllDestinations')}
                 <FaArrowRight className="ml-2" />
               </Link>
             </div>
@@ -247,9 +247,9 @@ export default function Home() {
         <section className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold text-gray-800 mb-4">Blog Nổi Bật</h2>
+              <h2 className="text-4xl font-bold text-gray-800 mb-4">{t('home.featuredBlogsTitle')}</h2>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Khám phá những bài viết, kinh nghiệm và câu chuyện du lịch Hà Giang mới nhất từ cộng đồng Homie Travel
+                {t('home.featuredBlogsDesc')}
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -262,7 +262,7 @@ export default function Home() {
                 to="/blogs"
                 className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl"
               >
-                Xem tất cả blog
+                {t('home.seeAllBlogs')}
                 <FaArrowRight className="ml-2" />
               </Link>
             </div>
@@ -300,7 +300,7 @@ export default function Home() {
                     to="/contact"
                     className="inline-flex items-center justify-center px-8 py-4 border-2 border-purple-600 text-purple-600 font-semibold rounded-xl hover:bg-purple-600 hover:text-white transition-all duration-300"
                   >
-                    Liên hệ ngay
+                    {t('home.contactNow')}
                   </Link>
                 </div>
               </motion.div>
@@ -326,24 +326,24 @@ export default function Home() {
         <section className="py-20 bg-gradient-to-r from-purple-600 to-pink-600">
           <div className="max-w-4xl mx-auto text-center px-4">
             <h2 className="text-4xl font-bold text-white mb-6">
-              Sẵn sàng khám phá Hà Giang?
+              {t('home.ctaTitle')}
             </h2>
             <p className="text-xl text-purple-100 mb-8 max-w-2xl mx-auto">
-              Hãy để chúng tôi giúp bạn tạo ra những kỷ niệm đáng nhớ tại vùng đất địa đầu Tổ quốc
+              {t('home.ctaDesc')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/tour"
                 className="inline-flex items-center justify-center px-8 py-4 bg-white text-purple-600 font-semibold rounded-xl hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl"
               >
-                Xem tour ngay
+                {t('home.seeToursNow')}
                 <FaArrowRight className="ml-2" />
               </Link>
               <Link
                 to="/contact"
                 className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-semibold rounded-xl hover:bg-white hover:text-purple-600 transition-all duration-300"
               >
-                Tư vấn miễn phí
+                {t('home.freeConsult')}
               </Link>
             </div>
           </div>

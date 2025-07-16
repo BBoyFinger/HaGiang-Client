@@ -46,13 +46,13 @@ export default function VehicleCard({ vehicle, onBook, onDetail }: VehicleCardPr
           <div className="space-y-2 mb-4">
             {vehicle.shortSpecs && (
               <div className="flex items-center text-sm text-gray-600">
-                <span className="font-medium">Thông số:</span>
+                <span className="font-medium">{t('vehicle.specs')}</span>
                 <span className="ml-2">{vehicle.shortSpecs}</span>
               </div>
             )}
             <div className="flex items-center text-sm text-gray-600">
               <FaMapMarkerAlt className="mr-2 text-gray-400" />
-              <span>Hà Giang, Việt Nam</span>
+              <span>{t('vehicle.location')}</span>
             </div>
           </div>
 
@@ -61,7 +61,7 @@ export default function VehicleCard({ vehicle, onBook, onDetail }: VehicleCardPr
             <div className="flex items-center">
               <FaStar className="text-yellow-400 mr-1" />
               <span className="text-sm font-medium text-gray-800">4.8</span>
-              <span className="text-sm text-gray-500 ml-1">(120 đánh giá)</span>
+              <span className="text-sm text-gray-500 ml-1">{t('vehicle.ratingCount', { count: 120 })}</span>
             </div>
           </div>
         </div>
@@ -72,13 +72,13 @@ export default function VehicleCard({ vehicle, onBook, onDetail }: VehicleCardPr
             onClick={() => onBook?.(vehicle.slug)}
             className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
           >
-            Thuê Ngay
+            {t('vehicle.bookNow')}
           </button>
           <button
             onClick={() => onDetail?.(vehicle.slug)}
             className="flex-1 border border-gray-300 text-gray-700 py-2 px-4 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
           >
-            Chi Tiết
+            {t('vehicle.detail')}
           </button>
         </div>
       </div>

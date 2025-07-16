@@ -44,7 +44,34 @@
       "learnMore": "Tìm hiểu thêm"
     },
     "title": "Hà Giang Travel - Khám phá du lịch Hà Giang",
-    "description": "Khám phá các tour, điểm đến, trải nghiệm và cẩm nang du lịch Hà Giang mới nhất. Đặt tour, thuê xe, đặt phòng khách sạn dễ dàng."
+    "description": "Khám phá các tour, điểm đến, trải nghiệm và cẩm nang du lịch Hà Giang mới nhất. Đặt tour, thuê xe, đặt phòng khách sạn dễ dàng.",
+    "whyChooseUsTitle": "Tại Sao Chọn Homie Travel?",
+    "whyChooseUsCharity": "Cam kết đóng góp cho cộng đồng địa phương",
+    "whyChooseUsProfessional": "Đội ngũ hướng dẫn viên chuyên nghiệp",
+    "contactNow": "Liên hệ ngay",
+    "seeToursNow": "Xem tour ngay",
+    "freeConsult": "Tư vấn miễn phí",
+    "stats": {
+      "satisfiedCustomers": "Khách hàng hài lòng",
+      "satisfiedCustomersValue": "500+",
+      "averageRating": "Đánh giá trung bình",
+      "averageRatingValue": "4.8",
+      "customerSupport": "Hỗ trợ khách hàng",
+      "customerSupportValue": "24/7",
+      "destinations": "Điểm đến khám phá",
+      "destinationsValue": "50+"
+    },
+    "featuredToursTitle": "Tour Nổi Bật",
+    "featuredToursDesc": "Khám phá những tour du lịch Hà Giang được yêu thích nhất với trải nghiệm độc đáo và dịch vụ chất lượng cao",
+    "seeAllTours": "Xem tất cả tour",
+    "experienceDesc": "Kinh nghiệm 10+ năm trong lĩnh vực du lịch",
+    "featuredDestinationsDesc": "Khám phá những điểm đến tuyệt đẹp tại Hà Giang với cảnh quan thiên nhiên hùng vĩ và văn hóa độc đáo",
+    "seeAllDestinations": "Khám phá tất cả điểm đến",
+    "featuredBlogsTitle": "Blog Nổi Bật",
+    "featuredBlogsDesc": "Khám phá những bài viết, kinh nghiệm và câu chuyện du lịch Hà Giang mới nhất từ cộng đồng Homie Travel",
+    "seeAllBlogs": "Xem tất cả blog",
+    "ctaTitle": "Sẵn sàng khám phá Hà Giang?",
+    "ctaDesc": "Hãy để chúng tôi giúp bạn tạo ra những kỷ niệm đáng nhớ tại vùng đất địa đầu Tổ quốc"
   },
   "brand": {
     "charity": "5% doanh thu mỗi tour dành cho hoạt động thiện nguyện",
@@ -94,7 +121,17 @@
     "readMore": "Đọc thêm",
     "bookNow": "Đặt ngay",
     "viewDetails": "Xem chi tiết",
-    "contactUs": "Liên hệ chúng tôi"
+    "contactUs": "Liên hệ chúng tôi",
+    "save": "Lưu",
+    "cancel": "Hủy",
+    "edit": "Sửa",
+    "delete": "Xóa",
+    "add": "Thêm",
+    "send": "Gửi",
+    "inputMessage": "Nhập tin nhắn...",
+    "favorite": "Yêu thích",
+    "close": "Đóng",
+    "submit": "Gửi đi"
   },
   "destinations": {
     "title": "Điểm Đến",
@@ -138,55 +175,71 @@
     "time": "Ngày"
   },
   "rent": {
-    "title": "Thuê phương tiện",
-    "name": "Họ tên",
-    "namePlaceholder": "Nhập họ tên của bạn",
-    "email": "Email",
-    "emailPlaceholder": "Nhập email",
-    "phone": "Số điện thoại",
-    "phonePlaceholder": "Nhập số điện thoại",
-    "vehicleType": "Loại phương tiện",
-    "vehicleTypeOptions": {
-      "motorbike": "Xe máy",
-      "car": "Ô tô",
-      "bike": "Xe đạp"
-    },
-    "date": "Ngày thuê",
-    "days": "Số ngày thuê",
-    "note": "Ghi chú",
-    "notePlaceholder": "Yêu cầu đặc biệt (nếu có)",
-    "submit": "Đặt thuê",
-    "success": "Đặt thuê thành công! Chúng tôi sẽ liên hệ bạn sớm."
+    "title": "Thuê xe Hà Giang",
+    "description": "Thuê phương tiện di chuyển tại Hà Giang - Khám phá vùng đất hoang dã một cách tự do",
+    "heroDesc": "Thuê phương tiện di chuyển tại Hà Giang - Khám phá vùng đất hoang dã một cách tự do",
+    "whyTitle": "Tại Sao Chọn Thuê Xe Tại Homie Travel?",
+    "whyDesc": "Chúng tôi cam kết mang đến dịch vụ thuê xe chất lượng cao với giá cả hợp lý",
+    "whyOption1Title": "Đa Dạng Phương Tiện",
+    "whyOption1Desc": "Từ xe máy, ô tô đến xe đạp, chúng tôi có đầy đủ các loại phương tiện phù hợp với nhu cầu của bạn",
+    "whyOption2Title": "Chất Lượng Đảm Bảo",
+    "whyOption2Desc": "Tất cả phương tiện đều được kiểm tra kỹ lưỡng, đảm bảo an toàn và vận hành tốt",
+    "whyOption3Title": "Giá Cả Hợp Lý",
+    "whyOption3Desc": "Giá thuê cạnh tranh, minh bạch, không phát sinh chi phí ẩn",
+    "ctaTitle": "Sẵn sàng khám phá Hà Giang?",
+    "ctaDesc": "Thuê xe ngay hôm nay và bắt đầu hành trình khám phá vùng đất địa đầu Tổ quốc",
+    "ctaButton": "Thuê xe ngay",
+    "seeAllVehicles": "Xem tất cả xe",
+    "freeConsult": "Tư vấn miễn phí",
+    "bookNow": "Đặt xe ngay",
+    "chatWhatsApp": "Chat WhatsApp",
+    "contactTitle": "Liên hệ thuê xe",
+    "location": "Hà Giang, Việt Nam",
+    "support": "24/7 - Hỗ trợ khách hàng",
+    "all": "Tất cả",
+    "motorcycle": "Xe máy",
+    "bicycle": "Xe đạp",
+    "searchPlaceholder": "Tìm kiếm phương tiện...",
+    "categoryLabel": "Loại xe",
+    "availableVehiclesTitle": "Phương Tiện Có Sẵn",
+    "availableVehiclesDesc": "Chọn phương tiện phù hợp để khám phá Hà Giang một cách thuận tiện và an toàn",
+    "resultCount": "Tìm thấy {{count}} phương tiện"
   },
   "stay": {
-    "title": "Đặt Homestay & Khách sạn Hà Giang giá tốt | Homie Travel",
-    "name": "Họ tên",
-    "namePlaceholder": "Nhập họ tên của bạn",
-    "email": "Email",
-    "emailPlaceholder": "Nhập email",
-    "phone": "Số điện thoại",
-    "phonePlaceholder": "Nhập số điện thoại",
-    "roomType": "Loại phòng",
-    "roomTypeOptions": {
-      "homestay": "Homestay",
-      "hotel": "Khách sạn",
-      "dorm": "Phòng Dorm"
-    },
-    "checkin": "Ngày nhận phòng",
-    "nights": "Số đêm",
-    "people": "Số người",
-    "note": "Ghi chú",
-    "notePlaceholder": "Yêu cầu đặc biệt (nếu có)",
-    "submit": "Đặt phòng",
-    "success": "Đặt phòng thành công! Chúng tôi sẽ liên hệ bạn sớm.",
-    "description": "Tìm và đặt phòng homestay, khách sạn, nhà nghỉ tại Hà Giang. Đảm bảo giá tốt, vị trí đẹp, dịch vụ uy tín, hỗ trợ 24/7."
+    "title": "Lưu trú Hà Giang",
+    "description": "Tìm và đặt homestay, khách sạn tại Hà Giang - Trải nghiệm lưu trú độc đáo",
+    "heroDesc": "Tìm và đặt homestay, khách sạn tại Hà Giang - Trải nghiệm lưu trú độc đáo",
+    "whyChooseUsTitle": "Tại sao chọn lưu trú tại Homie Travel?",
+    "whyChooseUsDesc": "Chúng tôi mang đến nhiều lựa chọn lưu trú chất lượng, vị trí thuận tiện và dịch vụ tận tâm.",
+    "whyChooseUsOption1Title": "Đa dạng lựa chọn",
+    "whyChooseUsOption1Desc": "Từ homestay truyền thống đến khách sạn hiện đại, phù hợp mọi nhu cầu.",
+    "whyChooseUsOption2Title": "Vị trí thuận tiện",
+    "whyChooseUsOption2Desc": "Nằm gần các điểm du lịch nổi tiếng, dễ dàng di chuyển khám phá Hà Giang.",
+    "whyChooseUsOption3Title": "Dịch vụ tận tâm",
+    "whyChooseUsOption3Desc": "Đội ngũ nhân viên thân thiện, hỗ trợ 24/7, mang lại trải nghiệm đáng nhớ.",
+    "ctaTitle": "Sẵn sàng trải nghiệm lưu trú tuyệt vời?",
+    "ctaDesc": "Đặt phòng ngay hôm nay để tận hưởng kỳ nghỉ trọn vẹn tại Hà Giang.",
+    "ctaButton": "Đặt phòng ngay",
+    "searchPlaceholder": "Tìm kiếm homestay, khách sạn...",
+    "roomTypeLabel": "Loại phòng",
+    "priceLabel": "Giá",
+    "accommodationTitle": "Nơi lưu trú nổi bật",
+    "accommodationDesc": "Khám phá các homestay, khách sạn được yêu thích tại Hà Giang.",
+    "foundAccommodations": "Tìm thấy {{count}} nơi lưu trú",
+    "roomTypeHomestay": "Homestay",
+    "roomTypeHotel": "Khách sạn"
   },
   "about": {
     "title": "Về Homie Travel",
     "mission": "Sứ mệnh của chúng tôi là mang đến trải nghiệm du lịch Hà Giang chuyên nghiệp, uy tín và tận tâm nhất.",
     "values": "Giá trị cốt lõi: Khách hàng là trung tâm, minh bạch, sáng tạo, trách nhiệm cộng đồng.",
     "team": "Đội ngũ Homie Travel gồm các chuyên gia du lịch với nhiều năm kinh nghiệm, am hiểu sâu sắc về Hà Giang.",
-    "logoAlt": "Logo Homie Travel"
+    "logoAlt": "Logo Homie Travel",
+    "satisfiedCustomers": "Khách Hàng Hài Lòng",
+    "ctaTitle": "Sẵn Sàng Khám Phá Hà Giang?",
+    "ctaDesc": "Hãy để chúng tôi đồng hành cùng bạn trong hành trình khám phá vẻ đẹp hoang dã của Hà Giang",
+    "seeToursNow": "Xem Tour Ngay",
+    "contactConsult": "Liên Hệ Tư Vấn"
   },
   "contact": {
     "title": "Liên hệ với chúng tôi",
@@ -197,7 +250,11 @@
     "message": "Nội dung",
     "messagePlaceholder": "Bạn cần hỗ trợ gì?",
     "submit": "Gửi liên hệ",
-    "success": "Gửi liên hệ thành công! Chúng tôi sẽ phản hồi sớm nhất."
+    "success": "Gửi liên hệ thành công! Chúng tôi sẽ phản hồi sớm nhất.",
+    "sending": "Đang gửi...",
+    "swipeHint": "Vuốt sang trái/phải để xem thêm",
+    "ctaDesc": "Hãy để các chuyên gia của chúng tôi đồng hành cùng bạn trong hành trình khám phá Hà Giang",
+    "ctaButton": "Liên Hệ Tư Vấn Ngay"
   },
   "login": {
     "title": "Đăng nhập",
@@ -211,10 +268,124 @@
     "error": "Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu."
   },
   "blog": {
-    "title": "Blog Du Lịch Hà Giang - Kinh nghiệm & Cẩm nang",
-    "description": "Tổng hợp bài viết, kinh nghiệm, chia sẻ về du lịch Hà Giang. Cập nhật thông tin, review điểm đến, món ăn, hành trình hấp dẫn."
+    "title": "Blog Du Lịch Hà Giang",
+    "description": "Khám phá những câu chuyện, trải nghiệm và bí kíp du lịch Hà Giang từ những người yêu du lịch",
+    "heroTitle": "Blog Du Lịch Hà Giang",
+    "heroDesc": "Khám phá những câu chuyện, trải nghiệm và bí kíp du lịch Hà Giang từ những người yêu du lịch",
+    "searchPlaceholder": "Tìm kiếm bài viết...",
+    "categoryLabel": "Danh mục",
+    "category": {
+      "all": "Tất cả",
+      "travel": "Du lịch",
+      "culture": "Văn hóa",
+      "food": "Ẩm thực",
+      "experience": "Trải nghiệm"
+    },
+    "sortLabel": "Sắp xếp",
+    "sortLatest": "Mới nhất",
+    "sortOldest": "Cũ nhất",
+    "latestTitle": "Bài Viết Mới Nhất",
+    "latestDesc": "Khám phá những câu chuyện thú vị và kinh nghiệm du lịch Hà Giang từ cộng đồng",
+    "resultCount": "Tìm thấy {{count}} bài viết",
+    "notFoundTitle": "Không tìm thấy bài viết",
+    "notFoundDesc": "Hãy thử thay đổi từ khóa tìm kiếm hoặc danh mục",
+    "clearFilter": "Xóa bộ lọc",
+    "newsletterTitle": "Đăng Ký Nhận Tin",
+    "newsletterDesc": "Nhận những bài viết mới nhất về du lịch Hà Giang qua email",
+    "newsletterPlaceholder": "Email của bạn",
+    "newsletterButton": "Đăng Ký",
+    "featuredCategoriesTitle": "Danh Mục Nổi Bật",
+    "featuredCategoriesDesc": "Khám phá các chủ đề du lịch Hà Giang được quan tâm nhất",
+    "featured": {
+      "travel": "Khám phá những địa điểm du lịch đẹp",
+      "culture": "Tìm hiểu văn hóa dân tộc độc đáo",
+      "food": "Thưởng thức ẩm thực đặc sắc",
+      "experience": "Chia sẻ trải nghiệm thực tế"
+    }
+  },
+  "blogDetail": {
+    "loading": "Đang tải bài viết...",
+    "notFoundTitle": "Không tìm thấy bài viết",
+    "notFoundDesc": "Bài viết bạn đang tìm kiếm không tồn tại hoặc đã được di chuyển.",
+    "seeAll": "Xem tất cả bài viết",
+    "liked": "Đã thích",
+    "like": "Thích",
+    "commentCount": "{{count}} bình luận",
+    "share": "Chia sẻ:",
+    "commentTitle": "Bình luận ({{count}})",
+    "commentNamePlaceholder": "Tên của bạn",
+    "commentContentPlaceholder": "Nội dung bình luận...",
+    "commentSubmit": "Gửi bình luận",
+    "noComment": "Chưa có bình luận nào. Hãy là người đầu tiên bình luận!",
+    "authorTitle": "Tác giả",
+    "authorDesc": "Travel Blogger & Photographer",
+    "authorBio": "Chuyên viết về du lịch Hà Giang",
+    "authorExp": "Kinh nghiệm 5+ năm",
+    "relatedTitle": "Bài viết liên quan"
   }, 
   "vehicle": {
-    "location": "Thành Phố Hà Giang"
+    "location": "Thành Phố Hà Giang",
+    "specs": "Thông số:",
+    "ratingCount": "({{count}} đánh giá)",
+    "bookNow": "Thuê Ngay",
+    "detail": "Chi Tiết"
+  },
+  "tour": {
+    "title": "Tour Hà Giang",
+    "description": "Khám phá các tour du lịch Hà Giang tuyệt vời cùng Homie Travel.",
+    "loading": "Đang tải dữ liệu tour...",
+    "hero": {
+      "title": "Trải Nghiệm Hà Giang",
+      "subtitle": "Khám phá vẻ đẹp hoang dã cùng Homie Travel",
+      "customers": "500+ khách hàng",
+      "rating": "4.8/5 đánh giá",
+      "support": "24/7 hỗ trợ"
+    },
+    "search": {
+      "placeholder": "Tìm kiếm tour..."
+    },
+    "filter": {
+      "type": "Loại tour",
+      "all": "Tất cả",
+      "river": "Sông",
+      "cave": "Hang động",
+      "mountain": "Núi",
+      "luxury": "Luxury",
+      "priceRange": "Khoảng giá",
+      "priceMin": "Giá min",
+      "priceMax": "Giá max"
+    },
+    "sort": {
+      "label": "Sắp xếp",
+      "default": "Mặc định",
+      "price_asc": "Giá tăng dần",
+      "price_desc": "Giá giảm dần",
+      "rating": "Đánh giá cao",
+      "name": "A-Z",
+      "duration": "Thời gian"
+    },
+    "section": {
+      "title": "Khám Phá Tour Hà Giang",
+      "subtitle": "Chọn tour phù hợp và tạo ra những kỷ niệm đáng nhớ tại vùng đất địa đầu Tổ quốc"
+    },
+    "resultCount": "Tìm thấy {{count}} tour",
+    "display": "Hiển thị",
+    "displayGrid": "Lưới",
+    "displayList": "Danh sách",
+    "notFound": {
+      "title": "Không tìm thấy tour",
+      "subtitle": "Hãy thử thay đổi bộ lọc hoặc từ khóa tìm kiếm",
+      "clearFilter": "Xóa bộ lọc"
+    },
+    "why": {
+      "title": "Tại Sao Chọn Homie Travel?",
+      "subtitle": "Chúng tôi cam kết mang đến trải nghiệm du lịch tốt nhất cho bạn",
+      "guideTitle": "Hướng dẫn viên chuyên nghiệp",
+      "guideDesc": "Đội ngũ hướng dẫn viên giàu kinh nghiệm, am hiểu văn hóa địa phương",
+      "qualityTitle": "Chất lượng dịch vụ cao",
+      "qualityDesc": "Cam kết chất lượng dịch vụ với hơn 500+ khách hàng hài lòng",
+      "supportTitle": "Hỗ trợ 24/7",
+      "supportDesc": "Đội ngũ hỗ trợ khách hàng sẵn sàng phục vụ mọi lúc, mọi nơi"
+    }
   }
 }

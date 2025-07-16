@@ -59,7 +59,7 @@ export default function DestinationDetail() {
     mouseUpX.current = null;
   };
 
-  console.log("slug:", id)
+  
 
   useEffect(() => {
     let cancelled = false;

@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function ChatbotWidget() {
   const [open, setOpen] = useState(false);
@@ -7,6 +8,7 @@ export default function ChatbotWidget() {
   ]);
   const [input, setInput] = useState("");
   const chatEndRef = useRef<HTMLDivElement>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (open && chatEndRef.current) {
@@ -91,11 +93,11 @@ export default function ChatbotWidget() {
             <input
               type="text"
               className="flex-1 px-3 py-2 rounded-l border border-gray-300 dark:bg-gray-700 dark:text-white focus:outline-none"
-              placeholder="Nhập tin nhắn..."
+              placeholder={t('common.inputMessage')}
               value={input}
               onChange={e => setInput(e.target.value)}
             />
-            <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-r">Gửi</button>
+            <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-r">{t('common.send')}</button>
           </form>
         </div>
       )}

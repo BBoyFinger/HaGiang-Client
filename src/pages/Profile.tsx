@@ -8,7 +8,7 @@ const Profile: React.FC = () => {
   const { data: user, isLoading, error } = useGetCurrentUserQuery(undefined, { refetchOnMountOrArgChange: true });
   const dispatch = useDispatch();
 
-  console.log(user);
+
 
   if (isLoading) return <div className="text-center mt-10 text-lg">Đang tải thông tin...</div>;
   if (error || !user) return <div className="text-center mt-10 text-red-500">Không thể tải thông tin người dùng.</div>;

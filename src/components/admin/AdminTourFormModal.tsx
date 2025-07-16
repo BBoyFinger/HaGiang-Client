@@ -278,7 +278,7 @@ const AdminTourFormModal: React.FC<TourFormModalProps> = ({ open, onClose, onSub
   }, [open, initialData, reset]);
 
   const onFormSubmit = async (data: TourFormZod) => {
-    console.log("thêm tuor nè")
+   
     const formData = new FormData();
     formData.append('name', JSON.stringify(data.name));
     formData.append('type', JSON.stringify(data.type));

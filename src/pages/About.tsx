@@ -40,7 +40,7 @@ export default function About() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold text-gray-800 mb-6">Sứ Mệnh Của Chúng Tôi</h2>
+              <h2 className="text-3xl font-bold text-gray-800 mb-6">{t('about.missionTitle')}</h2>
               <p className="text-lg text-gray-600 leading-relaxed mb-6">
                 {t('about.mission')}
               </p>
@@ -58,7 +58,7 @@ export default function About() {
               <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-lg shadow-lg">
                 <div className="text-center">
                   <div className="text-2xl font-bold text-blue-600">10+</div>
-                  <div className="text-sm text-gray-600">Năm Kinh Nghiệm</div>
+                  <div className="text-sm text-gray-600">{t('about.yearsExperience')}</div>
                 </div>
               </div>
             </div>
@@ -70,7 +70,7 @@ export default function About() {
       <section className="py-16 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">Giá Trị Cốt Lõi</h2>
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">{t('about.valuesTitle')}</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               {t('about.values')}
             </p>
@@ -81,32 +81,32 @@ export default function About() {
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaHeart className="text-2xl text-blue-600" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Tận Tâm</h3>
-              <p className="text-gray-600">Đặt lợi ích khách hàng lên hàng đầu, phục vụ với tất cả sự tận tâm</p>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">{t('about.values.commitment')}</h3>
+              <p className="text-gray-600">{t('about.values.commitmentDesc')}</p>
             </div>
             
             <div className="bg-white p-6 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaShieldAlt className="text-2xl text-green-600" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">An Toàn</h3>
-              <p className="text-gray-600">Đảm bảo an toàn tuyệt đối cho mọi chuyến đi</p>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">{t('about.values.safety')}</h3>
+              <p className="text-gray-600">{t('about.values.safetyDesc')}</p>
             </div>
             
             <div className="bg-white p-6 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow">
               <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaLightbulb className="text-2xl text-purple-600" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Sáng Tạo</h3>
-              <p className="text-gray-600">Luôn đổi mới và sáng tạo trong dịch vụ</p>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">{t('about.values.creativity')}</h3>
+              <p className="text-gray-600">{t('about.values.creativityDesc')}</p>
             </div>
             
             <div className="bg-white p-6 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow">
               <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaGlobe className="text-2xl text-orange-600" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Trách Nhiệm</h3>
-              <p className="text-gray-600">Trách nhiệm với cộng đồng và môi trường</p>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">{t('about.values.responsibility')}</h3>
+              <p className="text-gray-600">{t('about.values.responsibilityDesc')}</p>
             </div>
           </div>
         </div>
@@ -117,20 +117,20 @@ export default function About() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8 text-center">
             <div className="text-white">
-              <div className="text-4xl font-bold mb-2">10,000+</div>
-              <div className="text-blue-100">Khách Hàng Hài Lòng</div>
+              <div className="text-4xl font-bold mb-2">{t('about.stats.satisfiedCustomers')}</div>
+              <div className="text-blue-100">{t('about.stats.satisfiedCustomersDesc')}</div>
             </div>
             <div className="text-white">
-              <div className="text-4xl font-bold mb-2">500+</div>
-              <div className="text-blue-100">Tour Thành Công</div>
+              <div className="text-4xl font-bold mb-2">{t('about.stats.successfulTours')}</div>
+              <div className="text-blue-100">{t('about.stats.successfulToursDesc')}</div>
             </div>
             <div className="text-white">
-              <div className="text-4xl font-bold mb-2">50+</div>
-              <div className="text-blue-100">Điểm Đến</div>
+              <div className="text-4xl font-bold mb-2">{t('about.stats.destinations')}</div>
+              <div className="text-blue-100">{t('about.stats.destinationsDesc')}</div>
             </div>
             <div className="text-white">
-              <div className="text-4xl font-bold mb-2">24/7</div>
-              <div className="text-blue-100">Hỗ Trợ Khách Hàng</div>
+              <div className="text-4xl font-bold mb-2">{t('about.stats.support')}</div>
+              <div className="text-blue-100">{t('about.stats.supportDesc')}</div>
             </div>
           </div>
         </div>
@@ -140,7 +140,7 @@ export default function About() {
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">Đội Ngũ Chuyên Nghiệp</h2>
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">{t('about.teamTitle')}</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               {t('about.team')}
             </p>
@@ -151,24 +151,24 @@ export default function About() {
               <div className="w-32 h-32 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full mx-auto mb-4 flex items-center justify-center">
                 <FaUsers className="text-4xl text-white" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Hướng Dẫn Viên</h3>
-              <p className="text-gray-600">Đội ngũ hướng dẫn viên giàu kinh nghiệm, am hiểu sâu sắc về văn hóa và địa lý Hà Giang</p>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">{t('about.team.guides')}</h3>
+              <p className="text-gray-600">{t('about.team.guidesDesc')}</p>
             </div>
             
             <div className="text-center">
               <div className="w-32 h-32 bg-gradient-to-br from-green-400 to-blue-500 rounded-full mx-auto mb-4 flex items-center justify-center">
                 <FaMapMarkedAlt className="text-4xl text-white" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Chuyên Gia Du Lịch</h3>
-              <p className="text-gray-600">Các chuyên gia có nhiều năm kinh nghiệm trong lĩnh vực du lịch và khám phá</p>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">{t('about.team.travelExperts')}</h3>
+              <p className="text-gray-600">{t('about.team.travelExpertsDesc')}</p>
             </div>
             
             <div className="text-center">
               <div className="w-32 h-32 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full mx-auto mb-4 flex items-center justify-center">
                 <FaHandshake className="text-4xl text-white" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Dịch Vụ Khách Hàng</h3>
-              <p className="text-gray-600">Đội ngũ chăm sóc khách hàng tận tâm, sẵn sàng hỗ trợ 24/7</p>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">{t('about.team.customerService')}</h3>
+              <p className="text-gray-600">{t('about.team.customerServiceDesc')}</p>
             </div>
           </div>
         </div>
@@ -178,7 +178,7 @@ export default function About() {
       <section className="py-16 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">Tại Sao Chọn Homie Travel?</h2>
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">{t('about.whyChooseUsTitle')}</h2>
           </div>
           
           <div className="grid md:grid-cols-2 gap-12">
@@ -188,8 +188,8 @@ export default function About() {
                   <FaAward className="text-blue-600" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-800 mb-2">Chất Lượng Đảm Bảo</h3>
-                  <p className="text-gray-600">Cam kết chất lượng dịch vụ cao nhất với giá cả hợp lý</p>
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2">{t('about.whyChooseUs.quality')}</h3>
+                  <p className="text-gray-600">{t('about.whyChooseUs.qualityDesc')}</p>
                 </div>
               </div>
               
@@ -198,8 +198,8 @@ export default function About() {
                   <FaShieldAlt className="text-green-600" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-800 mb-2">An Toàn Tuyệt Đối</h3>
-                  <p className="text-gray-600">Đảm bảo an toàn cho mọi chuyến đi với bảo hiểm đầy đủ</p>
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2">{t('about.whyChooseUs.absoluteSafety')}</h3>
+                  <p className="text-gray-600">{t('about.whyChooseUs.absoluteSafetyDesc')}</p>
                 </div>
               </div>
               
@@ -208,8 +208,8 @@ export default function About() {
                   <FaUsers className="text-purple-600" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-800 mb-2">Đội Ngũ Chuyên Nghiệp</h3>
-                  <p className="text-gray-600">Hướng dẫn viên giàu kinh nghiệm, am hiểu sâu sắc về Hà Giang</p>
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2">{t('about.whyChooseUs.professionalTeam')}</h3>
+                  <p className="text-gray-600">{t('about.whyChooseUs.professionalTeamDesc')}</p>
                 </div>
               </div>
             </div>
@@ -222,8 +222,8 @@ export default function About() {
               />
               <div className="absolute -bottom-6 -right-6 bg-white p-4 rounded-lg shadow-lg">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-green-600">98%</div>
-                  <div className="text-sm text-gray-600">Khách Hàng Hài Lòng</div>
+                  <div className="text-2xl font-bold text-green-600">{t('about.whyChooseUs.satisfiedCustomersPercentage')}</div>
+                  <div className="text-sm text-gray-600">{t('about.whyChooseUs.satisfiedCustomersDesc')}</div>
                 </div>
               </div>
             </div>
@@ -234,16 +234,16 @@ export default function About() {
       {/* CTA Section */}
       <section className="py-16 bg-gradient-to-r from-blue-600 to-purple-600">
         <div className="max-w-4xl mx-auto text-center px-4">
-          <h2 className="text-3xl font-bold text-white mb-4">Sẵn Sàng Khám Phá Hà Giang?</h2>
+          <h2 className="text-3xl font-bold text-white mb-4">{t('about.ctaTitle')}</h2>
           <p className="text-xl text-blue-100 mb-8">
-            Hãy để chúng tôi đồng hành cùng bạn trong hành trình khám phá vẻ đẹp hoang dã của Hà Giang
+            {t('about.ctaDesc')}
           </p>
           <div className="space-x-4">
             <button className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
-              Xem Tour Ngay
+              {t('about.seeToursNow')}
             </button>
             <button className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors">
-              Liên Hệ Tư Vấn
+              {t('about.contactConsult')}
             </button>
           </div>
         </div>

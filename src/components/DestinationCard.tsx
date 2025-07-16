@@ -26,7 +26,7 @@ export interface DestinationCardProps {
 
 const DestinationCard = ({ destination, isDark = false }: DestinationCardProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const lang = i18n.language === "en" ? "en" : "vi";
 
   // Lấy ảnh đầu tiên hoặc fallback
@@ -86,7 +86,7 @@ const DestinationCard = ({ destination, isDark = false }: DestinationCardProps) 
           to={`/destinations/${destination.slug}`}
           className="inline-flex items-center justify-center w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl group-hover:scale-105"
         >
-          Xem chi tiết
+          {t('common.viewDetails')}
         </Link>
       </div>
       {/* Hover Effect Border */}

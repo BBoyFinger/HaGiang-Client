@@ -145,7 +145,6 @@ export default function TourDetail() {
     }
   };
 
-  console.log(tour)
 
   return (
     <>

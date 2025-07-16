@@ -5,7 +5,7 @@ import { FaUser, FaCalendar, FaTag, FaArrowRight, FaEye, FaHeart, FaClock } from
 import { useTranslation } from "react-i18next";
 
 export default function BlogCard({ blog }: { blog: any }) {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const lang = i18n.language === 'en' ? 'en' : 'vi';
   const getTimeAgo = (date: Date | string) => {
     const d = typeof date === 'string' ? new Date(date) : date;
@@ -104,7 +104,7 @@ export default function BlogCard({ blog }: { blog: any }) {
           to={`/blogs/${blog.slug}`}
           className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 px-4 rounded-xl font-semibold text-sm flex items-center justify-between hover:from-purple-600 hover:to-pink-600 transition-all duration-300 shadow-md hover:shadow-lg"
         >
-          <span>Đọc bài viết</span>
+          <span>{t('blog.readMore')}</span>
           <FaArrowRight className="text-xs" />
         </Link>
       </div>

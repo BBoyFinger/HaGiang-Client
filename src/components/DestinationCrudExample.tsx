@@ -5,12 +5,15 @@ import {
   useUpdateDestinationMutation,
   useDeleteDestinationMutation,
 } from '../services/api';
+import { useTranslation } from 'react-i18next';
 
 const DestinationCrudExample = () => {
   const { data, error, isLoading, refetch } = useGetDestinationsQuery();
   const [addDestination] = useAddDestinationMutation();
   const [updateDestination] = useUpdateDestinationMutation();
   const [deleteDestination] = useDeleteDestinationMutation();
+
+  const { t } = useTranslation();
 
   const [newName, setNewName] = useState('');
   const [newDesc, setNewDesc] = useState('');
@@ -51,14 +54,14 @@ const DestinationCrudExample = () => {
               <>
                 <input value={editName} onChange={e => setEditName(e.target.value)} placeholder="Name" />
                 <input value={editDesc} onChange={e => setEditDesc(e.target.value)} placeholder="Description" />
-                <button onClick={() => handleUpdate(dest.id)}>Save</button>
-                <button onClick={() => setEditId(null)}>Cancel</button>
+                <button onClick={() => handleUpdate(dest.id)}>{t('common.save')}</button>
+                <button onClick={() => setEditId(null)}>{t('common.cancel')}</button>
               </>
             ) : (
               <>
                 <b>{dest.name}</b>: {dest.description}
-                <button onClick={() => { setEditId(dest.id); setEditName(dest.name); setEditDesc(dest.description); }}>Edit</button>
-                <button onClick={() => handleDelete(dest.id)}>Delete</button>
+                <button onClick={() => { setEditId(dest.id); setEditName(dest.name); setEditDesc(dest.description); }}>{t('common.edit')}</button>
+                <button onClick={() => handleDelete(dest.id)}>{t('common.delete')}</button>
               </>
             )}
           </li>
@@ -67,7 +70,7 @@ const DestinationCrudExample = () => {
       <h3>Add Destination</h3>
       <input value={newName} onChange={e => setNewName(e.target.value)} placeholder="Name" />
       <input value={newDesc} onChange={e => setNewDesc(e.target.value)} placeholder="Description" />
-      <button onClick={handleAdd}>Add</button>
+      <button onClick={handleAdd}>{t('common.add')}</button>
     </div>
   );
 };
