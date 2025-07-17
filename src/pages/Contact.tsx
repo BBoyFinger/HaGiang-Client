@@ -171,7 +171,7 @@ export default function Contact() {
           <div className="text-center text-white">
             <h1 className="text-5xl font-bold mb-4">{t('contact.title')}</h1>
             <p className="text-xl max-w-2xl mx-auto px-4">
-              Chúng tôi luôn sẵn sàng hỗ trợ và tư vấn cho bạn
+              {t('contact.slogan')}
             </p>
           </div>
         </div>
@@ -188,8 +188,7 @@ export default function Contact() {
               <div>
                 <h2 className="text-3xl font-bold text-gray-800 mb-6">{t('contact.contactUs')}</h2>
                 <p className="text-lg text-gray-600 leading-relaxed">
-                  Bạn có câu hỏi về tour du lịch Hà Giang? Chúng tôi luôn sẵn sàng hỗ trợ và tư vấn
-                  để mang đến cho bạn trải nghiệm du lịch tuyệt vời nhất.
+                  {t('contact.description')}
                 </p>
               </div>
 
@@ -385,9 +384,7 @@ export default function Contact() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-800 mb-4">{t('contact.ourLocation')}</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Ghé thăm văn phòng của chúng tôi tại Hà Giang để được tư vấn trực tiếp
-            </p>
+
           </div>
 
           <div className="bg-gray-200 rounded-2xl h-96 overflow-hidden">
@@ -411,7 +408,7 @@ export default function Contact() {
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-800 mb-4">{t('contact.meetExperts')}</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Đội ngũ chuyên gia du lịch giàu kinh nghiệm, am hiểu sâu sắc về Hà Giang
+              {t('contact.meetExpertsDesc')}
             </p>
           </div>
 
@@ -529,7 +526,7 @@ export default function Contact() {
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-800 mb-4">{t('contact.faqTitle')}</h2>
             <p className="text-lg text-gray-600">
-              Tìm câu trả lời cho những câu hỏi phổ biến
+              {t('contact.faqDesc')}
             </p>
           </div>
 
@@ -539,8 +536,7 @@ export default function Contact() {
                 {t('contact.howToBookTour')}
               </h3>
               <p className="text-gray-600">
-                Bạn có thể đặt tour thông qua website, gọi điện thoại hoặc đến văn phòng của chúng tôi.
-                Chúng tôi sẽ tư vấn và hỗ trợ bạn chọn tour phù hợp nhất.
+                {t('contact.howToBookTourDesc')}
               </p>
             </div>
 
@@ -549,7 +545,7 @@ export default function Contact() {
                 {t('contact.doesTourIncludeInsurance')}
               </h3>
               <p className="text-gray-600">
-                Tất cả các tour của chúng tôi đều bao gồm bảo hiểm du lịch để đảm bảo an toàn cho khách hàng.
+                {t('contact.doesTourIncludeInsuranceDesc')}
               </p>
             </div>
 
@@ -558,7 +554,7 @@ export default function Contact() {
                 {t('contact.canCancelTour')}
               </h3>
               <p className="text-gray-600">
-                Bạn có thể hủy tour trước 7 ngày khởi hành. Chúng tôi sẽ hoàn tiền theo chính sách hủy tour.
+                {t('contact.canCancelTourDesc')}
               </p>
             </div>
           </div>

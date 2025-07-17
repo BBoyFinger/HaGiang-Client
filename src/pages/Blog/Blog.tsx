@@ -6,14 +6,6 @@ import { FaSearch, FaFilter, FaCalendar, FaUser, FaTag, FaEye, FaHeart } from 'r
 import axiosInstance from "@/config/axiosConfig";
 import { mockBlogs } from "@/data/mockBlogs";
 
-const categories = [
-  { id: "all", name: "Tất cả", icon: FaTag },
-  { id: "travel", name: "Du lịch", icon: FaEye },
-  { id: "culture", name: "Văn hóa", icon: FaHeart },
-  { id: "food", name: "Ẩm thực", icon: FaTag },
-  { id: "experience", name: "Trải nghiệm", icon: FaEye },
-];
-
 function Blog() {
   const { t, i18n } = useTranslation();
   const lang = i18n.language === 'en' ? 'en' : 'vi';
@@ -21,6 +13,14 @@ function Blog() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [sortBy, setSortBy] = useState("latest");
   const [blogs, setBlogs] = useState<any[]>([]);
+
+  const categories = [
+    { id: "all", name: t("blog.all"), icon: FaTag },
+    { id: "travel", name: t("blog.travel"), icon: FaEye },
+    { id: "culture", name: t("blog.culture"), icon: FaHeart },
+    { id: "food", name: t("blog.food"), icon: FaTag },
+    { id: "experience", name: t("blog.experience"), icon: FaEye },
+  ];
 
   useEffect(() => {
     axiosInstance.get("/blogs")
@@ -76,9 +76,9 @@ function Blog() {
         <div className="absolute inset-0 bg-black opacity-40"></div>
         <div className="relative z-10 flex items-center justify-center h-full">
           <div className="text-center text-white">
-            <h1 className="text-5xl font-bold mb-4">Blog Du Lịch Hà Giang</h1>
+            <h1 className="text-5xl font-bold mb-4">{t('blog.title')}</h1>
             <p className="text-xl max-w-2xl mx-auto px-4">
-              Khám phá những câu chuyện, trải nghiệm và bí kíp du lịch Hà Giang từ những người yêu du lịch
+              {t('blog.description')}
             </p>
           </div>
         </div>
@@ -97,7 +97,7 @@ function Blog() {
                 </div>
                 <input
                   type="text"
-                  placeholder="Tìm kiếm bài viết..."
+                  placeholder={t('blog.searchPlaceholder')}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors"
@@ -106,12 +106,12 @@ function Blog() {
             </div>
 
             {/* Filters Container */}
-            <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6">
+            <div className="flex flex-col xl:flex-row xl:items-center justify-center gap-6">
               {/* Category Filter */}
               <div className="flex-1">
                 <div className="flex items-center text-gray-600 mb-3">
                   <FaFilter className="mr-2" />
-                  <span className="font-medium text-sm">Danh mục:</span>
+                  <span className="font-medium text-sm">{t('blog.categoryLabel')}</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {categories.map((category) => {
@@ -138,15 +138,15 @@ function Blog() {
               <div className="flex items-center gap-3 xl:flex-shrink-0">
                 <div className="flex items-center text-gray-600">
                   <FaCalendar className="mr-2" />
-                  <span className="font-medium text-sm">Sắp xếp:</span>
+                  <span className="font-medium text-sm">{t('blog.sortLabel')}</span>
                 </div>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
                   className="block px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors text-sm min-w-[120px]"
                 >
-                  <option value="latest">Mới nhất</option>
-                  <option value="oldest">Cũ nhất</option>
+                  <option value="latest">{t('blog.sortLatest')}</option>
+                  <option value="oldest">{t('blog.sortOldest')}</option>
                 </select>
               </div>
             </div>
@@ -159,16 +159,16 @@ function Blog() {
         <div className="max-w-7xl mx-auto px-4">
           {/* Section Header */}
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">Bài Viết Mới Nhất</h2>
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">{t('blog.latestPosts')}</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Khám phá những câu chuyện thú vị và kinh nghiệm du lịch Hà Giang từ cộng đồng
+              {t('blog.latestPostsDesc')}
             </p>
           </div>
 
           {/* Results Count */}
           <div className="mb-8">
             <p className="text-gray-600">
-              Tìm thấy <span className="font-semibold text-purple-600">{sortedBlogs.length}</span> bài viết
+              {t('blog.found', { count: sortedBlogs.length, interpolation: { escapeValue: false }, 1: (chunks: any) => <span className="font-semibold text-purple-600">{chunks}</span> })}
             </p>
           </div>
 
@@ -186,9 +186,9 @@ function Blog() {
               <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaSearch className="text-3xl text-gray-400" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Không tìm thấy bài viết</h3>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">{t('blog.notFoundTitle')}</h3>
               <p className="text-gray-600 mb-6">
-                Hãy thử thay đổi từ khóa tìm kiếm hoặc danh mục
+                {t('blog.notFoundDesc')}
               </p>
               <button
                 onClick={() => {
@@ -197,7 +197,7 @@ function Blog() {
                 }}
                 className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors"
               >
-                Xóa bộ lọc
+                {t('blog.clearFilter')}
               </button>
             </div>
           )}
@@ -207,18 +207,18 @@ function Blog() {
       {/* Newsletter Section */}
       <section className="py-16 bg-gradient-to-r from-purple-600 to-pink-600">
         <div className="max-w-4xl mx-auto text-center px-4">
-          <h2 className="text-3xl font-bold text-white mb-4">Đăng Ký Nhận Tin</h2>
+          <h2 className="text-3xl font-bold text-white mb-4">{t('blog.newsletterTitle')}</h2>
           <p className="text-xl text-purple-100 mb-8">
-            Nhận những bài viết mới nhất về du lịch Hà Giang qua email
+            {t('blog.newsletterDesc')}
           </p>
           <div className="flex max-w-md mx-auto">
             <input
               type="email"
-              placeholder="Email của bạn"
+              placeholder={t('blog.newsletterPlaceholder')}
               className="flex-1 px-4 py-3 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-white"
             />
             <button className="bg-white text-purple-600 px-6 py-3 rounded-r-lg font-semibold hover:bg-gray-100 transition-colors">
-              Đăng Ký
+              {t('blog.newsletterButton')}
             </button>
           </div>
         </div>
@@ -228,9 +228,9 @@ function Blog() {
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">Danh Mục Nổi Bật</h2>
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">{t('blog.featuredTitle')}</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Khám phá các chủ đề du lịch Hà Giang được quan tâm nhất
+              {t('blog.featuredDesc')}
             </p>
           </div>
 
@@ -244,10 +244,10 @@ function Blog() {
                   </div>
                   <h3 className="text-xl font-semibold text-gray-800 mb-2">{category.name}</h3>
                   <p className="text-gray-600">
-                    {category.id === "travel" && "Khám phá những địa điểm du lịch đẹp"}
-                    {category.id === "culture" && "Tìm hiểu văn hóa dân tộc độc đáo"}
-                    {category.id === "food" && "Thưởng thức ẩm thực đặc sắc"}
-                    {category.id === "experience" && "Chia sẻ trải nghiệm thực tế"}
+                    {category.id === "travel" && t('blog.featuredTravel')}
+                    {category.id === "culture" && t('blog.featuredCulture')}
+                    {category.id === "food" && t('blog.featuredFood')}
+                    {category.id === "experience" && t('blog.featuredExperience')}
                   </p>
                 </div>
               );

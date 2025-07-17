@@ -5,31 +5,32 @@ import { stays } from "@/data/stays"
 import { Helmet } from 'react-helmet-async';
 import { FaSearch, FaFilter, FaHome, FaHotel, FaStar, FaMapMarkerAlt, FaBed, FaUsers } from 'react-icons/fa';
 import AccommodationCard from "@/components/AccommodationCard.";
-
-const roomTypes = [
-  { value: "all", name: "Tất cả", icon: FaHome },
-  { value: "homestay", name: "Homestay", icon: FaHome },
-  { value: "hotel", name: "Khách sạn", icon: FaHotel },
-];
-
-function resolveStayImage(image: string) {
-  // Nếu là ảnh local (bắt đầu bằng @/assets), import động
-  if (image.startsWith('@/assets')) {
-    try {
-      return new URL(`../${image.replace('@/', '')}`, import.meta.url).href;
-    } catch {
-      return '';
-    }
-  }
-  return image;
-}
+import { useMemo } from "react";
 
 export default function Stay() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedRoomType, setSelectedRoomType] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
   const [priceRange, setPriceRange] = useState("all");
+
+  const roomTypes = useMemo(() => [
+    { value: "all", name: t("stay.all"), icon: FaHome },
+    { value: "homestay", name: t("stay.homestay"), icon: FaHome },
+    { value: "hotel", name: t("stay.hotel"), icon: FaHotel },
+  ], [i18n.language, t]);
+
+  function resolveStayImage(image: string) {
+    // Nếu là ảnh local (bắt đầu bằng @/assets), import động
+    if (image.startsWith('@/assets')) {
+      try {
+        return new URL(`../${image.replace('@/', '')}`, import.meta.url).href;
+      } catch {
+        return '';
+      }
+    }
+    return image;
+  }
 
   // Filter stays based on search, room type, and price
   const filteredStays = stays.filter((stay: any) => {
@@ -86,62 +87,61 @@ export default function Stay() {
           <div className="bg-white rounded-2xl shadow-lg p-6">
             <div className="grid md:grid-cols-3 gap-6">
               {/* Search Bar */}
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FaSearch className="h-5 w-5 text-gray-400" />
+              <div className="col-span-3">
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <FaSearch className="h-5 w-5 text-gray-400" />
+                  </div>
+                  <input
+                    type="text"
+                    placeholder={t('stay.searchPlaceholder')}
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+                  />
                 </div>
-                <input
-                  type="text"
-                  placeholder={t('stay.searchPlaceholder')}
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
-                />
               </div>
-
-              {/* Room Type Filter */}
-              <div className="flex items-center space-x-4 w-full">
+              {/* Filters Row */}
+              <div className="col-span-3 flex flex-row justify-center items-center gap-x-6 mt-4">
+                {/* Room Type Filter */}
                 <div className="flex items-center text-gray-600">
                   <FaFilter className="mr-2" />
-                  <span className="font-medium">{t('stay.roomTypeLabel')}:</span>
+                  <span className="font-medium mr-2">{t('stay.roomTypeLabel')}:</span>
+                  <div className="flex gap-2">
+                    {roomTypes.map((type) => {
+                      const Icon = type.icon;
+                      return (
+                        <button
+                          key={type.value}
+                          onClick={() => setSelectedRoomType(type.value)}
+                          className={`flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 whitespace-nowrap min-w-[110px] justify-center ${selectedRoomType === type.value
+                              ? 'bg-green-600 text-white shadow-lg'
+                              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                            }`}
+                        >
+                          <Icon className="mr-2" />
+                          {type.name}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
-                <div className="flex space-x-2 ">
-                  {roomTypes.map((type) => {
-                    const Icon = type.icon;
-                    return (
-                      <button
-                        key={type.value}
-                        onClick={() => setSelectedRoomType(type.value)}
-                        className={`flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${selectedRoomType === type.value
-                            ? 'bg-green-600 text-white shadow-lg'
-                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                          }`}
-                      >
-                        <Icon className="mr-2" />
-                        {type.name}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Price Range Filter */}
-              <div className="flex items-center space-x-4">
+                {/* Price Range Filter */}
                 <div className="flex items-center text-gray-600">
                   <FaStar className="mr-2" />
-                  <span className="font-medium">{t('stay.priceLabel')}:</span>
+                  <span className="font-medium mr-2">{t('stay.priceLabel')}:</span>
+                  <select
+                    value={priceRange}
+                    onChange={(e) => setPriceRange(e.target.value)}
+                    className="block px-3 py-2 w-56 border border-gray-300 w-full rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+                  >
+                    {priceRanges.map((range) => (
+                      <option key={range.value} value={range.value}>
+                        {range.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-                <select
-                  value={priceRange}
-                  onChange={(e) => setPriceRange(e.target.value)}
-                  className="block px-3 py-3 w-2/4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
-                >
-                  {priceRanges.map((range) => (
-                    <option key={range.value} value={range.value}>
-                      {range.name}
-                    </option>
-                  ))}
-                </select>
               </div>
             </div>
           </div>

@@ -4,7 +4,7 @@ import { FaUsers, FaHeart, FaAward, FaMapMarkedAlt, FaHandshake, FaLightbulb, Fa
 
 export default function About() {
   const { t } = useTranslation();
-  
+
   return (
     <>
       <Helmet>
@@ -28,7 +28,7 @@ export default function About() {
           <div className="text-center text-white">
             <h1 className="text-5xl font-bold mb-4">{t('about.title')}</h1>
             <p className="text-xl max-w-2xl mx-auto px-4">
-              Khám phá vẻ đẹp hoang dã của Hà Giang cùng đội ngũ chuyên nghiệp
+              {t('about.slogan')}
             </p>
           </div>
         </div>
@@ -44,15 +44,12 @@ export default function About() {
               <p className="text-lg text-gray-600 leading-relaxed mb-6">
                 {t('about.mission')}
               </p>
-              <p className="text-gray-600 leading-relaxed">
-                Chúng tôi cam kết mang đến những trải nghiệm du lịch độc đáo, an toàn và đáng nhớ nhất 
-                cho mọi du khách khi đến với Hà Giang - miền đất của những đỉnh núi hùng vĩ và văn hóa dân tộc đặc sắc.
-              </p>
+
             </div>
             <div className="relative">
-              <img 
-                src="/src/assets/1.jpg" 
-                alt="Hà Giang Landscape" 
+              <img
+                src="/src/assets/1.jpg"
+                alt="Hà Giang Landscape"
                 className="rounded-lg shadow-2xl w-full h-80 object-cover"
               />
               <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-lg shadow-lg">
@@ -75,7 +72,7 @@ export default function About() {
               {t('about.values')}
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="bg-white p-6 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -84,7 +81,7 @@ export default function About() {
               <h3 className="text-xl font-semibold text-gray-800 mb-2">{t('about.values.commitment')}</h3>
               <p className="text-gray-600">{t('about.values.commitmentDesc')}</p>
             </div>
-            
+
             <div className="bg-white p-6 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaShieldAlt className="text-2xl text-green-600" />
@@ -92,7 +89,7 @@ export default function About() {
               <h3 className="text-xl font-semibold text-gray-800 mb-2">{t('about.values.safety')}</h3>
               <p className="text-gray-600">{t('about.values.safetyDesc')}</p>
             </div>
-            
+
             <div className="bg-white p-6 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow">
               <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaLightbulb className="text-2xl text-purple-600" />
@@ -100,7 +97,7 @@ export default function About() {
               <h3 className="text-xl font-semibold text-gray-800 mb-2">{t('about.values.creativity')}</h3>
               <p className="text-gray-600">{t('about.values.creativityDesc')}</p>
             </div>
-            
+
             <div className="bg-white p-6 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow">
               <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaGlobe className="text-2xl text-orange-600" />
@@ -145,7 +142,7 @@ export default function About() {
               {t('about.team')}
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="w-32 h-32 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full mx-auto mb-4 flex items-center justify-center">
@@ -154,7 +151,7 @@ export default function About() {
               <h3 className="text-xl font-semibold text-gray-800 mb-2">{t('about.team.guides')}</h3>
               <p className="text-gray-600">{t('about.team.guidesDesc')}</p>
             </div>
-            
+
             <div className="text-center">
               <div className="w-32 h-32 bg-gradient-to-br from-green-400 to-blue-500 rounded-full mx-auto mb-4 flex items-center justify-center">
                 <FaMapMarkedAlt className="text-4xl text-white" />
@@ -162,7 +159,7 @@ export default function About() {
               <h3 className="text-xl font-semibold text-gray-800 mb-2">{t('about.team.travelExperts')}</h3>
               <p className="text-gray-600">{t('about.team.travelExpertsDesc')}</p>
             </div>
-            
+
             <div className="text-center">
               <div className="w-32 h-32 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full mx-auto mb-4 flex items-center justify-center">
                 <FaHandshake className="text-4xl text-white" />
@@ -180,7 +177,7 @@ export default function About() {
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-800 mb-4">{t('about.whyChooseUsTitle')}</h2>
           </div>
-          
+
           <div className="grid md:grid-cols-2 gap-12">
             <div className="space-y-6">
               <div className="flex items-start space-x-4">
@@ -192,7 +189,7 @@ export default function About() {
                   <p className="text-gray-600">{t('about.whyChooseUs.qualityDesc')}</p>
                 </div>
               </div>
-              
+
               <div className="flex items-start space-x-4">
                 <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
                   <FaShieldAlt className="text-green-600" />
@@ -202,7 +199,7 @@ export default function About() {
                   <p className="text-gray-600">{t('about.whyChooseUs.absoluteSafetyDesc')}</p>
                 </div>
               </div>
-              
+
               <div className="flex items-start space-x-4">
                 <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
                   <FaUsers className="text-purple-600" />
@@ -213,11 +210,11 @@ export default function About() {
                 </div>
               </div>
             </div>
-            
+
             <div className="relative">
-              <img 
-                src="/src/assets/2.png" 
-                alt="Hà Giang Experience" 
+              <img
+                src="/src/assets/2.png"
+                alt="Hà Giang Experience"
                 className="rounded-lg shadow-2xl w-full h-80 object-cover"
               />
               <div className="absolute -bottom-6 -right-6 bg-white p-4 rounded-lg shadow-lg">
