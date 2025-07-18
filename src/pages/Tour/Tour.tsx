@@ -6,7 +6,7 @@ import ModalBookingForm from "@/components/ModalBookingForm";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { FaSearch, FaFilter, FaMapMarkerAlt, FaCalendar, FaStar, FaUsers, FaClock, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
-import { useGetToursQuery } from '@/services/api';
+import { useGetToursQuery, useGetReviewsQuery } from '@/services/api';
 import { Tour } from '@/types/TourType';
 
 export default function TourPage() {
@@ -18,6 +18,7 @@ export default function TourPage() {
   const [priceRange, setPriceRange] = useState({ min: '', max: '' });
   const [tours, setTours] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [tourReviews, setTourReviews] = useState<Record<string, { averageRating: number, reviewCount: number }>>({});
 
   // Di chuyển hook và mảng vào trong function component
   const { t, i18n } = useTranslation();
@@ -52,6 +53,27 @@ export default function TourPage() {
         setLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    if (tours.length > 0) {
+      Promise.all(
+        tours.map(async (tour: any) => {
+          try {
+            const res = await axiosInstance.get(`/reviews?tourId=${tour._id}`);
+            const reviews = res.data.reviews || [];
+            const averageRating = reviews.length > 0 ? (reviews.reduce((sum: number, r: any) => sum + (r.rating || 0), 0) / reviews.length) : 0;
+            return { tourId: tour._id, averageRating: Number(averageRating.toFixed(1)), reviewCount: reviews.length };
+          } catch {
+            return { tourId: tour._id, averageRating: 0, reviewCount: 0 };
+          }
+        })
+      ).then(results => {
+        const reviewMap: Record<string, { averageRating: number, reviewCount: number }> = {};
+        results.forEach(r => { reviewMap[r.tourId] = { averageRating: r.averageRating, reviewCount: r.reviewCount }; });
+        setTourReviews(reviewMap);
+      });
+    }
+  }, [tours]);
 
   const handleBook = (tourId: any) => {
     setSelectedTourId(tourId);
@@ -314,9 +336,12 @@ export default function TourPage() {
           {filteredTours.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredTours.map((tour: any) => (
-                <div key={tour._id} className="group">
-                  <TourCard tour={tour} />
-                </div>
+                <TourCard
+                  key={tour._id}
+                  tour={tour}
+                  averageRating={tourReviews[tour._id]?.averageRating}
+                  reviewCount={tourReviews[tour._id]?.reviewCount}
+                />
               ))}
             </div>
           ) : (

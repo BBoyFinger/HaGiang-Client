@@ -12,7 +12,7 @@ const formatPrice = (price: number, currency: string) => {
   return price.toLocaleString("vi-VN") + " VND";
 };
 
-export default function TourCard({ tour }: { tour: any }) {
+export default function TourCard({ tour, averageRating, reviewCount }: { tour: any, averageRating?: number, reviewCount?: number }) {
   const { t, i18n } = useTranslation();
   const lang = i18n.language === 'en' ? 'en' : 'vi';
   const [isFavorite, setIsFavorite] = useState(false);
@@ -28,6 +28,7 @@ export default function TourCard({ tour }: { tour: any }) {
   const { perSlot, groupPrice, discountPrice } = priceObj;
   const currency = tour.price?.VND ? 'VND' : Object.keys(tour.price || {})[0] || '';
 
+ 
   return (
     <motion.div
       whileHover={{ y: -8 }}
@@ -80,7 +81,10 @@ export default function TourCard({ tour }: { tour: any }) {
         <div className="absolute bottom-4 left-4">
           <div className="flex items-center space-x-1 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1.5 shadow-sm">
             <MdStar className="text-yellow-500 text-sm" />
-            <span className="text-sm font-semibold text-gray-800">{tour.rating.toFixed(1)}</span>
+            <span className="text-sm font-semibold text-gray-800">{typeof averageRating === 'number' ? averageRating : tour.rating?.toFixed(1)}</span>
+            {typeof reviewCount === 'number' && (
+              <span className="text-xs text-gray-500 ml-1">({reviewCount})</span>
+            )}
           </div>
         </div>
       </div>
@@ -155,13 +159,17 @@ export default function TourCard({ tour }: { tour: any }) {
               <span className="text-xs text-gray-500 mr-1">Đánh giá</span>
               <ReactStars
                 count={5}
-                value={tour.rating}
+                value={typeof averageRating === 'number' ? averageRating : tour.rating}
                 size={16}
                 isHalf={true}
                 edit={false}
+                color="#e4e5e9"
                 activeColor="#ffd700"
               />
-              <span className="text-sm font-medium text-gray-700 ml-1">{tour.rating.toFixed(1)}</span>
+              <span className="text-sm font-medium text-gray-700 ml-1">{typeof averageRating === 'number' ? averageRating : tour.rating?.toFixed(1)}</span>
+              {typeof reviewCount === 'number' && (
+                <span className="text-xs text-gray-500 ml-1">({reviewCount} đánh giá)</span>
+              )}
             </div>
           </div>
         </div>

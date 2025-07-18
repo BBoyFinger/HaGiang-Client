@@ -9,8 +9,9 @@ import { motion } from "framer-motion";
 import { FiShare2, FiMessageSquare, FiFacebook, FiTwitter, FiInstagram, FiMail, FiChevronDown, FiChevronUp, FiCheck, FiX, FiArrowLeft, FiHeart, FiMapPin, FiClock, FiUsers, FiStar } from "react-icons/fi";
 import { FaHeart } from "react-icons/fa";
 import { Helmet } from 'react-helmet-async';
-import { useGetTourByIdQuery } from '@/services/api';
+import { useGetTourByIdQuery, useGetCommentsQuery, useAddCommentMutation, useGetReviewsQuery, useAddReviewMutation } from '@/services/api';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from "react-redux";
 
 const typeLabel: Record<Tour["type"], string> = {
   trekking: "Tour Trekking",
@@ -27,69 +28,100 @@ export default function TourDetail() {
   const tour = data?.tour;
   const { i18n } = useTranslation();
   const lang = i18n.language === 'en' ? 'en' : 'vi';
-  const [ratings, setRatings] = useState<{ rating: number, comment: string }[]>([]);
+  // Thêm state cho tab
+  const [activeTab, setActiveTab] = useState<'review' | 'comment'>('review');
   const [showShareDropdown, setShowShareDropdown] = useState(false);
   const [showSchedule, setShowSchedule] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
+  // Thêm state cho thông báo
+  const [commentSuccessMsg, setCommentSuccessMsg] = useState<string | null>(null);
 
-  // New states for review form
-  const [reviewForm, setReviewForm] = useState({
-    name: '',
-    email: '',
-    comment: '',
-    locationRating: 0,
-    servicesRating: 0
-  });
-  const [comments, setComments] = useState<Array<{
-    id: string;
-    name: string;
-    email: string;
-    comment: string;
-    locationRating: number;
-    servicesRating: number;
-    date: Date;
-    replies: Array<{
-      id: string;
-      name: string;
-      comment: string;
-      date: Date;
-    }>;
-  }>>([]);
+  // Lấy review từ API
+  const { data: reviewsData, isLoading: isReviewsLoading, refetch: refetchReviews } = useGetReviewsQuery({ tourId: tour?._id });
+  const reviews = reviewsData?.reviews || [];
+  // Lấy comment từ API (chỉ lấy comment đã duyệt)
+  const { data: commentsData, isLoading: isCommentsLoading } = useGetCommentsQuery({ refType: 'tour', refId: tour?._id, status: 'approved' });
+  const comments = commentsData?.comments || [];
 
-  // Calculate average rating
+  // Form review
+  const [reviewInput, setReviewInput] = useState({ name: '', email: '', rating: 0, comment: '' });
+  const [addReview, { isLoading: isAddingReview }] = useAddReviewMutation();
+  // Form comment
+  const [commentInput, setCommentInput] = useState({ name: '', email: '', content: '' });
+  const [addComment, { isLoading: isAddingComment }] = useAddCommentMutation();
+
+  const user = useSelector((state: any) => state.user.user);
+  const isAuthenticated = useSelector((state: any) => state.user.isAuthenticated);
+
+  // Tính điểm trung bình review
   const averageRating = useMemo(() => {
-    if (comments.length === 0) return 0;
-    const totalLocation = comments.reduce((sum, comment) => sum + comment.locationRating, 0);
-    const totalServices = comments.reduce((sum, comment) => sum + comment.servicesRating, 0);
-    return ((totalLocation + totalServices) / (comments.length * 2)).toFixed(1);
-  }, [comments]);
+    if (!reviews.length) return 0;
+    const total = reviews.reduce((sum: number, r: any) => sum + (r.rating || 0), 0);
+    return (total / reviews.length).toFixed(1);
+  }, [reviews]);
 
-  const handlePostComment = () => {
-    if (!reviewForm.name || !reviewForm.email || !reviewForm.comment || reviewForm.locationRating === 0 || reviewForm.servicesRating === 0) {
-      alert('Vui lòng điền đầy đủ thông tin và đánh giá!');
-      return;
+  // Gửi review
+  const handlePostReview = async () => {
+    if (!isAuthenticated) {
+      if (!reviewInput.name || !reviewInput.email || !reviewInput.comment || !reviewInput.rating) {
+        alert('Vui lòng nhập đủ thông tin đánh giá!');
+        return;
+      }
+      await addReview({
+        name: reviewInput.name,
+        email: reviewInput.email,
+        rating: reviewInput.rating,
+        comment: reviewInput.comment,
+        tourId: tour._id
+      } as any);
+      setReviewInput({ name: '', email: '', rating: 0, comment: '' });
+      if (typeof refetchReviews === 'function') refetchReviews();
+    } else {
+      if (!reviewInput.comment || !reviewInput.rating) {
+        alert('Vui lòng nhập đủ thông tin đánh giá!');
+        return;
+      }
+      await addReview({
+        userId: user._id,
+        rating: reviewInput.rating,
+        comment: reviewInput.comment,
+        tourId: tour._id
+      } as any);
+      setReviewInput({ ...reviewInput, rating: 0, comment: '' });
+      if (typeof refetchReviews === 'function') refetchReviews();
     }
-
-    const newComment = {
-      id: Date.now().toString(),
-      name: reviewForm.name,
-      email: reviewForm.email,
-      comment: reviewForm.comment,
-      locationRating: reviewForm.locationRating,
-      servicesRating: reviewForm.servicesRating,
-      date: new Date(),
-      replies: []
-    };
-
-    setComments([newComment, ...comments]);
-    setReviewForm({
-      name: '',
-      email: '',
-      comment: '',
-      locationRating: 0,
-      servicesRating: 0
-    });
+  };
+  // Gửi comment
+  const handlePostComment = async () => {
+    if (!isAuthenticated) {
+      if (!commentInput.name || !commentInput.email || !commentInput.content) {
+        alert('Vui lòng nhập đủ thông tin!');
+        return;
+      }
+      await addComment({
+        name: commentInput.name,
+        email: commentInput.email,
+        content: commentInput.content,
+        refType: 'tour',
+        refId: tour._id
+      } as any);
+      setCommentInput({ name: '', email: '', content: '' });
+      setCommentSuccessMsg('Bình luận của bạn đã được gửi và đang chờ duyệt bởi admin.');
+    } else {
+      if (!commentInput.content) {
+        alert('Vui lòng nhập nội dung bình luận!');
+        return;
+      }
+      await addComment({
+        user: user._id,
+        content: commentInput.content,
+        refType: 'tour',
+        refId: tour._id
+      } as any);
+      setCommentInput({ name: commentInput.name, email: commentInput.email, content: '' });
+      setCommentSuccessMsg('Bình luận của bạn đã được gửi và đang chờ duyệt bởi admin.');
+    }
   };
 
   if (isLoading) {
@@ -213,7 +245,8 @@ export default function TourDetail() {
                   </div>
                   <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2">
                     <FiStar className="text-yellow-400" />
-                    <span className="text-white font-medium">{tour.rating?.toFixed(1)}</span>
+                    <span className="text-white font-medium">{averageRating}</span>
+                    <span className="text-white font-medium ml-2">({reviews.length} đánh giá)</span>
                   </div>
                 </div>
               </motion.div>
@@ -268,13 +301,15 @@ export default function TourDetail() {
                       <div className="flex items-center gap-2">
                         <ReactStars
                           count={5}
-                          value={tour.rating}
+                          value={Number(averageRating)}
                           size={20}
                           isHalf={true}
                           edit={false}
+                          color="#e4e5e9"
                           activeColor="#ffd700"
                         />
-                        <span className="text-sm text-gray-600">{tour.rating?.toFixed(1)}</span>
+                        <span className="text-sm text-gray-600">{averageRating}</span>
+                        <span className="text-sm text-gray-600 ml-2">({reviews.length} đánh giá)</span>
                       </div>
                     </div>
                     <div className="flex gap-2">
@@ -454,114 +489,153 @@ export default function TourDetail() {
                   transition={{ duration: 0.5, delay: 0.4 }}
                   className="bg-white rounded-2xl shadow-lg p-8"
                 >
-                  <h2 className="text-2xl font-bold text-gray-800 mb-6">Đánh giá ({comments.length})</h2>
-
-                  {/* Review Form */}
-                  <div className="bg-gray-50 rounded-xl p-6 mb-8">
-                    <h3 className="text-lg font-semibold mb-4 text-gray-800">Viết đánh giá</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                      <input
-                        type="text"
-                        placeholder="Tên của bạn"
-                        value={reviewForm.name}
-                        onChange={(e) => setReviewForm(prev => ({ ...prev, name: e.target.value }))}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                      />
-                      <input
-                        type="email"
-                        placeholder="Email của bạn"
-                        value={reviewForm.email}
-                        onChange={(e) => setReviewForm(prev => ({ ...prev, email: e.target.value }))}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                      />
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Đánh giá địa điểm</label>
-                        <ReactStars
-                          count={5}
-                          value={reviewForm.locationRating}
-                          size={24}
-                          isHalf={true}
-                          edit={true}
-                          activeColor="#ffd700"
-                          onChange={(newValue: number) => setReviewForm(prev => ({ ...prev, locationRating: newValue }))}
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Đánh giá dịch vụ</label>
-                        <ReactStars
-                          count={5}
-                          value={reviewForm.servicesRating}
-                          size={24}
-                          isHalf={true}
-                          edit={true}
-                          activeColor="#ffd700"
-                          onChange={(newValue: number) => setReviewForm(prev => ({ ...prev, servicesRating: newValue }))}
-                        />
-                      </div>
-                    </div>
-                    <textarea
-                      placeholder="Viết bình luận của bạn..."
-                      rows={4}
-                      value={reviewForm.comment}
-                      onChange={(e) => setReviewForm(prev => ({ ...prev, comment: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none mb-4"
-                    />
-                    <button
-                      onClick={handlePostComment}
-                      className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-300 font-semibold"
-                    >
-                      Gửi đánh giá
-                    </button>
+                  {/* Tabs cho Review/Comment */}
+                  <div className="flex gap-4 mb-8">
+                    <button onClick={() => setActiveTab('review')} className={`px-4 py-2 rounded-lg font-semibold ${activeTab === 'review' ? 'bg-purple-600 text-white' : 'bg-gray-100 text-gray-700'}`}>Đánh giá</button>
+                    <button onClick={() => setActiveTab('comment')} className={`px-4 py-2 rounded-lg font-semibold ${activeTab === 'comment' ? 'bg-purple-600 text-white' : 'bg-gray-100 text-gray-700'}`}>Bình luận</button>
                   </div>
 
-                  {/* Comments List */}
-                  <div className="space-y-6">
-                    {comments.length === 0 && (
-                      <div className="text-center py-8 text-gray-500">
-                        <div className="text-4xl mb-2">⭐</div>
-                        <p>Chưa có đánh giá nào. Hãy là người đầu tiên đánh giá!</p>
+                  {activeTab === 'review' && (
+                    <div>
+                      {/* Tổng điểm rating */}
+                      <div className="flex items-center gap-2 mb-4">
+                        <span className="text-2xl font-bold text-yellow-500">{averageRating}</span>
+                        <ReactStars count={5} value={averageRating} size={24} isHalf={true} edit={false} color="#e4e5e9" activeColor="#ffd700" />
+
+                        <span className="text-gray-600">({reviews.length} đánh giá)</span>
                       </div>
-                    )}
-                    {comments.map((comment) => (
-                      <div key={comment.id} className="border border-gray-200 rounded-xl p-6">
-                        <div className="flex justify-between items-start mb-4">
-                          <div>
-                            <h4 className="font-semibold text-lg text-gray-800">{comment.name}</h4>
-                            <p className="text-sm text-gray-500">
-                              {comment.date.toLocaleDateString('vi-VN')}
-                            </p>
-                          </div>
-                          <div className="text-right">
-                            <div className="flex items-center gap-2 mb-1">
-                              <span className="text-sm text-gray-600">Địa điểm:</span>
-                              <ReactStars
-                                count={5}
-                                value={comment.locationRating}
-                                size={16}
-                                isHalf={true}
-                                edit={false}
-                                activeColor="#ffd700"
-                              />
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <span className="text-sm text-gray-600">Dịch vụ:</span>
-                              <ReactStars
-                                count={5}
-                                value={comment.servicesRating}
-                                size={16}
-                                isHalf={true}
-                                edit={false}
-                                activeColor="#ffd700"
-                              />
-                            </div>
-                          </div>
+                      {/* Form gửi review */}
+                      <div className="bg-gray-50 rounded-xl p-6 mb-8">
+                        <h3 className="text-lg font-semibold mb-4 text-gray-800">Viết đánh giá</h3>
+                        {!isAuthenticated && (
+                          <>
+                            <input
+                              type="text"
+                              placeholder="Tên của bạn"
+                              value={reviewInput.name}
+                              onChange={e => setReviewInput(prev => ({ ...prev, name: e.target.value }))}
+                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 mb-2"
+                            />
+                            <input
+                              type="email"
+                              placeholder="Email của bạn"
+                              value={reviewInput.email}
+                              onChange={e => setReviewInput(prev => ({ ...prev, email: e.target.value }))}
+                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 mb-4"
+                            />
+                          </>
+                        )}
+                        <div className="mb-4">
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Chọn số sao</label>
+                          <ReactStars
+                            count={5}
+                            value={reviewInput.rating}
+                            size={24}
+                            isHalf={true}
+                            edit={true}
+                            color="#e4e5e9"
+                            activeColor="#ffd700"
+                            onChange={(newValue: number) => setReviewInput(prev => ({ ...prev, rating: newValue }))}
+                          />
                         </div>
-                        <p className="text-gray-700">{comment.comment}</p>
+                        <textarea
+                          placeholder="Viết đánh giá của bạn..."
+                          rows={4}
+                          value={reviewInput.comment}
+                          onChange={e => setReviewInput(prev => ({ ...prev, comment: e.target.value }))}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none mb-4"
+                        />
+                        <button
+                          onClick={handlePostReview}
+                          className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-300 font-semibold"
+                          disabled={isAddingReview}
+                        >
+                          Gửi đánh giá
+                        </button>
                       </div>
-                    ))}
-                  </div>
+                      {/* Danh sách review */}
+                      {isReviewsLoading ? <div>Đang tải đánh giá...</div> : (
+                        <div className="space-y-6">
+                          {reviews.length === 0 && <div className="text-center py-8 text-gray-500"><div className="text-4xl mb-2">⭐</div><p>Chưa có đánh giá nào. Hãy là người đầu tiên đánh giá!</p></div>}
+                          {reviews.map((review: any) => (
+                            <div key={review._id} className="border border-gray-200 rounded-xl p-6">
+                              <div className="flex justify-between items-start mb-4">
+                                <div>
+                                  <h4 className="font-semibold text-lg text-gray-800">{review.userId?.name || 'Ẩn danh'}</h4>
+                                  <p className="text-sm text-gray-500">{new Date(review.createdAt).toLocaleDateString('vi-VN')}</p>
+                                </div>
+                                <ReactStars count={5} value={review.rating} size={16} isHalf={true} edit={false} color="#e4e5e9" activeColor="#ffd700" />
+                              </div>
+                              <p className="text-gray-700">{review.comment}</p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {activeTab === 'comment' && (
+                    <div>
+                      {/* Form gửi comment */}
+                      <div className="bg-gray-50 rounded-xl p-6 mb-8">
+                        <h3 className="text-lg font-semibold mb-4 text-gray-800">Viết bình luận</h3>
+                        {commentSuccessMsg && (
+                          <div className="mb-4 text-green-600 font-semibold bg-green-50 border border-green-200 rounded-lg p-3">
+                            {commentSuccessMsg}
+                          </div>
+                        )}
+                        {!isAuthenticated && (
+                          <>
+                            <input
+                              type="text"
+                              placeholder="Tên của bạn"
+                              value={commentInput.name}
+                              onChange={e => setCommentInput(prev => ({ ...prev, name: e.target.value }))}
+                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 mb-2"
+                            />
+                            <input
+                              type="email"
+                              placeholder="Email của bạn"
+                              value={commentInput.email}
+                              onChange={e => setCommentInput(prev => ({ ...prev, email: e.target.value }))}
+                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 mb-4"
+                            />
+                          </>
+                        )}
+                        <textarea
+                          placeholder="Viết bình luận của bạn..."
+                          rows={4}
+                          value={commentInput.content}
+                          onChange={e => setCommentInput({ ...commentInput, content: e.target.value })}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none mb-4"
+                        />
+                        <button
+                          onClick={handlePostComment}
+                          className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-300 font-semibold"
+                          disabled={isAddingComment}
+                        >
+                          Gửi bình luận
+                        </button>
+                      </div>
+                      {/* Danh sách comment */}
+                      {isCommentsLoading ? <div>Đang tải bình luận...</div> : (
+                        <div className="space-y-6">
+                          {comments.length === 0 && <div className="text-center py-8 text-gray-500"><div className="text-4xl mb-2">💬</div><p>Chưa có bình luận nào. Hãy là người đầu tiên bình luận!</p></div>}
+                          {comments.map((comment: any) => (
+                            <div key={comment._id} className="border border-gray-200 rounded-xl p-6">
+                              <div className="flex justify-between items-start mb-4">
+                                <div>
+                                  <h4 className="font-semibold text-lg text-gray-800">{comment.user?.name || 'Ẩn danh'}</h4>
+                                  <p className="text-sm text-gray-500">{new Date(comment.createdAt).toLocaleDateString('vi-VN')}</p>
+                                </div>
+                              </div>
+                              <p className="text-gray-700">{comment.content}</p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </motion.div>
               </div>
 
@@ -626,7 +700,7 @@ export default function TourDetail() {
                   <div className="space-y-3">
                     <div className="flex items-center gap-3">
                       <FiStar className="text-yellow-300" />
-                      <span>Đánh giá: {tour.rating?.toFixed(1)}/5</span>
+                      <span>Đánh giá: {averageRating}/5 ({reviews.length})</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <FiMapPin className="text-purple-200" />

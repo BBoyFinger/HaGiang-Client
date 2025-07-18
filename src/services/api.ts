@@ -177,7 +177,24 @@ export const api = createApi({
         method: 'DELETE',
       }),
     }),
+    getReviews: builder.query<any, { tourId: string }>({
+      query: ({ tourId }) => `/reviews?tourId=${tourId}`,
+    }),
+    addReview: builder.mutation<any, { tourId: string; rating: number; comment: string }>({
+      query: (body) => ({
+        url: '/reviews',
+        method: 'POST',
+        body,
+      }),
+    }),
+    addComment: builder.mutation<any, { content: string; refType: string; refId: string }>({
+      query: (body) => ({
+        url: '/comments',
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useGetDestinationsQuery, useAddDestinationMutation, useUpdateDestinationMutation, useDeleteDestinationMutation, useGetCurrentUserQuery, useUpdateProfileMutation, useGetToursQuery, useGetTourByIdQuery, useAddTourMutation, useUpdateTourMutation, useDeleteTourMutation, useGetBlogsQuery, useAddBlogMutation, useUpdateBlogMutation, useDeleteBlogMutation, useGetCommentsQuery, useApproveCommentMutation, useRejectCommentMutation, useDeleteCommentMutation, useUpdateCommentMutation, useGetUsersQuery, useAddUserMutation, useUpdateUserMutation, useDeleteUserMutation, useChangeUserRoleMutation, useToggleUserActiveMutation, useGetBookingsQuery, useAddBookingMutation, useUpdateBookingMutation, useDeleteBookingMutation } = api; 
+export const { useGetDestinationsQuery, useAddDestinationMutation, useUpdateDestinationMutation, useDeleteDestinationMutation, useGetCurrentUserQuery, useUpdateProfileMutation, useGetToursQuery, useGetTourByIdQuery, useAddTourMutation, useUpdateTourMutation, useDeleteTourMutation, useGetBlogsQuery, useAddBlogMutation, useUpdateBlogMutation, useDeleteBlogMutation, useGetCommentsQuery, useApproveCommentMutation, useRejectCommentMutation, useDeleteCommentMutation, useUpdateCommentMutation, useGetUsersQuery, useAddUserMutation, useUpdateUserMutation, useDeleteUserMutation, useChangeUserRoleMutation, useToggleUserActiveMutation, useGetBookingsQuery, useAddBookingMutation, useUpdateBookingMutation, useDeleteBookingMutation, useGetReviewsQuery, useAddReviewMutation, useAddCommentMutation } = api; 
