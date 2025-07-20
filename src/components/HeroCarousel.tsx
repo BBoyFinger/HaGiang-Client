@@ -1,55 +1,86 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiChevronLeft, FiChevronRight, FiSearch } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
-import image1 from "@/assets/1.jpg";
-import image2 from "@/assets/2.png";
-import image3 from "@/assets/3.jpg";
-import image4 from "@/assets/4.jpg";
+import axiosInstance from "@/config/axiosConfig";
 
 interface CarouselSlide {
-  id: number;
+  _id: string;
   image: string;
-  titleKey: string;
-  subtitleKey: string;
-  descriptionKey: string;
+  isActive: boolean;
 }
 
-const HeroCarousel = ({ isDark }: { isDark: boolean }) => {
+interface HeroCarouselProps {
+  isDark: boolean;
+  initialSearchTerm?: string;
+  onSearchSubmit?: (term: string) => void;
+}
+
+const HeroCarousel = ({ isDark, initialSearchTerm = '', onSearchSubmit }: HeroCarouselProps) => {
   const { t } = useTranslation();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [direction, setDirection] = useState(0);
+  const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
-  const slides: CarouselSlide[] = [
-    {
-      id: 1,
-      image: image1,
-      titleKey: "hero.slide1.title",
-      subtitleKey: "hero.slide1.subtitle",
-      descriptionKey: "hero.slide1.description"
-    },
-    {
-      id: 2,
-      image: image2,
-      titleKey: "hero.slide2.title",
-      subtitleKey: "hero.slide2.subtitle",
-      descriptionKey: "hero.slide2.description"
-    },
-    {
-      id: 3,
-      image: image3,
-      titleKey: "hero.slide3.title",
-      subtitleKey: "hero.slide3.subtitle",
-      descriptionKey: "hero.slide3.description"
-    },
-    {
-      id: 4,
-      image: image4,
-      titleKey: "hero.slide4.title",
-      subtitleKey: "hero.slide4.subtitle",
-      descriptionKey: "hero.slide4.description"
+  useEffect(() => {
+    if (initialSearchTerm && searchInputRef.current) {
+      searchInputRef.current.focus();
     }
-  ];
+  }, [initialSearchTerm]);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (onSearchSubmit && searchTerm.trim()) {
+      onSearchSubmit(searchTerm.trim());
+    }
+  };
+
+  const [slides, setSlides] = useState<CarouselSlide[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSlides = async () => {
+      try {
+        const response = await axiosInstance.get('/hero-carousel');
+        const apiSlides = response.data.slides.map((slide: any) => ({
+          _id: slide._id,
+          image: slide?.image,
+          isActive: slide.isActive
+        }));
+        setSlides(apiSlides);
+      } catch (error) {
+        console.error('Error fetching carousel slides:', error);
+        // Fallback to default slides
+        setSlides([
+          {
+            _id: '1',
+            image: "/src/assets/1.jpg",
+            isActive: true
+          },
+          {
+            _id: '2',
+            image: "/src/assets/2.png",
+            isActive: true
+          },
+          {
+            _id: '3',
+            image: "/src/assets/3.jpg",
+            isActive: true
+          },
+          {
+            _id: '4',
+            image: "/src/assets/4.jpg",
+            isActive: true
+          }
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSlides();
+  }, []);
 
   // Auto slide every 5 seconds
   useEffect(() => {
@@ -76,6 +107,14 @@ const HeroCarousel = ({ isDark }: { isDark: boolean }) => {
     setCurrentSlide(index);
   };
 
+  if (loading) {
+    return (
+      <div className="relative h-full overflow-hidden bg-gray-200 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="relative h-full overflow-hidden">
       {/* Carousel Slides */}
@@ -92,17 +131,17 @@ const HeroCarousel = ({ isDark }: { isDark: boolean }) => {
           }}
           className="absolute inset-0"
         >
-          <img
-            src={slides[currentSlide].image}
-            alt={t(slides[currentSlide].titleKey)}
-            className="w-full h-full object-cover"
-          />
+                      <img
+              src={slides[currentSlide]?.image}
+              alt="Slide"
+              className="w-full h-full object-cover"
+            />
           <div className="absolute inset-0 bg-black bg-opacity-50" />
         </motion.div>
       </AnimatePresence>
 
       {/* Content */}
-      <div className="relative h-full flex items-center justify-center text-center">
+      {/* <div className="relative h-full flex items-center justify-center text-center">
         <div className="space-y-8 px-4 z-10">
           <AnimatePresence mode="wait">
             <motion.div
@@ -125,27 +164,33 @@ const HeroCarousel = ({ isDark }: { isDark: boolean }) => {
             </motion.div>
           </AnimatePresence>
 
-          {/* Search Bar */}
+        
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
             className="flex justify-center"
           >
-            <div className="flex items-center bg-white rounded-full p-2 w-full max-w-xl shadow-lg">
+            <form
+              className="flex items-center bg-white rounded-full p-2 w-full max-w-xl shadow-lg"
+              onSubmit={handleSearch}
+            >
               <FiSearch className="text-gray-400 ml-4" />
               <input
+                ref={searchInputRef}
                 type="text"
                 placeholder={t("hero.search.placeholder")}
                 className="w-full px-4 py-2 rounded-full focus:outline-none"
+                value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)}
               />
-              <button className="bg-blue-500 text-white px-6 py-2 rounded-full hover:bg-blue-600 transition-colors">
+              <button type="submit" className="bg-blue-500 text-white px-6 py-2 rounded-full hover:bg-blue-600 transition-colors">
                 {t("hero.search.button")}
               </button>
-            </div>
+            </form>
           </motion.div>
         </div>
-      </div>
+      </div> */}
 
       {/* Navigation Arrows */}
       <button
@@ -169,11 +214,10 @@ const HeroCarousel = ({ isDark }: { isDark: boolean }) => {
           <button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all ${
-              index === currentSlide
+            className={`w-3 h-3 rounded-full transition-all ${index === currentSlide
                 ? "bg-white scale-125"
                 : "bg-white bg-opacity-50 hover:bg-opacity-75"
-            }`}
+              }`}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}

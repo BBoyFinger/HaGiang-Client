@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import MainLayout from "@/layouts/MainLayout";
 import Home from "@/pages/Home";
 import About from "@/pages/About";
@@ -15,10 +15,11 @@ import BlogDetail from "@/pages/Blog/BlogDetail";
 import VehicleDetail from "@/pages/Rent/VehicleDetail";
 import Favorites from "@/pages/Favorites";
 import StayDetail from "@/pages/Stay/[id]";
+import Search from "@/pages/Search";
 
 export default function PublicRoutes() {
   return (
-    <Routes>
+    <>
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
         <Route path="about" element={<About />} />
@@ -35,7 +36,8 @@ export default function PublicRoutes() {
         <Route path="blogs" element={<Blog />} />
         <Route path="blogs/:slug" element={<BlogDetail />} />
         <Route path="favorites" element={<Favorites />} />
+        <Route path="search" element={<Search />} />
       </Route>
-    </Routes>
+    </>
   );
 } 

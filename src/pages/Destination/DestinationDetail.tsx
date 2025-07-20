@@ -9,7 +9,7 @@ import axiosInstance from "@/config/axiosConfig";
 
 
 export default function DestinationDetail() {
-  const { id } = useParams();
+  const { slug } = useParams();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [isFavorite, setIsFavorite] = useState(false);
@@ -64,7 +64,7 @@ export default function DestinationDetail() {
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
-    axiosInstance.get(`/destinations/${id}`)
+    axiosInstance.get(`/destinations/${slug}`)
       .then(res => {
         if (!cancelled) {
           setDestination(res.data.destination || res.data);
@@ -73,13 +73,13 @@ export default function DestinationDetail() {
         }
       })
       .catch(() => {
-        const dest = mockDestinations.find((d: any) => d.slug === id);
+        const dest = mockDestinations.find((d: any) => d.slug === slug);
         setDestination(dest || null);
-        setRelated(mockDestinations.filter((d: any) => d.slug !== id).slice(0, 6));
+        setRelated(mockDestinations.filter((d: any) => d.slug !== slug).slice(0, 6));
         setLoading(false);
       });
     return () => { cancelled = true; };
-  }, [id]);
+  }, [slug]);
 
   if (loading) return <div className="p-8">Đang tải...</div>;
   if (!destination) return <div className="p-8">Không tìm thấy điểm đến.</div>;

@@ -11,7 +11,7 @@ function exportToCSV(data: Tour[], notify?: (msg: string) => void) {
   const rows = data.map(tour => [
     tour._id,
     tour.name,
-    typeof tour.price === 'object' ? tour.price.perSlot : tour.price,
+    typeof tour.price === 'object' ? tour.price.VND?.perSlot : tour.price,
     (tour.locations || []).join('; '),
     tour.description || '',
     tour.rating || '',
@@ -103,7 +103,6 @@ const AdminTourManager: React.FC = () => {
 
   const handleInlineAdd = async (data: any) => {
     try {
-      console.log('Submitting tour data:', data);
       const result = await addTour(data).unwrap();
       console.log('Tour added successfully:', result);
       showToast('Thêm tour mới thành công!', 'success');
@@ -124,7 +123,6 @@ const AdminTourManager: React.FC = () => {
     return matchName && matchLocation;
   });
 
-  console.log(filteredTours)
 
   return (
     <div className="space-y-6">

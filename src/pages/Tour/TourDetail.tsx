@@ -13,20 +13,12 @@ import { useGetTourByIdQuery, useGetCommentsQuery, useAddCommentMutation, useGet
 import { useTranslation } from 'react-i18next';
 import { useSelector } from "react-redux";
 
-const typeLabel: Record<Tour["type"], string> = {
-  trekking: "Tour Trekking",
-  luxury: "Tour Luxury",
-  hang_dong: "Tour Hang Động",
-  song: "Tour Sông",
-  nui: "Tour Núi"
-};
-
 export default function TourDetail() {
   const { slug } = useParams();
   const navigate = useNavigate();
   const { data, isLoading, error } = useGetTourByIdQuery(slug || '');
   const tour = data?.tour;
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const lang = i18n.language === 'en' ? 'en' : 'vi';
   // Thêm state cho tab
   const [activeTab, setActiveTab] = useState<'review' | 'comment'>('review');
@@ -364,7 +356,7 @@ export default function TourDetail() {
                     </div>
                   </div>
 
-                  <h2 className="text-2xl font-bold text-gray-800 mb-4">Mô tả tour</h2>
+                  <h2 className="text-2xl font-bold text-gray-800 mb-4">{t('tour.detail.description')}</h2>
                   <div className="text-gray-600 leading-relaxed mb-6 prose max-w-none"
                     dangerouslySetInnerHTML={{ __html: tour.description?.[lang] || tour.description?.vi || '' }} />
 
@@ -374,7 +366,7 @@ export default function TourDetail() {
                         <FiMapPin className="text-blue-600" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-gray-800">Địa điểm</h3>
+                        <h3 className="font-semibold text-gray-800">{t('tour.detail.location')}</h3>
                         <p className="text-sm text-gray-600">{mapMultiLangArray(tour.locations, lang).join(', ')}</p>
                       </div>
                     </div>
@@ -383,7 +375,7 @@ export default function TourDetail() {
                         <FiClock className="text-green-600" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-gray-800">Thời gian</h3>
+                        <h3 className="font-semibold text-gray-800">{t('tour.detail.duration')}</h3>
                         <p className="text-sm text-gray-600">{tour.duration?.[lang] || tour.duration?.vi}</p>
                       </div>
                     </div>
@@ -392,8 +384,8 @@ export default function TourDetail() {
                         <FiUsers className="text-purple-600" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-gray-800">Nhóm</h3>
-                        <p className="text-sm text-gray-600">2-8 người</p>
+                        <h3 className="font-semibold text-gray-800">{t('tour.detail.group')}</h3>
+                        <p className="text-sm text-gray-600">2-8</p>
                       </div>
                     </div>
                   </div>
@@ -406,7 +398,7 @@ export default function TourDetail() {
                   transition={{ duration: 0.5, delay: 0.2 }}
                   className="bg-white rounded-2xl shadow-lg p-8 mb-8"
                 >
-                  <h2 className="text-2xl font-bold text-gray-800 mb-6">Lịch trình tour</h2>
+                  <h2 className="text-2xl font-bold text-gray-800 mb-6">{t('tour.detail.schedule')}</h2>
                   <button
                     onClick={() => setShowSchedule(!showSchedule)}
                     className="flex w-full justify-between items-center gap-4 p-6 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
@@ -448,12 +440,12 @@ export default function TourDetail() {
                   transition={{ duration: 0.5, delay: 0.3 }}
                   className="bg-white rounded-2xl shadow-lg p-8 mb-8"
                 >
-                  <h2 className="text-2xl font-bold text-gray-800 mb-6">Dịch vụ đi kèm</h2>
+                  <h2 className="text-2xl font-bold text-gray-800 mb-6">{t('tour.detail.services')}</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
                       <h3 className="text-lg font-semibold mb-4 text-green-600 flex items-center gap-2">
                         <FiCheck className="text-green-600" />
-                        Bao gồm
+                        {t('tour.detail.included')}
                       </h3>
                       <div className="space-y-3">
                         {mapMultiLangArray(tour.includedServices, lang).map((service: string, index: number) => (
@@ -467,7 +459,7 @@ export default function TourDetail() {
                     <div>
                       <h3 className="text-lg font-semibold mb-4 text-red-600 flex items-center gap-2">
                         <FiX className="text-red-600" />
-                        Không bao gồm
+                        {t('tour.detail.excluded')}
                       </h3>
                       <div className="space-y-3">
                         {mapMultiLangArray(tour.excludedServices, lang).map((service: string, index: number) => (
@@ -491,8 +483,8 @@ export default function TourDetail() {
                 >
                   {/* Tabs cho Review/Comment */}
                   <div className="flex gap-4 mb-8">
-                    <button onClick={() => setActiveTab('review')} className={`px-4 py-2 rounded-lg font-semibold ${activeTab === 'review' ? 'bg-purple-600 text-white' : 'bg-gray-100 text-gray-700'}`}>Đánh giá</button>
-                    <button onClick={() => setActiveTab('comment')} className={`px-4 py-2 rounded-lg font-semibold ${activeTab === 'comment' ? 'bg-purple-600 text-white' : 'bg-gray-100 text-gray-700'}`}>Bình luận</button>
+                    <button onClick={() => setActiveTab('review')} className={`px-4 py-2 rounded-lg font-semibold ${activeTab === 'review' ? 'bg-purple-600 text-white' : 'bg-gray-100 text-gray-700'}`}>{t('tour.detail.review')}</button>
+                    <button onClick={() => setActiveTab('comment')} className={`px-4 py-2 rounded-lg font-semibold ${activeTab === 'comment' ? 'bg-purple-600 text-white' : 'bg-gray-100 text-gray-700'}`}>{t('tour.detail.comment')}</button>
                   </div>
 
                   {activeTab === 'review' && (
@@ -506,19 +498,19 @@ export default function TourDetail() {
                       </div>
                       {/* Form gửi review */}
                       <div className="bg-gray-50 rounded-xl p-6 mb-8">
-                        <h3 className="text-lg font-semibold mb-4 text-gray-800">Viết đánh giá</h3>
+                        <h3 className="text-lg font-semibold mb-4 text-gray-800">{t('tour.detail.writeReview')}</h3>
                         {!isAuthenticated && (
                           <>
                             <input
                               type="text"
-                              placeholder="Tên của bạn"
+                              placeholder={t('tour.detail.namePlaceholder')}
                               value={reviewInput.name}
                               onChange={e => setReviewInput(prev => ({ ...prev, name: e.target.value }))}
                               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 mb-2"
                             />
                             <input
                               type="email"
-                              placeholder="Email của bạn"
+                              placeholder={t('tour.detail.emailPlaceholder')}
                               value={reviewInput.email}
                               onChange={e => setReviewInput(prev => ({ ...prev, email: e.target.value }))}
                               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 mb-4"
@@ -526,7 +518,7 @@ export default function TourDetail() {
                           </>
                         )}
                         <div className="mb-4">
-                          <label className="block text-sm font-medium text-gray-700 mb-2">Chọn số sao</label>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">{t("tour.detail.pickStar")}</label>
                           <ReactStars
                             count={5}
                             value={reviewInput.rating}
@@ -539,7 +531,7 @@ export default function TourDetail() {
                           />
                         </div>
                         <textarea
-                          placeholder="Viết đánh giá của bạn..."
+                          placeholder={t('tour.detail.reviewPlaceholder')}
                           rows={4}
                           value={reviewInput.comment}
                           onChange={e => setReviewInput(prev => ({ ...prev, comment: e.target.value }))}
@@ -550,13 +542,13 @@ export default function TourDetail() {
                           className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-300 font-semibold"
                           disabled={isAddingReview}
                         >
-                          Gửi đánh giá
+                          {t('tour.detail.sendReview')}
                         </button>
                       </div>
                       {/* Danh sách review */}
-                      {isReviewsLoading ? <div>Đang tải đánh giá...</div> : (
+                      {isReviewsLoading ? <div>{t('tour.detail.loadingReviews')}</div> : (
                         <div className="space-y-6">
-                          {reviews.length === 0 && <div className="text-center py-8 text-gray-500"><div className="text-4xl mb-2">⭐</div><p>Chưa có đánh giá nào. Hãy là người đầu tiên đánh giá!</p></div>}
+                          {reviews.length === 0 && <div className="text-center py-8 text-gray-500"><div className="text-4xl mb-2">⭐</div><p>{t('tour.detail.noReview')}</p></div>}
                           {reviews.map((review: any) => (
                             <div key={review._id} className="border border-gray-200 rounded-xl p-6">
                               <div className="flex justify-between items-start mb-4">
@@ -578,7 +570,7 @@ export default function TourDetail() {
                     <div>
                       {/* Form gửi comment */}
                       <div className="bg-gray-50 rounded-xl p-6 mb-8">
-                        <h3 className="text-lg font-semibold mb-4 text-gray-800">Viết bình luận</h3>
+                        <h3 className="text-lg font-semibold mb-4 text-gray-800">{t('tour.detail.writeComment')}</h3>
                         {commentSuccessMsg && (
                           <div className="mb-4 text-green-600 font-semibold bg-green-50 border border-green-200 rounded-lg p-3">
                             {commentSuccessMsg}
@@ -588,14 +580,14 @@ export default function TourDetail() {
                           <>
                             <input
                               type="text"
-                              placeholder="Tên của bạn"
+                              placeholder={t('tour.detail.namePlaceholder')}
                               value={commentInput.name}
                               onChange={e => setCommentInput(prev => ({ ...prev, name: e.target.value }))}
                               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 mb-2"
                             />
                             <input
                               type="email"
-                              placeholder="Email của bạn"
+                              placeholder={t('tour.detail.emailPlaceholder')}
                               value={commentInput.email}
                               onChange={e => setCommentInput(prev => ({ ...prev, email: e.target.value }))}
                               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 mb-4"
@@ -603,7 +595,7 @@ export default function TourDetail() {
                           </>
                         )}
                         <textarea
-                          placeholder="Viết bình luận của bạn..."
+                          placeholder={t('tour.detail.commentPlaceholder')}
                           rows={4}
                           value={commentInput.content}
                           onChange={e => setCommentInput({ ...commentInput, content: e.target.value })}
@@ -614,13 +606,13 @@ export default function TourDetail() {
                           className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-300 font-semibold"
                           disabled={isAddingComment}
                         >
-                          Gửi bình luận
+                          {t('tour.detail.sendComment')}
                         </button>
                       </div>
                       {/* Danh sách comment */}
-                      {isCommentsLoading ? <div>Đang tải bình luận...</div> : (
+                      {isCommentsLoading ? <div>{t('tour.detail.loadingComments')}</div> : (
                         <div className="space-y-6">
-                          {comments.length === 0 && <div className="text-center py-8 text-gray-500"><div className="text-4xl mb-2">💬</div><p>Chưa có bình luận nào. Hãy là người đầu tiên bình luận!</p></div>}
+                          {comments.length === 0 && <div className="text-center py-8 text-gray-500"><div className="text-4xl mb-2">💬</div><p>{t('tour.detail.noComment')}</p></div>}
                           {comments.map((comment: any) => (
                             <div key={comment._id} className="border border-gray-200 rounded-xl p-6">
                               <div className="flex justify-between items-start mb-4">
@@ -648,7 +640,7 @@ export default function TourDetail() {
                   transition={{ duration: 0.5, delay: 0.5 }}
                   className="bg-white rounded-2xl shadow-lg p-6 mb-6 sticky top-6"
                 >
-                  <h3 className="text-xl font-bold text-gray-800 mb-4">Giá tour</h3>
+                  <h3 className="text-xl font-bold text-gray-800 mb-4">{t('tour.detail.price')}</h3>
                   <div className="text-center mb-6 space-y-2">
                     {/* VND Price */}
                     {tour.price?.VND && (
@@ -664,7 +656,7 @@ export default function TourDetail() {
                             <div className="text-base font-semibold text-purple-600">
                               {tour.price.VND.groupPrice.toLocaleString('vi-VN')} VND
                             </div>
-                            <div className="text-sm text-gray-500">/giá nhóm</div>
+                            <div className="text-sm text-gray-500">/{t('tour.detail.groupPrice')}</div>
                           </div>
                         )}
                         {tour.price.VND.discountPrice && (
@@ -672,7 +664,7 @@ export default function TourDetail() {
                             <div className="text-base font-semibold text-green-600">
                               {tour.price.VND.discountPrice.toLocaleString('vi-VN')} VND
                             </div>
-                            <div className="text-sm text-gray-500">/khuyến mãi</div>
+                            <div className="text-sm text-gray-500">/{t('tour.detail.discountPrice')}</div>
                           </div>
                         )}
                       </div>
@@ -680,12 +672,8 @@ export default function TourDetail() {
                   </div>
 
                   <div className="space-y-3">
-                    <button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold py-3 rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all duration-300">
-                      Đặt tour ngay
-                    </button>
-                    <button className="w-full border-2 border-purple-600 text-purple-600 font-semibold py-3 rounded-xl hover:bg-purple-600 hover:text-white transition-all duration-300">
-                      Liên hệ tư vấn
-                    </button>
+                    <button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold py-3 rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all duration-300">{t('tour.detail.bookNow')}</button>
+                    <button className="w-full border-2 border-purple-600 text-purple-600 font-semibold py-3 rounded-xl hover:bg-purple-600 hover:text-white transition-all duration-300">{t('tour.detail.contact')}</button>
                   </div>
                 </motion.div>
 
@@ -696,15 +684,15 @@ export default function TourDetail() {
                   transition={{ duration: 0.5, delay: 0.6 }}
                   className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl shadow-lg p-6 text-white"
                 >
-                  <h3 className="text-xl font-bold mb-4">Thông tin nhanh</h3>
+                  <h3 className="text-xl font-bold mb-4">{t('tour.detail.quickInfo')}</h3>
                   <div className="space-y-3">
                     <div className="flex items-center gap-3">
                       <FiStar className="text-yellow-300" />
-                      <span>Đánh giá: {averageRating}/5 ({reviews.length})</span>
+                      <span>{t('tour.detail.rating')}: {averageRating}/5 ({reviews.length})</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <FiMapPin className="text-purple-200" />
-                      <span>{mapMultiLangArray(tour.locations, lang).length} địa điểm</span>
+                      <span>{mapMultiLangArray(tour.locations, lang).length} {t('tour.detail.location')}</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <FiClock className="text-purple-200" />

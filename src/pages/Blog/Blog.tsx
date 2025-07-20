@@ -36,10 +36,10 @@ function Blog() {
   const filteredBlogs = blogs.filter((blog) => {
     const tags = blog.tags && blog.tags[lang] ? blog.tags[lang].join(",") : (blog.tags?.vi || []).join(",");
     const matchesSearch = (blog.title?.[lang] || blog.title?.vi || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         (blog.content?.[lang] || blog.content?.vi || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         tags.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === "all" || 
-                           tags.toLowerCase().includes(selectedCategory);
+      (blog.content?.[lang] || blog.content?.vi || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      tags.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = selectedCategory === "all" ||
+      tags.toLowerCase().includes(selectedCategory);
     return matchesSearch && matchesCategory;
   });
 
@@ -120,11 +120,10 @@ function Blog() {
                       <button
                         key={category.id}
                         onClick={() => setSelectedCategory(category.id)}
-                        className={`flex items-center px-3 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-300 whitespace-nowrap ${
-                          selectedCategory === category.id
+                        className={`flex items-center px-3 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-300 whitespace-nowrap ${selectedCategory === category.id
                             ? 'bg-purple-600 text-white shadow-lg'
                             : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
+                          }`}
                       >
                         <Icon className="mr-1.5 text-xs" />
                         {category.name}
@@ -168,7 +167,7 @@ function Blog() {
           {/* Results Count */}
           <div className="mb-8">
             <p className="text-gray-600">
-              {t('blog.found', { count: sortedBlogs.length, interpolation: { escapeValue: false }, 1: (chunks: any) => <span className="font-semibold text-purple-600">{chunks}</span> })}
+            {t('blog.found', { count: sortedBlogs.length, interpolation: { escapeValue: false }, 1: (chunks: any) => <span className="font-semibold text-purple-600">{chunks}</span> })}
             </p>
           </div>
 

@@ -8,10 +8,12 @@ import AdminBookingManager from '../components/admin/AdminBookingManager';
 import AdminDashboard from '../components/admin/AdminDashboard';
 import AdminProfileModal from '../components/admin/AdminProfileModal';
 import AdminCommentManager from '../components/admin/AdminCommentManager';
+import AdminHeroCarouselManager from '../components/admin/AdminHeroCarouselManager';
 import { Menu } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { useGetCurrentUserQuery, useUpdateProfileMutation } from '../services/api';
 import logo from "@/assets/logo.jpg"
+import AdminChatPanel from '@/components/admin/AdminChatPanel';
 
 const menuItems = [
   { key: 'dashboard', label: 'Dashboard', icon: '📊' },
@@ -21,6 +23,8 @@ const menuItems = [
   { key: 'comment', label: 'Quản lý Bình luận', icon: '💬' },
   { key: 'user', label: 'Quản lý Người dùng', icon: '👥' },
   { key: 'booking', label: 'Quản lý Booking', icon: '📅' },
+  { key: 'chat', label: 'Chat với khách hàng', icon: '💬' },
+  { key: 'carousel', label: 'Quản lý Carousel', icon: '🖼️' },
 ];
 
 const Admin: React.FC = () => {
@@ -150,6 +154,8 @@ const Admin: React.FC = () => {
             {selected === 'comment' && <AdminCommentManager />}
             {selected === 'user' && <AdminUserManager />}
             {selected === 'booking' && <AdminBookingManager />}
+            {selected === 'chat' && <AdminChatPanel />}
+            {selected === 'carousel' && <AdminHeroCarouselManager />}
           </div>
         </main>
       </div>

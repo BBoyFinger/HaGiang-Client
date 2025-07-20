@@ -2,7 +2,7 @@ import { FiMapPin, FiSun, FiMoon, FiMenu, FiX, FiUser, FiHeart, FiSearch } from 
 import { FaHeart } from "react-icons/fa";
 import logo from "@/assets/logo.jpg";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { motion, AnimatePresence } from "framer-motion";
@@ -25,6 +25,7 @@ const Header = ({
   const { user, isAuthenticated } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
+  // Xóa các state, useRef, useEffect, hàm handleSearchSubmit liên quan đến search ở header
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -112,15 +113,7 @@ const Header = ({
           {/* Right Side Actions */}
           <div className="flex items-center space-x-2 lg:space-x-4">
             {/* Search Button */}
-            <button
-              className={`p-2 rounded-lg transition-all duration-300 ${isDark
-                ? "text-gray-300 hover:text-white hover:bg-gray-800"
-                : "text-gray-600 hover:text-purple-600 hover:bg-gray-50"
-                }`}
-              aria-label="Search"
-            >
-              <FiSearch className="text-lg" />
-            </button>
+            {/* Xóa hoàn toàn nút search (FiSearch) khỏi header, không render nữa */}
 
             {/* Favorites */}
             <Link

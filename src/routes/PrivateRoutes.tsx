@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Route, Navigate } from "react-router-dom";
 import Admin from "@/pages/Admin";
 import Profile from "@/pages/Profile";
 import { useSelector } from "react-redux";
@@ -9,7 +9,7 @@ export default function PrivateRoutes() {
     const { user, isAuthenticated } = useSelector((state: RootState) => state.user);
     
     return (
-        <Routes>
+        <>
             <Route element={<MainLayout />}>
                 <Route
                     path="/profile"
@@ -28,6 +28,6 @@ export default function PrivateRoutes() {
                         : <Navigate to="/login" replace />
                 }
             />
-        </Routes>
+        </>
     );
 } 

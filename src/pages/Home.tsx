@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
-import { fetchDestinations, Destination } from "@/api/destinations";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion"
-import { FiSearch, FiUsers, FiMapPin, FiStar, FiClock, FiHeart } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
 import DestinationCard from "@/components/DestinationCard";
 import HeroCarousel from "@/components/HeroCarousel";
+import SearchBar from "@/components/SearchBar";
 import image1 from "@/assets/1.jpg";
-import { tours } from "@/data/tours";
 import TourCard from "@/components/TourCard";
 import logo from "@/assets/logo.jpg";
 import { FaHandHoldingHeart, FaHandsHelping, FaMountain, FaRegHandshake, FaArrowRight, FaUsers, FaStar, FaClock, FaMapMarkerAlt, FaHeart, FaEye } from "react-icons/fa";
@@ -25,6 +23,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [destinations, setDestinations] = useState<any[]>([]);
   const [blogs, setBlogs] = useState<any[]>([]);
+  const [tourReviews, setTourReviews] = useState<Record<string, { averageRating: number, reviewCount: number }>>({});
 
   useEffect(() => {
     axiosInstance.get("/tours")
@@ -38,6 +37,27 @@ export default function Home() {
         setLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    if (tours.length > 0) {
+      Promise.all(
+        tours.map(async (tour: any) => {
+          try {
+            const res = await axiosInstance.get(`/reviews?tourId=${tour._id}`);
+            const reviews = res.data.reviews || [];
+            const averageRating = reviews.length > 0 ? (reviews.reduce((sum: number, r: any) => sum + (r.rating || 0), 0) / reviews.length) : 0;
+            return { tourId: tour._id, averageRating: Number(averageRating.toFixed(1)), reviewCount: reviews.length };
+          } catch {
+            return { tourId: tour._id, averageRating: 0, reviewCount: 0 };
+          }
+        })
+      ).then(results => {
+        const reviewMap: Record<string, { averageRating: number, reviewCount: number }> = {};
+        results.forEach(r => { reviewMap[r.tourId] = { averageRating: r.averageRating, reviewCount: r.reviewCount }; });
+        setTourReviews(reviewMap);
+      });
+    }
+  }, [tours]);
 
   useEffect(() => {
     axiosInstance.get("/destinations")
@@ -82,6 +102,33 @@ export default function Home() {
         {/* Hero Section */}
         <section className="h-screen relative">
           <HeroCarousel isDark={isDark} />
+          
+          {/* Search Bar Overlay */}
+          <div className="absolute inset-0 flex items-center justify-center z-10">
+            <div className="w-full max-w-4xl px-4">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="text-center mb-8"
+              >
+                <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
+                  {t('home.hero.title') || 'Khám phá Hà Giang'}
+                </h1>
+                <p className="text-xl md:text-2xl text-white/90 drop-shadow-md max-w-2xl mx-auto">
+                  {t('home.hero.subtitle') || 'Trải nghiệm vùng đất hoang dã và văn hóa độc đáo của miền núi phía Bắc'}
+                </p>
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+              >
+                <SearchBar />
+              </motion.div>
+            </div>
+          </div>
         </section>
 
         {/* Stats Section */}
@@ -185,13 +232,17 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {tours.slice(0, 3).map((tour) => (
                 <motion.div
-                  key={tour.id}
+                  key={tour.id || tour._id}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
                   viewport={{ once: true }}
                 >
-                  <TourCard tour={tour} />
+                  <TourCard
+                    tour={tour}
+                    averageRating={tourReviews[tour._id]?.averageRating}
+                    reviewCount={tourReviews[tour._id]?.reviewCount}
+                  />
                 </motion.div>
               ))}
             </div>

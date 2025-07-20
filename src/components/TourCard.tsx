@@ -6,6 +6,10 @@ import { MdAccessTime, MdArrowRightAlt, MdLocationOn, MdPeople, MdStar, MdFavori
 import { useTranslation } from "react-i18next";
 import { FaEye, FaHeart, FaMapMarkerAlt, FaClock, FaUsers, FaTag } from 'react-icons/fa';
 import { useState } from "react";
+import { useFavorite } from "@/contexts/FavoriteContext";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { useNavigate } from "react-router-dom";
 
 const formatPrice = (price: number, currency: string) => {
   if (currency === "EUR") return price + " EUR";
@@ -15,14 +19,21 @@ const formatPrice = (price: number, currency: string) => {
 export default function TourCard({ tour, averageRating, reviewCount }: { tour: any, averageRating?: number, reviewCount?: number }) {
   const { t, i18n } = useTranslation();
   const lang = i18n.language === 'en' ? 'en' : 'vi';
-  const [isFavorite, setIsFavorite] = useState(false);
-  const [showFullDescription, setShowFullDescription] = useState(false);
-
-  const toggleFavorite = (e: React.MouseEvent) => {
+  const { isFavorite, addFavorite, removeFavorite } = useFavorite();
+  const { isAuthenticated } = useSelector((state: RootState) => state.user);
+  const navigate = useNavigate();
+  const favorite = isFavorite(tour._id);
+  const handleToggleFavorite = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsFavorite(!isFavorite);
+    if (!isAuthenticated) {
+      navigate('/login');
+      return;
+    }
+    if (favorite) await removeFavorite(tour._id);
+    else await addFavorite(tour._id);
   };
+  const [showFullDescription, setShowFullDescription] = useState(false);
 
   const priceObj = tour.price?.VND || Object.values(tour.price || {})[0] || {};
   const { perSlot, groupPrice, discountPrice } = priceObj;
@@ -56,15 +67,12 @@ export default function TourCard({ tour, averageRating, reviewCount }: { tour: a
               <span className="font-medium">1.2k</span>
             </div>
             <button
-              onClick={toggleFavorite}
-              className="flex items-center space-x-1 bg-white/20 backdrop-blur-sm rounded-full px-3 py-1.5 text-white text-sm hover:bg-white/30 transition-colors"
+              onClick={handleToggleFavorite}
+              title={favorite ? 'Bỏ khỏi yêu thích' : 'Lưu vào yêu thích'}
+              className={`flex items-center space-x-1 bg-white/20 backdrop-blur-sm rounded-full px-3 py-1.5 text-white text-sm hover:bg-white/30 transition-colors ${favorite ? 'text-red-400' : ''}`}
             >
-              {isFavorite ? (
-                <FaHeart className="text-xs text-red-400" />
-              ) : (
-                <FaHeart className="text-xs" />
-              )}
-              <span className="font-medium">89</span>
+              <FaHeart className={`text-xs ${favorite ? 'text-red-400' : ''}`} />
+              <span className="font-medium">{favorite ? 'Đã lưu' : 'Lưu'}</span>
             </button>
           </div>
         </div>
@@ -152,11 +160,11 @@ export default function TourCard({ tour, averageRating, reviewCount }: { tour: a
                   {formatPrice(groupPrice || perSlot || 0, currency)}
                 </span>
               )}
-              <span className="text-xs text-gray-500 ml-2">/ người</span>
+              <span className="text-xs text-gray-500 ml-2">{t('tour.detail.perPerson') || '/ người'}</span>
             </div>
             {/* Đánh giá + ReactStars */}
             <div className="flex items-center">
-              <span className="text-xs text-gray-500 mr-1">Đánh giá</span>
+              <span className="text-xs text-gray-500 mr-1">{t('tour.detail.rating') || 'Đánh giá'}</span>
               <ReactStars
                 count={5}
                 value={typeof averageRating === 'number' ? averageRating : tour.rating}
@@ -168,7 +176,7 @@ export default function TourCard({ tour, averageRating, reviewCount }: { tour: a
               />
               <span className="text-sm font-medium text-gray-700 ml-1">{typeof averageRating === 'number' ? averageRating : tour.rating?.toFixed(1)}</span>
               {typeof reviewCount === 'number' && (
-                <span className="text-xs text-gray-500 ml-1">({reviewCount} đánh giá)</span>
+                <span className="text-xs text-gray-500 ml-1">{t('tour.detail.reviewCount', { count: reviewCount }) || `(${reviewCount} đánh giá)`}</span>
               )}
             </div>
           </div>
@@ -183,14 +191,15 @@ export default function TourCard({ tour, averageRating, reviewCount }: { tour: a
             {t('common.viewDetails')}
           </Link>
           <button
-            onClick={toggleFavorite}
+            onClick={handleToggleFavorite}
+            title={favorite ? 'Bỏ khỏi yêu thích' : 'Lưu vào yêu thích'}
             className={`p-3 rounded-xl border-2 transition-all duration-300 ${
-              isFavorite 
-                ? 'border-red-500 bg-red-50 text-red-500 hover:bg-red-100' 
+              favorite
+                ? 'border-red-500 bg-red-50 text-red-500 hover:bg-red-100'
                 : 'border-gray-300 text-gray-400 hover:border-red-300 hover:text-red-400'
             }`}
           >
-            {isFavorite ? <FaHeart className="text-sm" /> : <FaHeart className="text-sm" />}
+            <FaHeart className="text-sm" />
           </button>
         </div>
       </div>

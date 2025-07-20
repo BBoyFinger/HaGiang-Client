@@ -1,36 +1,59 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import axiosInstance from "@/config/axiosConfig";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 interface FavoriteContextType {
-  favorites: string[];
-  addFavorite: (id: string) => void;
-  removeFavorite: (id: string) => void;
+  tourFavorites: string[];
+  addFavorite: (id: string) => Promise<boolean>;
+  removeFavorite: (id: string) => Promise<boolean>;
   isFavorite: (id: string) => boolean;
 }
 
 const FavoriteContext = createContext<FavoriteContextType | undefined>(undefined);
 
 export function FavoriteProvider({ children }: { children: React.ReactNode }) {
-  const [favorites, setFavorites] = useState<string[]>([]);
+  const { user, isAuthenticated } = useSelector((state: RootState) => state.user);
+  const userId = user?._id;
+  const [tourFavorites, setTourFavorites] = useState<string[]>([]);
 
+  // Fetch wishlist khi user thay đổi
   useEffect(() => {
-    const stored = localStorage.getItem("favorites");
-    if (stored) setFavorites(JSON.parse(stored));
-  }, []);
+    if (userId) {
+      axiosInstance.get(`/users/${userId}/wishlist`).then(res => {
+        setTourFavorites(res.data.wishlist.map((t: any) => t._id));
+      }).catch(() => setTourFavorites([]));
+    } else {
+      setTourFavorites([]);
+    }
+  }, [userId]);
 
-  useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  }, [favorites]);
-
-  const addFavorite = (id: string) => {
-    setFavorites((prev) => prev.includes(id) ? prev : [...prev, id]);
+  // Thêm vào wishlist
+  const addFavorite = async (id: string) => {
+    if (!userId) return false;
+    try {
+      const res = await axiosInstance.post(`/users/${userId}/wishlist`, { tourId: id });
+      setTourFavorites(res.data.wishlist.map((t: any) => t._id));
+      return true;
+    } catch {
+      return false;
+    }
   };
-  const removeFavorite = (id: string) => {
-    setFavorites((prev) => prev.filter((f) => f !== id));
+  // Xoá khỏi wishlist
+  const removeFavorite = async (id: string) => {
+    if (!userId) return false;
+    try {
+      const res = await axiosInstance.delete(`/users/${userId}/wishlist/${id}`);
+      setTourFavorites(res.data.wishlist.map((t: any) => t._id));
+      return true;
+    } catch {
+      return false;
+    }
   };
-  const isFavorite = (id: string) => favorites.includes(id);
+  const isFavorite = (id: string) => tourFavorites.includes(id);
 
   return (
-    <FavoriteContext.Provider value={{ favorites, addFavorite, removeFavorite, isFavorite }}>
+    <FavoriteContext.Provider value={{ tourFavorites, addFavorite, removeFavorite, isFavorite }}>
       {children}
     </FavoriteContext.Provider>
   );

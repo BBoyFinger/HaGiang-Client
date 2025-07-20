@@ -9,6 +9,30 @@
     "trip": "Tour Hà Giang",
     "login": "Đăng nhập"
   },
+  "search": {
+    "placeholder": "Tìm kiếm tour, điểm đến, blog, homestay, xe...",
+    "search": "Tìm",
+    "loading": "Đang tìm kiếm...",
+    "results": "Kết quả tìm kiếm",
+    "noResults": "Không tìm thấy kết quả",
+    "tryDifferent": "Thử từ khóa khác",
+    "viewAll": "Xem tất cả kết quả",
+    "tabs": {
+      "all": "Tất cả",
+      "tour": "Tour",
+      "destination": "Điểm đến",
+      "blog": "Blog",
+      "stay": "Homestay",
+      "rent": "Thuê xe"
+    },
+    "types": {
+      "tour": "Tour",
+      "destination": "Điểm đến",
+      "blog": "Blog",
+      "stay": "Homestay",
+      "rent": "Thuê xe"
+    }
+  },
   "hero": {
     "slide1": {
       "title": "Khám Phá Vẻ Đẹp Hà Giang",
@@ -36,6 +60,10 @@
     }
   },
   "home": {
+    "hero": {
+      "title": "Khám phá Hà Giang",
+      "subtitle": "Trải nghiệm vùng đất hoang dã và văn hóa độc đáo của miền núi phía Bắc"
+    },
     "featuredDestinations": "Điểm Đến Nổi Bật",
     "about": {
       "title": "Về Hà Giang Travel",
@@ -131,7 +159,8 @@
     "inputMessage": "Nhập tin nhắn...",
     "favorite": "Yêu thích",
     "close": "Đóng",
-    "submit": "Gửi đi"
+    "submit": "Gửi đi",
+    "supportChat": "Hỗ trợ trực tuyến"
   },
   "destinations": {
     "title": "Điểm Đến",
@@ -156,23 +185,6 @@
     "notIncluded": "Không bao gồm",
     "schedule": "Lịch trình",
     "reviews": "Đánh giá"
-  },
-  "tour": {
-    "title": "Đặt tour cùng Homie Travel",
-    "name": "Họ tên",
-    "namePlaceholder": "Nhập họ tên của bạn",
-    "email": "Email",
-    "emailPlaceholder": "Nhập email",
-    "phone": "Số điện thoại",
-    "phonePlaceholder": "Nhập số điện thoại",
-    "tour": "Chọn tour",
-    "date": "Ngày khởi hành",
-    "people": "Số lượng người",
-    "note": "Ghi chú",
-    "notePlaceholder": "Yêu cầu đặc biệt (nếu có)",
-    "submit": "Đặt tour",
-    "success": "Đặt tour thành công! Chúng tôi sẽ liên hệ bạn sớm.",
-    "time": "Ngày"
   },
   "rent": {
     "title": "Thuê xe Hà Giang",
@@ -457,6 +469,49 @@
       "qualityDesc": "Cam kết chất lượng dịch vụ với hơn 500+ khách hàng hài lòng",
       "supportTitle": "Hỗ trợ 24/7",
       "supportDesc": "Đội ngũ hỗ trợ khách hàng sẵn sàng phục vụ mọi lúc, mọi nơi"
+    },
+    "detail": {
+      "pickStar": "Chọn số sao",
+      "description": "Mô tả tour",
+      "schedule": "Lịch trình tour",
+      "services": "Dịch vụ đi kèm",
+      "included": "Bao gồm",
+      "excluded": "Không bao gồm",
+      "location": "Địa điểm",
+      "duration": "Thời gian",
+      "group": "Nhóm",
+      "price": "Giá tour",
+      "quickInfo": "Thông tin nhanh",
+      "rating": "Đánh giá",
+      "review": "Đánh giá",
+      "comment": "Bình luận",
+      "writeReview": "Viết đánh giá",
+      "writeComment": "Viết bình luận",
+      "sendReview": "Gửi đánh giá",
+      "sendComment": "Gửi bình luận",
+      "loadingReviews": "Đang tải đánh giá...",
+      "loadingComments": "Đang tải bình luận...",
+      "noReview": "Chưa có đánh giá nào. Hãy là người đầu tiên đánh giá!",
+      "noComment": "Chưa có bình luận nào. Hãy là người đầu tiên bình luận!",
+      "bookNow": "Đặt tour ngay",
+      "contact": "Liên hệ",
+      "namePlaceholder": "Tên của bạn",
+      "emailPlaceholder": "Email của bạn",
+      "reviewPlaceholder": "Viết đánh giá của bạn...",
+      "commentPlaceholder": "Viết bình luận của bạn...",
+      "groupPrice": "giá nhóm",
+      "discountPrice": "khuyến mãi",
+      "perPerson": "/ người",
+      "reviewCount": "({{count}} đánh giá)"
     }
+  },
+  "favorites": {
+    "loading": "Đang tải danh sách tour yêu thích...",
+    "title": "Tour yêu thích",
+    "desc": "Tất cả các tour bạn đã lưu sẽ xuất hiện tại đây. Hãy lên kế hoạch cho chuyến đi mơ ước của bạn!",
+    "emptyTitle": "Bạn chưa lưu tour nào",
+    "emptyDesc": "Khám phá các tour hấp dẫn và nhấn vào biểu tượng trái tim để lưu lại nhé!",
+    "exploreBtn": "Khám phá ngay",
+    "removeBtn": "Bỏ khỏi yêu thích"
   }
 }
