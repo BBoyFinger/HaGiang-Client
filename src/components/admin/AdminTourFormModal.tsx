@@ -15,7 +15,7 @@ import 'react-quill/dist/quill.snow.css';
 interface TourFormModalProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (data: any) => void;
+  onSubmit: (data: any, selectedFiles: File[]) => void;
   initialData?: any;
   inlineMode?: boolean;
 }
@@ -112,9 +112,9 @@ const AdminTourFormModal: React.FC<TourFormModalProps> = ({ open, onClose, onSub
   // Định nghĩa type cho giá VND
   type PriceInput = { perSlot: string; groupPrice: string; discountPrice: string };
   const [price, setPrice] = useState<PriceInput>({
-    perSlot: '', 
-    groupPrice: '', 
-    discountPrice: '' 
+    perSlot: '',
+    groupPrice: '',
+    discountPrice: ''
   });
 
   // Khởi tạo giá từ initialData khi edit
@@ -278,43 +278,47 @@ const AdminTourFormModal: React.FC<TourFormModalProps> = ({ open, onClose, onSub
   }, [open, initialData, reset]);
 
   const onFormSubmit = async (data: TourFormZod) => {
-   
-    const formData = new FormData();
-    formData.append('name', JSON.stringify(data.name));
-    formData.append('type', JSON.stringify(data.type));
-    formData.append('price', data.price);
-    if (data.groupPrice) formData.append('groupPrice', data.groupPrice);
-    if (data.discountPrice) formData.append('discountPrice', data.discountPrice);
-    formData.append('currency', data.currency);
-    formData.append('locations', JSON.stringify(data.locations));
-    formData.append('description', JSON.stringify(data.description));
-    formData.append('shortDescription', JSON.stringify(data.shortDescription));
-    formData.append('duration', JSON.stringify(data.duration));
-    formData.append('guideLanguage', JSON.stringify(data.guideLanguage));
-    formData.append('includedServices', JSON.stringify(data.includedServices));
-    formData.append('excludedServices', JSON.stringify(data.excludedServices));
-    formData.append('schedule', JSON.stringify(data.schedule));
-    selectedFiles.forEach(file => {
-      formData.append('images', file);
-    });
-    try {
-      const response = await fetch('/api/tours', {
-        method: 'POST',
-        body: formData,
-      });
-      if (response.ok) {
-        // Reset form và selectedFiles
-        reset();
-        setSelectedFiles([]);
-        // Có thể gọi onClose hoặc cập nhật danh sách tour
-        if (onClose) onClose();
-      } else {
-        // Xử lý lỗi
-        alert('Tạo tour thất bại!');
+    console.log('Submit data:', data, selectedFiles)
+    // Chuyển đổi dữ liệu cho đúng schema backend
+    const locationsVi = (data.locations.vi || '').split(',').map(s => s.trim()).filter(Boolean);
+    const locationsEn = (data.locations.en || '').split(',').map(s => s.trim()).filter(Boolean);
+    const locations = locationsVi.map((vi, idx) => ({ vi, en: locationsEn[idx] || '' }));
+
+    const guideLangVi = (data.guideLanguage.vi || '').split(',').map(s => s.trim()).filter(Boolean);
+    const guideLangEn = (data.guideLanguage.en || '').split(',').map(s => s.trim()).filter(Boolean);
+    const guideLanguage = guideLangVi.map((vi, idx) => ({ vi, en: guideLangEn[idx] || '' }));
+
+    const includedVi = (data.includedServices.vi || '').split('\n').map(s => s.trim()).filter(Boolean);
+    const includedEn = (data.includedServices.en || '').split('\n').map(s => s.trim()).filter(Boolean);
+    const includedServices = includedVi.map((vi, idx) => ({ vi, en: includedEn[idx] || '' }));
+
+    const excludedVi = (data.excludedServices.vi || '').split('\n').map(s => s.trim()).filter(Boolean);
+    const excludedEn = (data.excludedServices.en || '').split('\n').map(s => s.trim()).filter(Boolean);
+    const excludedServices = excludedVi.map((vi, idx) => ({ vi, en: excludedEn[idx] || '' }));
+
+    const priceObj = {
+      VND: {
+        perSlot: Number(price.perSlot),
+        groupPrice: price.groupPrice ? Number(price.groupPrice) : undefined,
+        discountPrice: price.discountPrice ? Number(price.discountPrice) : undefined
       }
-    } catch (err) {
-      alert('Lỗi kết nối server!');
-    }
+    };
+
+    const schedule = {
+      vi: scheduleVi,
+      en: scheduleEn
+    };
+
+    // Gọi onSubmit prop, truyền dữ liệu đã chuyển đổi và selectedFiles
+    await onSubmit({
+      ...data,
+      price: priceObj,
+      locations,
+      guideLanguage,
+      includedServices,
+      excludedServices,
+      schedule
+    }, selectedFiles);
   };
 
   if (!open) return null;

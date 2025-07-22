@@ -7,7 +7,7 @@ import axios from "axios";
 import { FaFacebookMessenger } from "react-icons/fa";
 import { SiZalo } from "react-icons/si";
 
-const SOCKET_URL = "http://localhost:5000";
+const SOCKET_URL = "https://hagiangtravel.onrender.com";
 
 export default function ChatbotWidget() {
   const [open, setOpen] = useState(false);

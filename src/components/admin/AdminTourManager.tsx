@@ -5,6 +5,7 @@ import AdminTourFormModal from './AdminTourFormModal';
 import { toast } from 'react-toastify';
 import * as tourApi from '../../api/tours';
 import { useGetToursQuery, useAddTourMutation, useUpdateTourMutation, useDeleteTourMutation } from '../../services/api';
+import axios from 'axios';
 
 function exportToCSV(data: Tour[], notify?: (msg: string) => void) {
   const header = ['ID', 'Tên Tour', 'Giá', 'Địa điểm', 'Mô tả', 'Đánh giá'];
@@ -81,17 +82,36 @@ const AdminTourManager: React.FC = () => {
     refetch();
   };
 
-  const handleModalSubmit = async (data: any) => {
+  const handleModalSubmit = async (data: any, selectedFiles?: File[]) => {
     try {
       if (editTour) {
-        await updateTour({ id: editTour._id, data });
+        const formData = new FormData();
+        formData.append('name', JSON.stringify(data.name));
+        formData.append('type', JSON.stringify(data.type));
+        formData.append('price', JSON.stringify(data.price));
+        formData.append('locations', JSON.stringify(data.locations));
+        formData.append('description', JSON.stringify(data.description));
+        formData.append('shortDescription', JSON.stringify(data.shortDescription));
+        formData.append('duration', JSON.stringify(data.duration));
+        formData.append('guideLanguage', JSON.stringify(data.guideLanguage));
+        formData.append('includedServices', JSON.stringify(data.includedServices));
+        formData.append('excludedServices', JSON.stringify(data.excludedServices));
+        formData.append('schedule', JSON.stringify(data.schedule));
+        if (selectedFiles && selectedFiles.length > 0) {
+          selectedFiles.forEach(file => {
+            formData.append('images', file);
+          });
+        }
+        await axios.put(`/api/tours/${editTour._id}`, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
         showToast('Cập nhật tour thành công!', 'success');
         setShowEditForm(false);
         setEditTour(null);
       } else {
-        await addTour(data);
-        showToast('Thêm tour mới thành công!', 'success');
-        setShowAddForm(false);
+        // Thêm mới (đã xử lý ở handleInlineAdd)
+        await handleInlineAdd(data, selectedFiles);
+        return;
       }
       setModalOpen(false);
       refetch();
@@ -101,16 +121,35 @@ const AdminTourManager: React.FC = () => {
     }
   };
 
-  const handleInlineAdd = async (data: any) => {
+  const handleInlineAdd = async (data: any, selectedFiles?: File[]) => {
+    console.log('Submit data:', data, selectedFiles)
     try {
-      const result = await addTour(data).unwrap();
-      console.log('Tour added successfully:', result);
+      const formData = new FormData();
+      formData.append('name', JSON.stringify(data.name));
+      formData.append('type', JSON.stringify(data.type));
+      formData.append('price', JSON.stringify(data.price));
+      formData.append('locations', JSON.stringify(data.locations));
+      formData.append('description', JSON.stringify(data.description));
+      formData.append('shortDescription', JSON.stringify(data.shortDescription));
+      formData.append('duration', JSON.stringify(data.duration));
+      formData.append('guideLanguage', JSON.stringify(data.guideLanguage));
+      formData.append('includedServices', JSON.stringify(data.includedServices));
+      formData.append('excludedServices', JSON.stringify(data.excludedServices));
+      formData.append('schedule', JSON.stringify(data.schedule));
+      if (selectedFiles && selectedFiles.length > 0) {
+        selectedFiles.forEach(file => {
+          formData.append('images', file);
+        });
+      }
+      await axios.post('/api/tours', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
       showToast('Thêm tour mới thành công!', 'success');
       setShowAddForm(false);
       refetch();
     } catch (error: any) {
       console.error('Error adding tour:', error);
-      showToast(`Lỗi khi thêm tour: ${error?.data?.message || error?.message || 'Unknown error'}`, 'error');
+      showToast(`Lỗi khi thêm tour: ${error?.response?.data?.message || error?.message || 'Unknown error'}`, 'error');
     }
   };
 
@@ -146,7 +185,7 @@ const AdminTourManager: React.FC = () => {
           <AdminTourFormModal
             open={true}
             onClose={() => { setShowEditForm(false); setEditTour(null); }}
-            onSubmit={handleModalSubmit}
+            onSubmit={handleInlineAdd}
             initialData={editTour}
             inlineMode={true}
           />
