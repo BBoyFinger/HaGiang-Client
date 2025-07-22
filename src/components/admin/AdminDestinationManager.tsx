@@ -46,7 +46,7 @@ const AdminDestinationManager: React.FC = () => {
     }
   };
   const handleDelete = async (id: string) => {
-    await deleteDestination(Number(id));
+    await deleteDestination(id);
     showToast('Xóa điểm đến thành công!', 'success');
     refetch();
   };

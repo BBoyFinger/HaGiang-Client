@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 interface AdminBlogFormProps {
   initialData?: any;
@@ -13,23 +14,24 @@ const statusOptions = [
 ];
 
 const AdminBlogForm: React.FC<AdminBlogFormProps> = ({ initialData, onSubmit, onCancel }) => {
-  const [form, setForm] = useState({
-    title: {
-      vi: initialData?.title?.vi || '',
-      en: initialData?.title?.en || '',
-    },
-    content: {
-      vi: initialData?.content?.vi || '',
-      en: initialData?.content?.en || '',
-    },
-    tags: {
-      vi: initialData?.tags?.vi?.join(', ') || '',
-      en: initialData?.tags?.en?.join(', ') || '',
-    },
-    author: initialData?.author || '',
-    status: initialData?.status || 'draft',
+  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm({
+    defaultValues: {
+      title: {
+        vi: initialData?.title?.vi || '',
+        en: initialData?.title?.en || '',
+      },
+      content: {
+        vi: initialData?.content?.vi || '',
+        en: initialData?.content?.en || '',
+      },
+      tags: {
+        vi: initialData?.tags?.vi?.join(', ') || '',
+        en: initialData?.tags?.en?.join(', ') || '',
+      },
+      author: initialData?.author || '',
+      status: initialData?.status || 'draft',
+    }
   });
-  const [error, setError] = useState('');
   // Ảnh cũ giữ lại
   const [imagesToKeep, setImagesToKeep] = useState<string[]>(initialData?.imageUrls || []);
   // Ảnh mới upload (chỉ lưu url preview, file sẽ gửi khi submit)
@@ -44,50 +46,61 @@ const AdminBlogForm: React.FC<AdminBlogFormProps> = ({ initialData, onSubmit, on
     if (!files) return;
     const fileArr = Array.from(files);
     setNewImageFiles(prev => [...prev, ...fileArr]);
-    setNewImagePreviews(prev => [
-      ...prev,
-      ...fileArr.map(file => URL.createObjectURL(file))
-    ]);
+    const newPreviews = fileArr.map(file => URL.createObjectURL(file));
+    setNewImagePreviews(prev => {
+      const updated = [...prev, ...newPreviews];
+      // Nếu chưa có thumbnail, tự động chọn ảnh đầu tiên vừa thêm
+      if (!thumbnail && (imagesToKeep.length + updated.length) > 0) {
+        setThumbnail(imagesToKeep[0] || updated[0]);
+      }
+      return updated;
+    });
   };
   // Xóa ảnh cũ khỏi danh sách giữ lại
   const handleRemoveOldImage = (url: string) => {
-    setImagesToKeep(prev => prev.filter(img => img !== url));
-    if (thumbnail === url) setThumbnail('');
+    setImagesToKeep(prev => {
+      const newArr = prev.filter(img => img !== url);
+      // Nếu thumbnail bị xóa, chọn lại thumbnail mới
+      if (thumbnail === url) {
+        setThumbnail(newArr[0] || newImagePreviews[0] || '');
+      }
+      return newArr;
+    });
   };
   // Xóa ảnh mới khỏi danh sách upload
   const handleRemoveNewImage = (idx: number) => {
     setNewImageFiles(prev => prev.filter((_, i) => i !== idx));
-    setNewImagePreviews(prev => prev.filter((_, i) => i !== idx));
+    setNewImagePreviews(prev => {
+      const newArr = prev.filter((_, i) => i !== idx);
+      // Nếu thumbnail bị xóa, chọn lại thumbnail mới
+      if (thumbnail === prev[idx]) {
+        setThumbnail(imagesToKeep[0] || newArr[0] || '');
+      }
+      return newArr;
+    });
   };
   // Chọn thumbnail
   const handleSelectThumbnail = (url: string) => {
     setThumbnail(url);
   };
-  // Các trường đa ngôn ngữ
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    if (name.includes('.')) {
-      const [field, lang] = name.split('.');
-      setForm((prev: any) => ({
-        ...prev,
-        [field]: {
-          ...prev[field],
-          [lang]: value,
-        },
-      }));
-    } else {
-      setForm((prev: any) => ({ ...prev, [name]: value }));
-    }
-  };
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Validate: phải còn ít nhất 1 ảnh, tiêu đề, nội dung, tác giả
-    if (!form.title.vi.trim() || !form.title.en.trim() || !form.content.vi.trim() || !form.content.en.trim() || !form.author.trim() || (imagesToKeep.length + newImageFiles.length === 0) || !thumbnail) {
-      setError('Vui lòng nhập đầy đủ thông tin bắt buộc.');
+
+  // Danh sách ảnh preview (cũ + mới)
+  const allImages = [...imagesToKeep, ...newImagePreviews];
+
+  // Watch fields for validation
+  const titleVi = watch('title.vi');
+  const titleEn = watch('title.en');
+  const contentVi = watch('content.vi');
+  const contentEn = watch('content.en');
+  const author = watch('author');
+
+  // Validate images and thumbnail on submit
+  const onFormSubmit = (form: any) => {
+    if ((imagesToKeep.length + newImageFiles.length === 0) || !thumbnail) {
+      // eslint-disable-next-line no-alert
+      alert('Vui lòng chọn ít nhất 1 ảnh và chọn thumbnail.');
       return;
     }
-    setError('');
-    // Gửi imagesToKeep, file mới, thumbnail cho onSubmit
     onSubmit({
       ...form,
       tags: {
@@ -100,20 +113,19 @@ const AdminBlogForm: React.FC<AdminBlogFormProps> = ({ initialData, onSubmit, on
     }, newImageFiles);
   };
 
-  // Danh sách ảnh preview (cũ + mới)
-  const allImages = [...imagesToKeep, ...newImagePreviews];
-
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 mb-4">
+    <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-6 mb-4">
       {/* Tiêu đề */}
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Tiêu đề (Tiếng Việt) *</label>
-          <input type="text" name="title.vi" value={form.title.vi} onChange={handleChange} className="w-full border border-gray-300 rounded px-3 py-2" required />
+          <input type="text" {...register('title.vi', { required: 'Bắt buộc nhập tiêu đề tiếng Việt' })} className="w-full border border-gray-300 rounded px-3 py-2" />
+          {errors?.title?.vi && <div className="text-red-500 text-xs mt-1">{errors.title.vi.message as string}</div>}
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Tiêu đề (English) *</label>
-          <input type="text" name="title.en" value={form.title.en} onChange={handleChange} className="w-full border border-gray-300 rounded px-3 py-2" required />
+          <input type="text" {...register('title.en', { required: 'Required English title' })} className="w-full border border-gray-300 rounded px-3 py-2" />
+          {errors?.title?.en && <div className="text-red-500 text-xs mt-1">{errors.title.en.message as string}</div>}
         </div>
       </div>
       {/* Ảnh */}
@@ -143,38 +155,40 @@ const AdminBlogForm: React.FC<AdminBlogFormProps> = ({ initialData, onSubmit, on
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Nội dung (Tiếng Việt) *</label>
-          <textarea name="content.vi" value={form.content.vi} onChange={handleChange} className="w-full border border-gray-300 rounded px-3 py-2" rows={4} required />
+          <textarea {...register('content.vi', { required: 'Bắt buộc nhập nội dung tiếng Việt' })} className="w-full border border-gray-300 rounded px-3 py-2" rows={4} />
+          {errors?.content?.vi && <div className="text-red-500 text-xs mt-1">{errors.content.vi.message as string}</div>}
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Nội dung (English) *</label>
-          <textarea name="content.en" value={form.content.en} onChange={handleChange} className="w-full border border-gray-300 rounded px-3 py-2" rows={4} required />
+          <textarea {...register('content.en', { required: 'Required English content' })} className="w-full border border-gray-300 rounded px-3 py-2" rows={4} />
+          {errors?.content?.en && <div className="text-red-500 text-xs mt-1">{errors.content.en.message as string}</div>}
         </div>
       </div>
       {/* Tags */}
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Tags (Tiếng Việt, cách nhau dấu phẩy)</label>
-          <input type="text" name="tags.vi" value={form.tags.vi} onChange={handleChange} className="w-full border border-gray-300 rounded px-3 py-2" placeholder="tour, trải nghiệm, review" />
+          <input type="text" {...register('tags.vi')} className="w-full border border-gray-300 rounded px-3 py-2" placeholder="tour, trải nghiệm, review" />
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Tags (English, comma separated)</label>
-          <input type="text" name="tags.en" value={form.tags.en} onChange={handleChange} className="w-full border border-gray-300 rounded px-3 py-2" placeholder="tour, experience, review" />
+          <input type="text" {...register('tags.en')} className="w-full border border-gray-300 rounded px-3 py-2" placeholder="tour, experience, review" />
         </div>
       </div>
       {/* Tác giả và trạng thái */}
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Tác giả *</label>
-          <input type="text" name="author" value={form.author} onChange={handleChange} className="w-full border border-gray-300 rounded px-3 py-2" required />
+          <input type="text" {...register('author', { required: 'Bắt buộc nhập tác giả' })} className="w-full border border-gray-300 rounded px-3 py-2" />
+          {errors?.author && <div className="text-red-500 text-xs mt-1">{errors.author.message as string}</div>}
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Trạng thái</label>
-          <select name="status" value={form.status} onChange={handleChange} className="w-full border border-gray-300 rounded px-3 py-2">
+          <select {...register('status')} className="w-full border border-gray-300 rounded px-3 py-2">
             {statusOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
           </select>
         </div>
       </div>
-      {error && <div className="text-red-500 text-sm">{error}</div>}
       <div className="flex space-x-2">
         <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Lưu</button>
         <button type="button" onClick={onCancel} className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-lg">Hủy</button>

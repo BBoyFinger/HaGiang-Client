@@ -22,7 +22,7 @@ export const api = createApi({
         body: data,
       }),
     }),
-    deleteDestination: builder.mutation<any, number>({
+    deleteDestination: builder.mutation<any, string>({
       query: (id) => ({
         url: `/destinations/${id}`,
         method: 'DELETE',

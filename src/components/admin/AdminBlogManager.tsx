@@ -8,6 +8,17 @@ import {
   useDeleteBlogMutation,
 } from '../../services/api';
 
+function slugify(str: string) {
+  return str
+    .toString()
+    .normalize('NFD')
+    .replace(/\[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
 const AdminBlogManager: React.FC = () => {
   const { data, refetch, isLoading } = useGetBlogsQuery() as { data: { blogs: any[] } | undefined; refetch: () => void; isLoading: boolean };
   const blogs = data?.blogs || [];
@@ -38,20 +49,23 @@ const AdminBlogManager: React.FC = () => {
   };
   const handleAddSubmit = async (data: any, newFiles?: File[]) => {
     try {
-      // Nếu có file mới, gửi dạng multipart/form-data
+      const slug = slugify(data.title?.vi || data.title?.en || '');
       if (newFiles && newFiles.length > 0) {
         const formData = new FormData();
-        formData.append('title', JSON.stringify(data.title));
-        formData.append('content', JSON.stringify(data.content));
+        formData.append('title.vi', data.title.vi);
+        formData.append('title.en', data.title.en);
+        formData.append('content.vi', data.content.vi);
+        formData.append('content.en', data.content.en);
         formData.append('tags', JSON.stringify(data.tags));
         formData.append('author', data.author);
         formData.append('status', data.status);
         formData.append('thumbnail', data.thumbnail);
+        formData.append('slug', slug);
         data.imagesToKeep && formData.append('imagesToKeep', JSON.stringify(data.imagesToKeep));
         newFiles.forEach(file => formData.append('images', file));
         await addBlog(formData).unwrap();
       } else {
-        await addBlog(data).unwrap();
+        await addBlog({ ...data, slug }).unwrap();
       }
       toast.success('Thêm blog mới thành công!');
       setShowAddForm(false);
@@ -62,19 +76,23 @@ const AdminBlogManager: React.FC = () => {
   };
   const handleEditSubmit = async (data: any, newFiles?: File[]) => {
     try {
+      const slug = slugify(data.title?.vi || data.title?.en || '');
       if (newFiles && newFiles.length > 0) {
         const formData = new FormData();
-        formData.append('title', JSON.stringify(data.title));
-        formData.append('content', JSON.stringify(data.content));
+        formData.append('title.vi', data.title.vi);
+        formData.append('title.en', data.title.en);
+        formData.append('content.vi', data.content.vi);
+        formData.append('content.en', data.content.en);
         formData.append('tags', JSON.stringify(data.tags));
         formData.append('author', data.author);
         formData.append('status', data.status);
         formData.append('thumbnail', data.thumbnail);
+        formData.append('slug', slug);
         data.imagesToKeep && formData.append('imagesToKeep', JSON.stringify(data.imagesToKeep));
         newFiles.forEach(file => formData.append('images', file));
         await updateBlog({ id: editBlog._id || editBlog.id, data: formData }).unwrap();
       } else {
-        await updateBlog({ id: editBlog._id || editBlog.id, data }).unwrap();
+        await updateBlog({ id: editBlog._id || editBlog.id, data: { ...data, slug } }).unwrap();
       }
       toast.success('Cập nhật blog thành công!');
       setShowEditForm(false);
@@ -84,6 +102,8 @@ const AdminBlogManager: React.FC = () => {
       toast.error('Lỗi khi cập nhật blog!');
     }
   };
+
+  
 
   return (
     <div className="space-y-6">
