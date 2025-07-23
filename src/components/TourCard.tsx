@@ -44,7 +44,7 @@ export default function TourCard({ tour, averageRating, reviewCount }: { tour: a
     <motion.div
       whileHover={{ y: -8 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
-      className="group bg-white rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100/50"
+      className="group bg-light rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden border border-earth/50"
     >
       {/* Image Section */}
       <div className="relative h-64 overflow-hidden">
@@ -79,19 +79,19 @@ export default function TourCard({ tour, averageRating, reviewCount }: { tour: a
 
         {/* Tour Type Badge */}
         <div className="absolute top-4 right-4">
-          <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-white/90 backdrop-blur-sm text-gray-800 shadow-sm">
-            <FaTag className="mr-1.5 text-purple-500" />
+          <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-light/90 backdrop-blur-sm text-[#1a1a1a] shadow-sm">
+            <FaTag className="mr-1.5 text-primary" />
             {tour.type?.[lang] || tour.type?.vi || 'Tour'}
           </span>
         </div>
 
         {/* Rating Badge */}
         <div className="absolute bottom-4 left-4">
-          <div className="flex items-center space-x-1 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1.5 shadow-sm">
-            <MdStar className="text-yellow-500 text-sm" />
-            <span className="text-sm font-semibold text-gray-800">{typeof averageRating === 'number' ? averageRating : tour.rating?.toFixed(1)}</span>
+          <div className="flex items-center space-x-1 bg-light/90 backdrop-blur-sm rounded-full px-3 py-1.5 shadow-sm">
+            <MdStar className="text-accent text-sm" />
+            <span className="text-sm font-semibold text-[#1a1a1a]">{typeof averageRating === 'number' ? averageRating : tour.rating?.toFixed(1)}</span>
             {typeof reviewCount === 'number' && (
-              <span className="text-xs text-gray-500 ml-1">({reviewCount})</span>
+              <span className="text-xs text-[#555] ml-1">({reviewCount})</span>
             )}
           </div>
         </div>
@@ -101,31 +101,31 @@ export default function TourCard({ tour, averageRating, reviewCount }: { tour: a
       <div className="p-6">
         {/* Title */}
         <Link to={`/tours/${tour.slug}`}>
-          <h3 className="text-xl font-bold mb-3 text-gray-800 group-hover:text-purple-600 transition-colors duration-300 leading-tight line-clamp-2">
+          <h3 className="text-xl font-bold mb-3 text-[#1a1a1a] group-hover:text-primary transition-colors duration-300 leading-tight line-clamp-2">
             {tour.name?.[lang] || tour.name?.vi || ''}
           </h3>
         </Link>
 
         {/* Description */}
-        <p className="text-gray-600 mb-4 leading-relaxed text-sm line-clamp-2">
+        <p className="text-[#555] mb-4 leading-relaxed text-sm line-clamp-2">
           {tour.shortDescription?.[lang] || tour.shortDescription?.vi || ''}
         </p>
 
         {/* Location */}
-        <div className="flex items-center space-x-2 mb-4 text-sm text-gray-500">
-          <FaMapMarkerAlt className="text-purple-500" />
+        <div className="flex items-center space-x-2 mb-4 text-sm text-[#555]">
+          <FaMapMarkerAlt className="text-primary" />
           <span className="line-clamp-1">{Array.isArray(tour.locations) ? tour.locations.map((loc: any) => loc?.[lang] || loc?.vi || '').join(', ') : ''}</span>
         </div>
 
         {/* Tour Details */}
         <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center space-x-4 text-sm text-gray-500">
+          <div className="flex items-center space-x-4 text-sm text-[#555]">
             <div className="flex items-center space-x-1">
-              <FaClock className="text-purple-500" />
+              <FaClock className="text-accent" />
               <span>{tour.duration?.[lang] || tour.duration?.vi || ''}</span>
             </div>
             <div className="flex items-center space-x-1">
-              <FaUsers className="text-purple-500" />
+              <FaUsers className="text-secondary" />
               <span>{Array.isArray(tour.guideLanguage) ? tour.guideLanguage.map((g: any) => g?.[lang] || g?.vi || '').join(', ') : ''}</span>
             </div>
           </div>
@@ -133,10 +133,10 @@ export default function TourCard({ tour, averageRating, reviewCount }: { tour: a
 
         {/* Tags */}
         <div className="flex flex-wrap gap-2 mb-4">
-          <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-purple-50 text-purple-600 border border-purple-100">
+          <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-accent/20 text-[#1a1a1a] border border-accent/30">
             {tour.duration?.[lang] || tour.duration?.vi || ''}
           </span>
-          <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-green-50 text-green-600 border border-green-100">
+          <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-secondary/20 text-[#1a1a1a] border border-secondary/30">
             {Array.isArray(tour.guideLanguage) ? tour.guideLanguage.map((g: any) => g?.[lang] || g?.vi || '').join(', ') : ''}
           </span>
         </div>
@@ -148,23 +148,23 @@ export default function TourCard({ tour, averageRating, reviewCount }: { tour: a
             <div className="flex items-baseline flex-col">
               {discountPrice ? (
                 <>
-                  <span className="text-sm text-gray-400 line-through">
+                  <span className="text-sm text-[#bbb] line-through">
                     {formatPrice(groupPrice || perSlot || 0, currency)}
                   </span>
-                  <span className="text-sm font-bold text-purple-600 mt-1">
+                  <span className="text-sm font-bold text-primary mt-1">
                     {formatPrice(discountPrice, currency)}
                   </span>
                 </>
               ) : (
-                <span className="text-lg font-bold text-purple-600">
+                <span className="text-lg font-bold text-primary">
                   {formatPrice(groupPrice || perSlot || 0, currency)}
                 </span>
               )}
-              <span className="text-xs text-gray-500 ml-2">{t('tour.detail.perPerson') || '/ người'}</span>
+              <span className="text-xs text-[#555] ml-2">{t('tour.detail.perPerson') || '/ người'}</span>
             </div>
             {/* Đánh giá + ReactStars */}
             <div className="flex items-center">
-              <span className="text-xs text-gray-500 mr-1">{t('tour.detail.rating') || 'Đánh giá'}</span>
+              <span className="text-xs text-[#555] mr-1">{t('tour.detail.rating') || 'Đánh giá'}</span>
               <ReactStars
                 count={5}
                 value={typeof averageRating === 'number' ? averageRating : tour.rating}
@@ -174,9 +174,9 @@ export default function TourCard({ tour, averageRating, reviewCount }: { tour: a
                 color="#e4e5e9"
                 activeColor="#ffd700"
               />
-              <span className="text-sm font-medium text-gray-700 ml-1">{typeof averageRating === 'number' ? averageRating : tour.rating?.toFixed(1)}</span>
+              <span className="text-sm font-medium text-primary ml-1">{typeof averageRating === 'number' ? averageRating : tour.rating?.toFixed(1)}</span>
               {typeof reviewCount === 'number' && (
-                <span className="text-xs text-gray-500 ml-1">{t('tour.detail.reviewCount', { count: reviewCount }) || `(${reviewCount} đánh giá)`}</span>
+                <span className="text-xs text-[#555] ml-1">{t('tour.detail.reviewCount', { count: reviewCount }) || `(${reviewCount} đánh giá)`}</span>
               )}
             </div>
           </div>
@@ -186,7 +186,7 @@ export default function TourCard({ tour, averageRating, reviewCount }: { tour: a
         <div className="flex space-x-3">
           <Link
             to={`/tours/${tour.slug}`}
-            className="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-3 px-4 rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all duration-300 text-center shadow-lg hover:shadow-xl"
+            className="flex-1 bg-gradient-to-r from-primary to-accent text-[#1a1a1a] font-semibold py-3 px-4 rounded-xl hover:from-accent hover:to-primary transition-all duration-300 text-center shadow-lg hover:shadow-xl"
           >
             {t('common.viewDetails')}
           </Link>

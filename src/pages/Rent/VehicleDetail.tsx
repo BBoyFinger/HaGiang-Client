@@ -34,7 +34,7 @@ export default function VehicleDetail() {
         <meta name="description" content={vehicle.shortSpecs} />
       </Helmet>
 
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-light">
         {/* Hero Section */}
         <section className="relative h-96 md:h-[500px] overflow-hidden">
           <img 
@@ -60,9 +60,12 @@ export default function VehicleDetail() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">
+                <h1 className="text-3xl font-bold text-[#1a1a1a] mb-4">
                   {vehicle.name}
                 </h1>
+                <div className="flex items-center gap-4 mb-6">
+                  
+                </div>
                 <p className="text-lg md:text-xl text-white/90 mb-6 max-w-2xl">
                   {vehicle.shortSpecs}
                 </p>
@@ -94,12 +97,8 @@ export default function VehicleDetail() {
                   transition={{ duration: 0.5, delay: 0.1 }}
                   className="bg-white rounded-2xl shadow-lg p-8 mb-8"
                 >
-                  <h2 className="text-2xl font-bold text-gray-800 mb-6">Mô tả chi tiết</h2>
-                  <div className="prose prose-lg max-w-none">
-                    <p className="text-gray-600 leading-relaxed whitespace-pre-line">
-                      {vehicle.description}
-                    </p>
-                  </div>
+                  <h2 className="text-2xl font-bold text-[#1a1a1a] mb-6">Mô tả chi tiết</h2>
+                  <div className="prose max-w-none text-[#555]" dangerouslySetInnerHTML={{ __html: vehicle.description }} />
                 </motion.div>
 
                 {/* Specifications */}
@@ -109,15 +108,15 @@ export default function VehicleDetail() {
                   transition={{ duration: 0.5, delay: 0.2 }}
                   className="bg-white rounded-2xl shadow-lg p-8 mb-8"
                 >
-                  <h2 className="text-2xl font-bold text-gray-800 mb-6">Thông số kỹ thuật</h2>
+                  <h2 className="text-2xl font-bold text-[#1a1a1a] mb-6">Thông số kỹ thuật</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
                       <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                         <FaMotorcycle className="text-blue-600 text-xl" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-gray-800">Loại xe</h3>
-                        <p className="text-gray-600">Xe máy</p>
+                        <h3 className="font-semibold text-[#1a1a1a]">Loại xe</h3>
+                        <p className="text-[#555]">Xe máy</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
@@ -125,8 +124,8 @@ export default function VehicleDetail() {
                         <FaGasPump className="text-green-600 text-xl" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-gray-800">Nhiên liệu</h3>
-                        <p className="text-gray-600">Xăng</p>
+                        <h3 className="font-semibold text-[#1a1a1a]">Nhiên liệu</h3>
+                        <p className="text-[#555]">Xăng</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
@@ -134,8 +133,8 @@ export default function VehicleDetail() {
                         <FaCog className="text-purple-600 text-xl" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-gray-800">Truyền động</h3>
-                        <p className="text-gray-600">Tự động</p>
+                        <h3 className="font-semibold text-[#1a1a1a]">Truyền động</h3>
+                        <p className="text-[#555]">Tự động</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
@@ -143,8 +142,8 @@ export default function VehicleDetail() {
                         <FaUsers className="text-orange-600 text-xl" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-gray-800">Sức chứa</h3>
-                        <p className="text-gray-600">2 người</p>
+                        <h3 className="font-semibold text-[#1a1a1a]">Sức chứa</h3>
+                        <p className="text-[#555]">2 người</p>
                       </div>
                     </div>
                   </div>
@@ -157,7 +156,7 @@ export default function VehicleDetail() {
                   transition={{ duration: 0.5, delay: 0.3 }}
                   className="bg-white rounded-2xl shadow-lg p-8"
                 >
-                  <h2 className="text-2xl font-bold text-gray-800 mb-6">Tính năng & Dịch vụ</h2>
+                  <h2 className="text-2xl font-bold text-[#1a1a1a] mb-6">Tính năng & Dịch vụ</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {[
                       'Bảo hiểm đầy đủ',
@@ -171,7 +170,7 @@ export default function VehicleDetail() {
                     ].map((feature, index) => (
                       <div key={index} className="flex items-center gap-3">
                         <FaCheckCircle className="text-green-500 flex-shrink-0" />
-                        <span className="text-gray-700">{feature}</span>
+                        <span className="text-[#555]">{feature}</span>
                       </div>
                     ))}
                   </div>
@@ -187,15 +186,15 @@ export default function VehicleDetail() {
                   transition={{ duration: 0.5, delay: 0.4 }}
                   className="bg-white rounded-2xl shadow-lg p-6 mb-6 sticky top-6"
                 >
-                  <h3 className="text-xl font-bold text-gray-800 mb-4">Giá thuê</h3>
+                  <h3 className="text-xl font-bold text-[#1a1a1a] mb-4">Giá thuê</h3>
                   <div className="space-y-4 mb-6">
                     <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                      <span className="text-gray-600">1 ngày</span>
-                      <span className="font-semibold text-gray-800">500.000 VNĐ</span>
+                      <span className="text-[#555]">1 ngày</span>
+                      <span className="font-semibold text-[#1a1a1a]">500.000 VNĐ</span>
                     </div>
                     <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                      <span className="text-gray-600">1 tuần</span>
-                      <span className="font-semibold text-gray-800">3.000.000 VNĐ</span>
+                      <span className="text-[#555]">1 tuần</span>
+                      <span className="font-semibold text-[#1a1a1a]">3.000.000 VNĐ</span>
                     </div>
                     <div className="flex justify-between items-center p-3 bg-purple-50 rounded-lg border-2 border-purple-200">
                       <span className="text-purple-800 font-medium">1 tháng</span>
@@ -204,7 +203,7 @@ export default function VehicleDetail() {
                   </div>
                   
                   <div className="space-y-3">
-                    <button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold py-3 rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all duration-300 flex items-center justify-center gap-2">
+                    <button className="w-full bg-gradient-to-r from-primary to-accent text-[#1a1a1a] font-semibold py-3 rounded-xl hover:from-primary/80 hover:to-accent/80 transition-all duration-300 flex items-center justify-center gap-2">
                       <FaPhone />
                       Đặt xe ngay
                     </button>
@@ -220,7 +219,7 @@ export default function VehicleDetail() {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: 0.5 }}
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl shadow-lg p-6 text-white"
+                  className="bg-gradient-to-r from-primary to-accent rounded-2xl shadow-lg p-6 text-white"
                 >
                   <h3 className="text-xl font-bold mb-4">Liên hệ thuê xe</h3>
                   <div className="space-y-3">
@@ -244,7 +243,7 @@ export default function VehicleDetail() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-16 bg-gradient-to-r from-purple-600 to-pink-600">
+        <section className="py-16 bg-gradient-to-r from-primary to-accent">
           <div className="max-w-4xl mx-auto text-center px-4">
             <h2 className="text-3xl font-bold text-white mb-4">
               Sẵn sàng khám phá Hà Giang?
@@ -253,10 +252,10 @@ export default function VehicleDetail() {
               Thuê xe ngay hôm nay và bắt đầu hành trình khám phá vùng đất địa đầu Tổ quốc
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="px-8 py-4 bg-white text-purple-600 font-semibold rounded-xl hover:bg-gray-100 transition-all duration-300">
+              <button className="px-8 py-4 bg-white text-primary font-semibold rounded-xl hover:bg-gray-100 transition-all duration-300">
                 Xem tất cả xe
               </button>
-              <button className="px-8 py-4 border-2 border-white text-white font-semibold rounded-xl hover:bg-white hover:text-purple-600 transition-all duration-300">
+              <button className="px-8 py-4 border-2 border-white text-white font-semibold rounded-xl hover:bg-white hover:text-primary transition-all duration-300">
                 Tư vấn miễn phí
               </button>
             </div>

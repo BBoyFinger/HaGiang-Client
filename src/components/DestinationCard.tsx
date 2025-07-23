@@ -37,8 +37,8 @@ const DestinationCard = ({ destination, isDark = false }: DestinationCardProps) 
       whileHover={{ y: -8, boxShadow: "0 8px 32px rgba(80,0,120,0.15)" }}
       transition={{ duration: 0.3 }}
       className={`group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 ${
-        isDark ? "bg-gray-800" : "bg-white"
-      }`}
+        isDark ? "bg-earth" : "bg-light"
+      } border border-earth/40`}
     >
       {/* Image */}
       <div className="relative overflow-hidden">
@@ -53,44 +53,44 @@ const DestinationCard = ({ destination, isDark = false }: DestinationCardProps) 
         <button
           onClick={() => setIsFavorite(!isFavorite)}
           className={`absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
-            isFavorite ? "bg-red-500 text-white" : "bg-white/80 text-gray-600 hover:bg-white"
+            isFavorite ? "bg-accent text-[#1a1a1a]" : "bg-light/80 text-[#555] hover:bg-light"
           }`}
         >
-          <FaHeart className={`text-sm ${isFavorite ? "fill-current" : "hover:fill-red-500"}`} />
+          <FaHeart className={`text-sm ${isFavorite ? "fill-current" : "hover:fill-accent"}`} />
         </button>
         {/* Type Badge */}
-        <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-full px-4 py-2 flex items-center gap-2 shadow">
-          <FaTag className="text-purple-500 text-xs" />
-          <span className="text-xs font-semibold text-gray-700 capitalize">{destination.type}</span>
+        <div className="absolute top-4 left-4 bg-light/90 backdrop-blur-sm rounded-full px-4 py-2 flex items-center gap-2 shadow">
+          <FaTag className="text-primary text-xs" />
+          <span className="text-xs font-semibold text-[#1a1a1a] capitalize">{destination.type}</span>
         </div>
       </div>
       {/* Content */}
       <div className="p-6">
         {/* Title */}
-        <h3 className={`text-xl font-bold mb-2 line-clamp-2 group-hover:text-purple-600 transition-colors duration-300 ${
-          isDark ? "text-white" : "text-gray-800"
+        <h3 className={`text-xl font-bold mb-2 line-clamp-2 group-hover:text-primary transition-colors duration-300 ${
+          isDark ? "text-light" : "text-[#1a1a1a]"
         }`}>
           {destination.name[lang]}
         </h3>
         {/* Location */}
-        <div className="flex items-center gap-2 mb-2 text-sm text-gray-500">
-          <FaMapMarkerAlt className="text-pink-500" />
+        <div className="flex items-center gap-2 mb-2 text-sm text-[#555]">
+          <FaMapMarkerAlt className="text-primary" />
           <span>{destination.location.address[lang]}</span>
         </div>
         {/* Description */}
-        <p className={`text-sm mb-4 line-clamp-3 ${isDark ? "text-gray-300" : "text-gray-600"}`}>
+        <p className={`text-sm mb-4 line-clamp-3 ${isDark ? "text-secondary" : "text-[#555]"}`}>
           {destination.shortDescription[lang]}
         </p>
         {/* Action Button */}
         <Link
           to={`/destinations/${destination.slug}`}
-          className="inline-flex items-center justify-center w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl group-hover:scale-105"
+          className="inline-flex items-center justify-center w-full px-6 py-3 bg-gradient-to-r from-primary to-accent text-[#1a1a1a] font-semibold rounded-xl hover:from-accent hover:to-primary transition-all duration-300 shadow-lg hover:shadow-xl group-hover:scale-105"
         >
           {t('common.viewDetails')}
         </Link>
       </div>
       {/* Hover Effect Border */}
-      <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-purple-500/20 transition-colors duration-300 pointer-events-none" />
+      <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-primary/30 transition-colors duration-300 pointer-events-none" />
     </motion.div>
   );
 };

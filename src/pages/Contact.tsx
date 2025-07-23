@@ -165,29 +165,29 @@ export default function Contact() {
       </Helmet>
 
       {/* Hero Section */}
-      <section className="relative h-80 bg-gradient-to-r from-blue-600 to-purple-600 overflow-hidden">
+      <section className="relative h-80 bg-gradient-to-r from-primary to-accent overflow-hidden">
         <div className="absolute inset-0 bg-black opacity-40"></div>
         <div className="relative z-10 flex items-center justify-center h-full">
-          <div className="text-center text-white">
+          <div className="text-center text-light">
             <h1 className="text-5xl font-bold mb-4">{t('contact.title')}</h1>
             <p className="text-xl max-w-2xl mx-auto px-4">
               {t('contact.slogan')}
             </p>
           </div>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-light to-transparent"></div>
       </section>
 
       {/* Contact Information & Form */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-secondary/20">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12">
 
             {/* Contact Information */}
             <div className="space-y-8">
               <div>
-                <h2 className="text-3xl font-bold text-gray-800 mb-6">{t('contact.contactUs')}</h2>
-                <p className="text-lg text-gray-600 leading-relaxed">
+                <h2 className="text-3xl font-bold text-[#1a1a1a] mb-6">{t('contact.contactUs')}</h2>
+                <p className="text-lg text-[#555] leading-relaxed">
                   {t('contact.description')}
                 </p>
               </div>
@@ -195,61 +195,61 @@ export default function Contact() {
               {/* Contact Details */}
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <FaPhone className="text-blue-600" />
+                  <div className="w-12 h-12 bg-secondary/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <FaPhone className="text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-1">{t('contact.phone')}</h3>
-                    <p className="text-gray-600">+84 983648362</p>
+                    <h3 className="text-lg font-semibold text-[#1a1a1a] mb-1">{t('contact.phone')}</h3>
+                    <p className="text-[#555]">+84 983648362</p>
                     {/* <p className="text-gray-600">+84 987 654 321</p> */}
                   </div>
                 </div>
 
                 <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <FaEnvelope className="text-green-600" />
+                  <div className="w-12 h-12 bg-secondary/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <FaEnvelope className="text-secondary" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-1">{t('contact.email')}</h3>
-                    <p className="text-gray-600">Anhbuonanhkhocvianhyeuem@gmail.com</p>
-                    <p className="text-gray-600">support@homietravel.com</p>
+                    <h3 className="text-lg font-semibold text-[#1a1a1a] mb-1">{t('contact.email')}</h3>
+                    <p className="text-[#555]">Anhbuonanhkhocvianhyeuem@gmail.com</p>
+                    <p className="text-[#555]">support@homietravel.com</p>
                   </div>
                 </div>
 
                 <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <FaMapMarkerAlt className="text-purple-600" />
+                  <div className="w-12 h-12 bg-secondary/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <FaMapMarkerAlt className="text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-1">{t('contact.address')}</h3>
+                    <h3 className="text-lg font-semibold text-[#1a1a1a] mb-1">{t('contact.address')}</h3>
                     {/* <p className="text-gray-600">123 Đường ABC, Phường XYZ</p> */}
-                    <p className="text-gray-600">Thành phố Hà Giang, Việt Nam</p>
+                    <p className="text-[#555]">Thành phố Hà Giang, Việt Nam</p>
                   </div>
                 </div>
 
                 <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <FaClock className="text-orange-600" />
+                  <div className="w-12 h-12 bg-accent/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <FaClock className="text-accent" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-1">{t('contact.businessHours')}</h3>
-                    <p className="text-gray-600">{t('contact.monFri')}</p>
-                    <p className="text-gray-600">{t('contact.satSun')}</p>
+                    <h3 className="text-lg font-semibold text-[#1a1a1a] mb-1">{t('contact.businessHours')}</h3>
+                    <p className="text-[#555]">{t('contact.monFri')}</p>
+                    <p className="text-[#555]">{t('contact.satSun')}</p>
                   </div>
                 </div>
               </div>
 
               {/* Social Media */}
               <div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-4">{t('contact.connectWithUs')}</h3>
+                <h3 className="text-xl font-semibold text-[#1a1a1a] mb-4">{t('contact.connectWithUs')}</h3>
                 <div className="flex space-x-4">
-                  <a href="#" className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center text-white hover:bg-blue-700 transition-colors">
+                  <a href="#" className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center text-light hover:bg-accent transition-colors">
                     <FaFacebook className="text-xl" />
                   </a>
-                  <a href="#" className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center text-white hover:bg-green-700 transition-colors">
+                  <a href="#" className="w-12 h-12 bg-secondary rounded-lg flex items-center justify-center text-light hover:bg-accent transition-colors">
                     <FaWhatsapp className="text-xl" />
                   </a>
-                  <a href="#" className="w-12 h-12 bg-pink-600 rounded-lg flex items-center justify-center text-white hover:bg-pink-700 transition-colors">
+                  <a href="#" className="w-12 h-12 bg-accent rounded-lg flex items-center justify-center text-[#1a1a1a] hover:bg-primary transition-colors">
                     <FaInstagram className="text-xl" />
                   </a>
                 </div>
@@ -257,14 +257,14 @@ export default function Contact() {
             </div>
 
             {/* Contact Form */}
-            <div className="bg-white rounded-2xl shadow-xl p-8">
-              <h3 className="text-2xl font-bold text-gray-800 mb-6">{t('contact.sendMessage')}</h3>
+            <div className="bg-light rounded-2xl shadow-xl p-8">
+              <h3 className="text-2xl font-bold text-[#1a1a1a] mb-6">{t('contact.sendMessage')}</h3>
 
               {success && (
-                <div className="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+                <div className="mb-6 p-4 bg-secondary/20 border border-secondary text-secondary rounded-lg">
                   <div className="flex items-center">
-                    <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center mr-3">
-                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <div className="w-5 h-5 bg-primary rounded-full flex items-center justify-center mr-3">
+                      <svg className="w-3 h-3 text-light" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                       </svg>
                     </div>
@@ -276,7 +276,7 @@ export default function Contact() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-[#555] mb-2">
                       {t('contact.name')} *
                     </label>
                     <input
@@ -285,13 +285,13 @@ export default function Contact() {
                       value={form.name}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                      className="w-full px-4 py-3 border border-earth rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors text-[#1a1a1a]"
                       placeholder={t('contact.namePlaceholder')}
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-[#555] mb-2">
                       {t('contact.email')} *
                     </label>
                     <input
@@ -300,7 +300,7 @@ export default function Contact() {
                       value={form.email}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                      className="w-full px-4 py-3 border border-earth rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors text-[#1a1a1a]"
                       placeholder={t('contact.emailPlaceholder')}
                     />
                   </div>
@@ -308,7 +308,7 @@ export default function Contact() {
 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-[#555] mb-2">
                       {t('contact.phone')}
                     </label>
                     <input
@@ -316,20 +316,20 @@ export default function Contact() {
                       type="tel"
                       value={form.phone}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                      className="w-full px-4 py-3 border border-earth rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors text-[#1a1a1a]"
                       placeholder={t('contact.phonePlaceholder')}
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-[#555] mb-2">
                       {t('contact.subject')}
                     </label>
                     <select
                       name="subject"
                       value={form.subject}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                      className="w-full px-4 py-3 border border-earth rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors text-[#1a1a1a]"
                     >
                       <option value="">{t('contact.chooseSubject')}</option>
                       <option value="tour">{t('contact.tourConsultation')}</option>
@@ -342,7 +342,7 @@ export default function Contact() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-[#555] mb-2">
                     {t('contact.message')} *
                   </label>
                   <textarea
@@ -351,7 +351,7 @@ export default function Contact() {
                     onChange={handleChange}
                     required
                     rows={5}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-none"
+                    className="w-full px-4 py-3 border border-earth rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors resize-none text-[#1a1a1a]"
                     placeholder={t('contact.messagePlaceholder')}
                   />
                 </div>
@@ -359,11 +359,11 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-3 px-6 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-gradient-to-r from-primary to-accent text-[#1a1a1a] font-semibold py-3 px-6 rounded-lg hover:from-accent hover:to-primary transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
                     <>
-                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <div className="w-5 h-5 border-2 border-[#1a1a1a] border-t-transparent rounded-full animate-spin"></div>
                       <span>{t('contact.sending')}</span>
                     </>
                   ) : (

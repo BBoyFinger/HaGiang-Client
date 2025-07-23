@@ -22,7 +22,7 @@ export default function BlogCard({ blog }: { blog: any }) {
   // Lấy tags theo ngôn ngữ
   const tagsArr = blog.tags && blog.tags[lang] ? blog.tags[lang] : (blog.tags?.vi || []);
   return (
-    <div className="blog-card bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-200 group">
+    <div className="blog-card bg-light rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-earth group">
       {/* Image Container */}
       <div className="blog-image-container relative h-56 overflow-hidden">
         <img 
@@ -36,7 +36,7 @@ export default function BlogCard({ blog }: { blog: any }) {
         
         {/* Category Badge */}
         <div className="absolute top-3 left-3">
-          <span className="bg-white/95 text-gray-800 px-3 py-1 rounded-full text-xs font-semibold shadow-sm">
+          <span className="bg-light/95 text-[#1a1a1a] px-3 py-1 rounded-full text-xs font-semibold shadow-sm">
             {tagsArr[0]}
           </span>
         </div>
@@ -61,24 +61,24 @@ export default function BlogCard({ blog }: { blog: any }) {
         {/* Author and Date */}
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-              <FaUser className="text-white text-xs" />
+            <div className="w-8 h-8 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center">
+              <FaUser className="text-[#1a1a1a] text-xs" />
             </div>
-            <span className="text-sm font-medium text-gray-700">{blog.author}</span>
+            <span className="text-sm font-medium text-[#1a1a1a]">{blog.author}</span>
           </div>
-          <div className="flex items-center space-x-1 text-gray-500">
+          <div className="flex items-center space-x-1 text-[#555]">
             <FaClock className="text-xs" />
             <span className="text-xs">{getTimeAgo(blog.createdAt || blog.createdDate)}</span>
           </div>
         </div>
 
         {/* Title */}
-        <h3 className="text-lg font-bold text-gray-800 mb-3 group-hover:text-purple-600 transition-colors duration-300 line-clamp-2">
+        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 group-hover:text-primary transition-colors duration-300 line-clamp-2">
           {blog.title?.[lang] || blog.title?.vi || ''}
         </h3>
 
         {/* Content */}
-        <p className="text-gray-600 text-sm mb-4 line-clamp-3 leading-relaxed">
+        <p className="text-[#555] text-sm mb-4 line-clamp-3 leading-relaxed">
           {blog.content?.[lang] || blog.content?.vi || ''}
         </p>
 
@@ -87,13 +87,13 @@ export default function BlogCard({ blog }: { blog: any }) {
           {tagsArr.slice(0, 2).map((tag: string, index: number) => (
             <span 
               key={index} 
-              className="bg-purple-100 text-purple-700 px-2 py-1 rounded-full text-xs font-medium"
+              className="bg-secondary/20 text-[#1a1a1a] px-2 py-1 rounded-full text-xs font-medium"
             >
               {tag}
             </span>
           ))}
           {tagsArr.length > 2 && (
-            <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-xs">
+            <span className="bg-accent/20 text-[#555] px-2 py-1 rounded-full text-xs">
               +{tagsArr.length - 2}
             </span>
           )}
@@ -102,7 +102,7 @@ export default function BlogCard({ blog }: { blog: any }) {
         {/* Button */}
         <Link
           to={`/blogs/${blog.slug}`}
-          className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 px-4 rounded-xl font-semibold text-sm flex items-center justify-between hover:from-purple-600 hover:to-pink-600 transition-all duration-300 shadow-md hover:shadow-lg"
+          className="w-full bg-gradient-to-r from-primary to-accent text-[#1a1a1a] py-3 px-4 rounded-xl font-semibold text-sm flex items-center justify-between hover:from-accent hover:to-primary transition-all duration-300 shadow-md hover:shadow-lg"
         >
           <span>{t('blog.readMore')}</span>
           <FaArrowRight className="text-xs" />

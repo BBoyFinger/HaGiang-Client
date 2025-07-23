@@ -5,7 +5,8 @@
     "contact": "Contact",
     "tour": "Tour",
     "rent": "Rent",
-    "stay": "Homestay & Hotel",
+    "destination": "Destination",
+    "stay": "Accommodation",
     "trip": "Ha Giang Tour",
     "login": "Login"
   },
@@ -134,7 +135,8 @@
       "privacy": "Privacy Policy",
       "terms": "Terms of Service",
       "sitemap": "Sitemap"
-    }
+    },
+    "notification": "Receive the latest tour and promotion information"
   },
   "common": {
     "loading": "Loading...",
@@ -158,17 +160,18 @@
     "supportChat": "Support Chat"
   },
   "destinations": {
-    "title": "Destinations",
-    "featured": "Featured",
-    "popular": "Popular",
-    "new": "New",
-    "filters": {
-      "all": "All",
-      "mountain": "Mountain",
-      "valley": "Valley",
-      "village": "Village",
-      "waterfall": "Waterfall"
-    }
+    "title": "Ha Giang Destinations",
+    "description": "Discover the top destinations in Ha Giang",
+    "heroDesc": "Explore the most outstanding places, majestic nature, and unique culture of Ha Giang.",
+    "sectionTitle": "Featured Destinations",
+    "sectionDesc": "Search and discover the most famous landmarks of Ha Giang.",
+    "resultCount": "Found {{count}} destinations",
+    "typeLabel": "Destination type",
+    "allTypes": "All types",
+    "searchPlaceholder": "Search by name...",
+    "notFoundTitle": "No suitable destination found",
+    "notFoundDesc": "Try changing the filter or search keyword.",
+    "clearFilter": "Clear filter"
   },
   "tours": {
     "title": "Tours",
@@ -453,15 +456,21 @@
     "canCancelTourDesc": "You can cancel the tour up to 7 days before departure. We will refund according to the cancellation policy."
   },
   "login": {
-    "title": "Login",
-    "registerTitle": "Register an Account",
-    "username": "Username",
-    "usernamePlaceholder": "Enter your username",
-    "password": "Password",
-    "passwordPlaceholder": "Enter your password",
-    "submit": "Login",
-    "register": "Register",
-    "error": "Please enter both username and password."
+    "title": "Sign in to your account",
+    "description": "Sign in to enjoy all features.",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "loginButton": "Sign In",
+    "forgotPassword": "Forgot password?",
+    "noAccount": "Don't have an account?",
+    "signupLink": "Sign up now",
+    "errorRequired": "Please fill in all required fields.",
+    "errorInvalid": "Invalid email or password.",
+    "success": "Login successful!",
+    "loading": "Signing in...",
+    "placeholderEmail": "Enter your email",
+    "placeholderPassword": "Enter your password",
+    "rememberMe": "Remember me"
   },
   "blog": {
     "title": "Ha Giang Travel Blog",

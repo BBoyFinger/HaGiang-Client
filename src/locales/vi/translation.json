@@ -5,7 +5,8 @@
     "contact": "Liên hệ",
     "tour": "Tour",
     "rent": "Thuê xe",
-    "stay": "Homestay & Khách sạn",
+    "stay": "Chỗ ở",
+    "destination": "Điểm đến",
     "trip": "Tour Hà Giang",
     "login": "Đăng nhập"
   },
@@ -121,6 +122,7 @@
       "guide": "Hướng dẫn viên",
       "insurance": "Bảo hiểm du lịch"
     },
+    "notification": "Nhận thông tin mới nhất về tour và khuyến mãi",
     "contactInfo": {
       "address": "Địa chỉ:",
       "phone": "Điện thoại:",
@@ -163,17 +165,18 @@
     "supportChat": "Hỗ trợ trực tuyến"
   },
   "destinations": {
-    "title": "Điểm Đến",
-    "featured": "Nổi Bật",
-    "popular": "Phổ Biến",
-    "new": "Mới",
-    "filters": {
-      "all": "Tất cả",
-      "mountain": "Núi",
-      "valley": "Thung lũng",
-      "village": "Làng bản",
-      "waterfall": "Thác nước"
-    }
+    "title": "Các điểm du lịch Hà Giang",
+    "description": "Khám phá các điểm đến nổi bật tại Hà Giang",
+    "heroDesc": "Khám phá những điểm đến nổi bật, thiên nhiên hùng vĩ và văn hóa đặc sắc của Hà Giang.",
+    "sectionTitle": "Các điểm đến nổi bật",
+    "sectionDesc": "Tìm kiếm và khám phá các địa danh nổi bật của Hà Giang.",
+    "resultCount": "Đã tìm thấy {{count}} điểm đến",
+    "typeLabel": "Loại điểm đến",
+    "allTypes": "Tất cả loại",
+    "searchPlaceholder": "Tìm kiếm theo tên...",
+    "notFoundTitle": "Không tìm thấy điểm đến phù hợp",
+    "notFoundDesc": "Hãy thử thay đổi bộ lọc hoặc từ khóa tìm kiếm.",
+    "clearFilter": "Xóa bộ lọc"
   },
   "tours": {
     "title": "Tour Du Lịch",
@@ -345,15 +348,21 @@
     "canCancelTourDesc": "Bạn có thể hủy tour trước 7 ngày khởi hành. Chúng tôi sẽ hoàn tiền theo chính sách hủy tour."
   },
   "login": {
-    "title": "Đăng nhập",
-    "registerTitle": "Đăng ký tài khoản",
-    "username": "Tên đăng nhập",
-    "usernamePlaceholder": "Nhập tên đăng nhập",
-    "password": "Mật khẩu",
-    "passwordPlaceholder": "Nhập mật khẩu",
-    "submit": "Đăng nhập",
-    "register": "Đăng ký",
-    "error": "Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu."
+    "title": "Đăng nhập tài khoản",
+    "description": "Đăng nhập để trải nghiệm đầy đủ tính năng.",
+    "emailLabel": "Email",
+    "passwordLabel": "Mật khẩu",
+    "loginButton": "Đăng nhập",
+    "forgotPassword": "Quên mật khẩu?",
+    "noAccount": "Chưa có tài khoản?",
+    "signupLink": "Đăng ký ngay",
+    "errorRequired": "Vui lòng nhập đầy đủ thông tin.",
+    "errorInvalid": "Email hoặc mật khẩu không đúng.",
+    "success": "Đăng nhập thành công!",
+    "loading": "Đang đăng nhập...",
+    "placeholderEmail": "Nhập email của bạn",
+    "rememberMe": "Ghi nhớ đăng nhập",
+    "placeholderPassword": "Nhập mật khẩu"
   },
   "blog": {
     "title": "Blog Du Lịch Hà Giang",
@@ -405,7 +414,7 @@
     "authorBio": "Chuyên viết về du lịch Hà Giang",
     "authorExp": "Kinh nghiệm 5+ năm",
     "relatedTitle": "Bài viết liên quan"
-  }, 
+  },
   "vehicle": {
     "location": "Thành Phố Hà Giang",
     "specs": "Thông số:",

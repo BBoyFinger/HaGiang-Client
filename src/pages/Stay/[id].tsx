@@ -65,7 +65,7 @@ export default function StayDetail() {
                 <meta name="description" content={stay.description} />
             </Helmet>
 
-            <div className="min-h-screen bg-gray-50">
+            <div className="min-h-screen bg-light">
                 {/* Hero Section */}
                 <section className="relative h-96 md:h-[500px] overflow-hidden">
                     <img 
@@ -104,9 +104,12 @@ export default function StayDetail() {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.5 }}
                             >
-                                <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">
+                                <h1 className="text-3xl font-bold text-[#1a1a1a] mb-4">
                                     {stay.name}
                                 </h1>
+                                <div className="flex items-center gap-4 mb-6">
+                                    <span className="text-[#555] text-sm">{stay.address}, {stay.city}</span>
+                                </div>
                                 <div className="flex items-center gap-4 mb-4">
                                     <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2">
                                         <FaMapMarkerAlt className="text-white" />
@@ -126,7 +129,7 @@ export default function StayDetail() {
 
                 {/* Image Gallery */}
                 {stay.images.length > 1 && (
-                    <section className="py-8 bg-white">
+                    <section className="py-8 bg-light">
                         <div className="max-w-6xl mx-auto px-4">
                             <div className="flex gap-4 overflow-x-auto pb-4">
                                 {stay.images.map((image, index) => (
@@ -166,9 +169,7 @@ export default function StayDetail() {
                                     className="bg-white rounded-2xl shadow-lg p-8 mb-8"
                                 >
                                     <h2 className="text-2xl font-bold text-gray-800 mb-6">Mô tả</h2>
-                                    <p className="text-gray-600 leading-relaxed">
-                                        {stay.description}
-                                    </p>
+                                    <div className="prose max-w-none text-[#555]" dangerouslySetInnerHTML={{ __html: stay.description }} />
                                 </motion.div>
 
                                 {/* Amenities */}

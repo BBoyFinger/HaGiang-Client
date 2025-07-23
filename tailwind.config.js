@@ -9,7 +9,15 @@ export default {
       center: true,
       padding: "15px"
     },
-    extend: {},
+    extend: {
+      colors: {
+        primary: '#7ED957',      // Xanh lá non tươi sáng
+        secondary: '#A7D8F5',    // Xanh trời nhạt
+        accent: '#FFE066',       // Vàng cỏ khô sáng
+        earth: '#D9B382',        // Nâu đất nhạt
+        light: '#F8F9FA',        // Trắng/xám sáng
+      },
+    },
   },
   plugins: [],
 }

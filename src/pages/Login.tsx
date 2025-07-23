@@ -81,21 +81,21 @@ const Login: React.FC = () => {
         <meta name="twitter:image" content="https://homieTravel.vn/og-image.jpg" />
       </Helmet>
 
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-indigo-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-light via-secondary/20 to-accent/10 flex items-center justify-center p-4">
         <div className="w-full max-w-6xl mx-auto">
-          <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
+          <div className="bg-light rounded-3xl shadow-2xl overflow-hidden">
             <div className="flex flex-col lg:flex-row min-h-[700px]">
               {/* Left: Image Section */}
               <div className="lg:w-1/2 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-600/90 to-pink-600/90 z-10"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/90 to-accent/90 z-10"></div>
                 <img
                   src={image}
                   alt="Travel Background"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 z-20 flex items-center justify-center">
-                  <div className="text-center text-white p-8">
-                    <img src={logo} alt="Homie Travel" className="w-24 h-24 rounded-full mx-auto mb-6 border-4 border-white/30 shadow-lg" />
+                  <div className="text-center text-light p-8">
+                    <img src={logo} alt="Homie Travel" className="w-24 h-24 rounded-full mx-auto mb-6 border-4 border-light/30 shadow-lg" />
                     <h1 className="text-4xl font-bold mb-4">Homie Travel</h1>
                     <p className="text-xl opacity-90 mb-6">
                       {isLogin ? 'Chào mừng bạn trở lại!' : 'Tham gia cùng chúng tôi!'}
@@ -115,32 +115,32 @@ const Login: React.FC = () => {
                 <div className="w-full max-w-md mx-auto">
                   {/* Header */}
                   <div className="text-center mb-8">
-                    <h2 className="text-3xl font-bold text-gray-800 mb-2">
-                      {isLogin ? 'Đăng nhập' : 'Đăng ký'}
+                    <h2 className="text-3xl font-bold text-[#1a1a1a] mb-2">
+                      {isLogin ? t('login.title') : t('login.signupLink')}
                     </h2>
-                    <p className="text-gray-600">
-                      {isLogin ? 'Đăng nhập vào tài khoản của bạn' : 'Tạo tài khoản mới'}
+                    <p className="text-[#555]">
+                      {isLogin ? t('login.description') : t('login.noAccount')}
                     </p>
                   </div>
 
                   {/* Social Login Buttons */}
                   <div className="grid grid-cols-3 gap-3 mb-8">
-                    <button className="flex items-center justify-center p-3 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors">
-                      <FaGoogle className="text-red-500 text-lg" />
+                    <button className="flex items-center justify-center p-3 border border-earth rounded-xl hover:bg-secondary transition-colors">
+                      <FaGoogle className="text-accent text-lg" />
                     </button>
-                    <button className="flex items-center justify-center p-3 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors">
-                      <FaFacebook className="text-blue-600 text-lg" />
+                    <button className="flex items-center justify-center p-3 border border-earth rounded-xl hover:bg-secondary transition-colors">
+                      <FaFacebook className="text-primary text-lg" />
                     </button>
-                    <button className="flex items-center justify-center p-3 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors">
-                      <FaGithub className="text-gray-800 text-lg" />
+                    <button className="flex items-center justify-center p-3 border border-earth rounded-xl hover:bg-secondary transition-colors">
+                      <FaGithub className="text-[#1a1a1a] text-lg" />
                     </button>
                   </div>
 
                   {/* Divider */}
                   <div className="flex items-center mb-8">
-                    <div className="flex-1 border-t border-gray-300"></div>
-                    <span className="px-4 text-gray-500 text-sm">hoặc</span>
-                    <div className="flex-1 border-t border-gray-300"></div>
+                    <div className="flex-1 border-t border-earth"></div>
+                    <span className="px-4 text-[#555] text-sm">hoặc</span>
+                    <div className="flex-1 border-t border-earth"></div>
                   </div>
 
                   {/* Form */}
@@ -148,20 +148,20 @@ const Login: React.FC = () => {
                     {/* Name Field (Register only) */}
                     {!isLogin && (
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Tên người dùng
+                        <label className="block text-sm font-medium text-[#555] mb-2">
+                          {t('login.nameLabel', 'Tên người dùng')}
                         </label>
                         <div className="relative">
                           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <FaUser className="h-5 w-5 text-gray-400" />
+                            <FaUser className="h-5 w-5 text-earth" />
                           </div>
                           <input
                             type="text"
                             name="name"
                             value={formData.name}
                             onChange={handleInputChange}
-                            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                            placeholder="Nhập tên người dùng"
+                            className="w-full pl-10 pr-4 py-3 border border-earth rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-[#1a1a1a]"
+                            placeholder={t('login.placeholderName', 'Nhập tên người dùng')}
                             required
                           />
                         </div>
@@ -170,20 +170,20 @@ const Login: React.FC = () => {
 
                     {/* Email Field (dùng cho cả login và register) */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Email
+                      <label className="block text-sm font-medium text-[#555] mb-2">
+                        {t('login.emailLabel')}
                       </label>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                          <FaEnvelope className="h-5 w-5 text-gray-400" />
+                          <FaEnvelope className="h-5 w-5 text-earth" />
                         </div>
                         <input
                           type="email"
                           name="email"
                           value={formData.email}
                           onChange={handleInputChange}
-                          className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                          placeholder="Nhập email của bạn"
+                          className="w-full pl-10 pr-4 py-3 border border-earth rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-[#1a1a1a]"
+                          placeholder={t('login.placeholderEmail')}
                           required
                         />
                       </div>
@@ -191,20 +191,20 @@ const Login: React.FC = () => {
 
                     {/* Password Field */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Mật khẩu
+                      <label className="block text-sm font-medium text-[#555] mb-2">
+                        {t('login.passwordLabel')}
                       </label>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                          <FaLock className="h-5 w-5 text-gray-400" />
+                          <FaLock className="h-5 w-5 text-earth" />
                         </div>
                         <input
                           type={showPassword ? "text" : "password"}
                           name="password"
                           value={formData.password}
                           onChange={handleInputChange}
-                          className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                          placeholder="Nhập mật khẩu"
+                          className="w-full pl-10 pr-12 py-3 border border-earth rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-[#1a1a1a]"
+                          placeholder={t('login.placeholderPassword')}
                           required
                         />
                         <button
@@ -213,9 +213,9 @@ const Login: React.FC = () => {
                           className="absolute inset-y-0 right-0 pr-3 flex items-center"
                         >
                           {showPassword ? (
-                            <FaEyeSlash className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                            <FaEyeSlash className="h-5 w-5 text-earth hover:text-primary" />
                           ) : (
-                            <FaEye className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                            <FaEye className="h-5 w-5 text-earth hover:text-primary" />
                           )}
                         </button>
                       </div>
@@ -224,20 +224,20 @@ const Login: React.FC = () => {
                     {/* Confirm Password Field (Register only) */}
                     {!isLogin && (
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Xác nhận mật khẩu
+                        <label className="block text-sm font-medium text-[#555] mb-2">
+                          {t('login.confirmPasswordLabel', 'Xác nhận mật khẩu')}
                         </label>
                         <div className="relative">
                           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <FaLock className="h-5 w-5 text-gray-400" />
+                            <FaLock className="h-5 w-5 text-earth" />
                           </div>
                           <input
                             type={showConfirmPassword ? "text" : "password"}
                             name="confirmPassword"
                             value={formData.confirmPassword}
                             onChange={handleInputChange}
-                            className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                            placeholder="Nhập lại mật khẩu"
+                            className="w-full pl-10 pr-12 py-3 border border-earth rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-[#1a1a1a]"
+                            placeholder={t('login.placeholderConfirmPassword', 'Nhập lại mật khẩu')}
                             required
                           />
                           <button
@@ -246,9 +246,9 @@ const Login: React.FC = () => {
                             className="absolute inset-y-0 right-0 pr-3 flex items-center"
                           >
                             {showConfirmPassword ? (
-                              <FaEyeSlash className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                              <FaEyeSlash className="h-5 w-5 text-earth hover:text-primary" />
                             ) : (
-                              <FaEye className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                              <FaEye className="h-5 w-5 text-earth hover:text-primary" />
                             )}
                           </button>
                         </div>
@@ -264,14 +264,14 @@ const Login: React.FC = () => {
                             name="rememberMe"
                             checked={formData.rememberMe}
                             onChange={handleInputChange}
-                            className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+                            className="h-4 w-4 text-primary focus:ring-primary border-earth rounded"
                           />
-                          <label className="ml-2 text-sm text-gray-700">
-                            Ghi nhớ đăng nhập
+                          <label className="ml-2 text-sm text-[#555]">
+                            {t('login.rememberMe', 'Ghi nhớ đăng nhập')}
                           </label>
                         </div>
-                        <a href="#" className="text-sm text-purple-600 hover:text-purple-500 font-medium">
-                          Quên mật khẩu?
+                        <a href="#" className="text-sm text-primary hover:text-accent font-medium">
+                          {t('login.forgotPassword')}
                         </a>
                       </div>
                     )}
@@ -279,21 +279,21 @@ const Login: React.FC = () => {
                     {/* Submit Button */}
                     <button
                       type="submit"
-                      className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold py-3 px-4 rounded-xl hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-all duration-200 shadow-lg hover:shadow-xl"
+                      className="w-full bg-gradient-to-r from-primary to-accent text-[#1a1a1a] font-semibold py-3 px-4 rounded-xl hover:from-accent hover:to-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 shadow-lg hover:shadow-xl"
                     >
-                      {isLogin ? 'Đăng nhập' : 'Đăng ký'}
+                      {isLogin ? t('login.loginButton') : t('login.signupLink')}
                     </button>
                   </form>
 
                   {/* Toggle Form */}
                   <div className="mt-8 text-center">
-                    <p className="text-gray-600">
-                      {isLogin ? 'Chưa có tài khoản?' : 'Đã có tài khoản?'}
+                    <p className="text-[#555]">
+                      {isLogin ? t('login.noAccount') : t('login.haveAccount', 'Đã có tài khoản?')}
                       <button
                         onClick={() => setIsLogin(!isLogin)}
-                        className="ml-1 text-purple-600 hover:text-purple-500 font-semibold transition-colors"
+                        className="ml-1 text-primary hover:text-accent font-semibold transition-colors"
                       >
-                        {isLogin ? 'Đăng ký ngay' : 'Đăng nhập'}
+                        {isLogin ? t('login.signupLink') : t('login.loginButton')}
                       </button>
                     </p>
                   </div>
@@ -301,14 +301,14 @@ const Login: React.FC = () => {
                   {/* Terms (Register only) */}
                   {!isLogin && (
                     <div className="mt-6 text-center">
-                      <p className="text-xs text-gray-500">
-                        Bằng cách đăng ký, bạn đồng ý với{' '}
-                        <a href="#" className="text-purple-600 hover:text-purple-500">
-                          Điều khoản sử dụng
+                      <p className="text-xs text-[#555]">
+                        {t('login.termsText', 'Bằng cách đăng ký, bạn đồng ý với')}{' '}
+                        <a href="#" className="text-primary hover:text-accent">
+                          {t('login.termsOfUse', 'Điều khoản sử dụng')}
                         </a>{' '}
-                        và{' '}
-                        <a href="#" className="text-purple-600 hover:text-purple-500">
-                          Chính sách bảo mật
+                        {t('login.and', 'và')}{' '}
+                        <a href="#" className="text-primary hover:text-accent">
+                          {t('login.privacyPolicy', 'Chính sách bảo mật')}
                         </a>
                       </p>
                     </div>
@@ -317,7 +317,7 @@ const Login: React.FC = () => {
                   {/* Hiển thị lỗi xác nhận mật khẩu hoặc lỗi server */}
                   {(formError || error) && (
                     <div className="text-red-500 text-center mb-2">
-                      {formError || error}
+                      {formError || t('login.errorInvalid')}
                     </div>
                   )}
                 </div>

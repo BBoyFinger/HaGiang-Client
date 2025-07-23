@@ -181,11 +181,11 @@ export default function SearchBar() {
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case 'tour': return <FiCalendar className="text-blue-500" />;
-      case 'destination': return <FiMapPin className="text-green-500" />;
-      case 'blog': return <FiFileText className="text-purple-500" />;
-      case 'stay': return <FiHome className="text-orange-500" />;
-      case 'rent': return <FiTruck className="text-red-500" />;
+      case 'tour': return <FiCalendar className="text-accent" />;
+      case 'destination': return <FiMapPin className="text-primary" />;
+      case 'blog': return <FiFileText className="text-earth" />;
+      case 'stay': return <FiHome className="text-secondary" />;
+      case 'rent': return <FiTruck className="text-secondary" />;
       default: return <FiSearch className="text-gray-500" />;
     }
   };
@@ -211,12 +211,12 @@ export default function SearchBar() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={t('search.placeholder') || 'Tìm kiếm tour, điểm đến, blog, homestay, xe...'}
-            className="w-full px-6 py-4 pl-14 pr-20 text-lg bg-white rounded-2xl shadow-lg border-2 border-transparent focus:border-purple-500 focus:outline-none transition-all duration-300"
+            className="w-full px-6 py-4 pl-14 pr-20 text-lg bg-light rounded-2xl shadow-lg border-2 border-transparent focus:border-primary focus:outline-none transition-all duration-300 text-[#333] placeholder:text-earth"
           />
-          <FiSearch className="absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl" />
+          <FiSearch className="absolute left-5 top-1/2 transform -translate-y-1/2 text-earth text-xl" />
           <button
             type="submit"
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-2 rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-primary to-accent text-[#333] px-6 py-2 rounded-xl hover:from-accent hover:to-primary transition-all duration-300 shadow-md font-semibold"
           >
             {t('search.search') || 'Tìm'}
           </button>
@@ -226,20 +226,20 @@ export default function SearchBar() {
       {/* Filter Tabs */}
       <div className="flex flex-wrap gap-2 mt-4 justify-center">
         {[
-          { key: 'all', label: t('search.tabs.all') || 'Tất cả', icon: <FiSearch /> },
-          { key: 'tour', label: t('search.tabs.tour') || 'Tour', icon: <FiCalendar /> },
-          { key: 'destination', label: t('search.tabs.destination') || 'Điểm đến', icon: <FiMapPin /> },
-          { key: 'blog', label: t('search.tabs.blog') || 'Blog', icon: <FiFileText /> },
-          { key: 'stay', label: t('search.tabs.stay') || 'Homestay', icon: <FiHome /> },
-          { key: 'rent', label: t('search.tabs.rent') || 'Thuê xe', icon: <FiTruck /> }
+          { key: 'all', label: t('search.tabs.all') || 'Tất cả', icon: <FiSearch className="text-primary" /> },
+          { key: 'tour', label: t('search.tabs.tour') || 'Tour', icon: <FiCalendar className="text-accent" /> },
+          { key: 'destination', label: t('search.tabs.destination') || 'Điểm đến', icon: <FiMapPin className="text-primary" /> },
+          { key: 'blog', label: t('search.tabs.blog') || 'Blog', icon: <FiFileText className="text-earth" /> },
+          { key: 'stay', label: t('search.tabs.stay') || 'Homestay', icon: <FiHome className="text-secondary" /> },
+          { key: 'rent', label: t('search.tabs.rent') || 'Thuê xe', icon: <FiTruck className="text-secondary" /> }
         ].map((tab) => (
           <button
             key={tab.key}
             onClick={() => setActiveTab(tab.key as any)}
             className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
               activeTab === tab.key
-                ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
-                : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
+                ? 'bg-gradient-to-r from-primary to-accent text-[#333] shadow-lg font-semibold'
+                : 'bg-light text-[#333] hover:bg-secondary border border-earth font-medium'
             }`}
           >
             {tab.icon}
@@ -255,22 +255,22 @@ export default function SearchBar() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-gray-200 max-h-96 overflow-y-auto z-50"
+            className="absolute top-full left-0 right-0 mt-2 bg-light rounded-2xl shadow-2xl border border-earth max-h-96 overflow-y-auto z-50 text-[#333]"
           >
             {isLoading ? (
-              <div className="p-6 text-center text-gray-500">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mx-auto mb-2"></div>
+              <div className="p-6 text-center text-earth">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2"></div>
                 {t('search.loading') || 'Đang tìm kiếm...'}
               </div>
             ) : results.length > 0 ? (
               <div className="p-4">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-gray-800">
+                  <h3 className="text-lg font-semibold text-[#333]">
                     {t('search.results') || 'Kết quả tìm kiếm'} ({results.length})
                   </h3>
                   <button
                     onClick={() => setShowResults(false)}
-                    className="text-gray-400 hover:text-gray-600"
+                    className="text-gray-400 hover:text-earth"
                   >
                     <FaTimes />
                   </button>
@@ -298,7 +298,7 @@ export default function SearchBar() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="text-xs px-2 py-1 rounded-full bg-purple-100 text-purple-600 font-medium">
+                          <span className="text-xs px-2 py-1 rounded-full bg-secondary text-earth font-medium">
                             {getTypeLabel(result.type)}
                           </span>
                           {result.rating && (
@@ -309,7 +309,7 @@ export default function SearchBar() {
                           )}
                         </div>
                         <h4 
-                          className="font-semibold text-gray-800 group-hover:text-purple-600 transition-colors truncate"
+                          className="font-semibold text-[#333] group-hover:text-primary transition-colors truncate"
                           dangerouslySetInnerHTML={{
                             __html: typeof result.title === 'object' && result.title !== null 
                               ? ((result.title as any).vi || (result.title as any).en || JSON.stringify(result.title))
@@ -317,7 +317,7 @@ export default function SearchBar() {
                           }}
                         />
                         <p 
-                          className="text-sm text-gray-600 line-clamp-2"
+                          className="text-sm text-earth line-clamp-2"
                           dangerouslySetInnerHTML={{
                             __html: typeof result.description === 'object' && result.description !== null 
                               ? ((result.description as any).vi || (result.description as any).en || JSON.stringify(result.description))
@@ -325,7 +325,7 @@ export default function SearchBar() {
                           }}
                         />
                         {result.price && (
-                          <div className="text-sm font-semibold text-green-600 mt-1">
+                          <div className="text-sm font-semibold text-primary mt-1">
                             {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(result.price)}
                           </div>
                         )}
@@ -333,21 +333,21 @@ export default function SearchBar() {
                     </Link>
                   ))}
                 </div>
-                <div className="mt-4 pt-4 border-t border-gray-200">
+                <div className="mt-4 pt-4 border-t border-earth">
                   <Link
                     to={`/search?q=${encodeURIComponent(query)}&type=${activeTab}`}
                     onClick={() => setShowResults(false)}
-                    className="text-center block text-purple-600 hover:text-purple-700 font-medium"
+                    className="text-center block text-primary hover:text-accent font-medium"
                   >
                     {t('search.viewAll') || 'Xem tất cả kết quả'}
                   </Link>
                 </div>
               </div>
             ) : query.trim().length >= 2 ? (
-              <div className="p-6 text-center text-gray-500">
-                <FiSearch className="mx-auto text-4xl mb-2 text-gray-300" />
-                <p>{t('search.noResults') || 'Không tìm thấy kết quả'}</p>
-                <p className="text-sm mt-1">{t('search.tryDifferent') || 'Thử từ khóa khác'}</p>
+              <div className="p-6 text-center text-earth">
+                <FiSearch className="mx-auto text-4xl mb-2 text-secondary" />
+                <p className="text-sm text-[#333]">{t('search.noResults') || 'Không tìm thấy kết quả'}</p>
+                <p className="text-sm mt-1 text-earth">{t('search.tryDifferent') || 'Thử từ khóa khác'}</p>
               </div>
             ) : null}
           </motion.div>

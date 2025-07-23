@@ -72,35 +72,35 @@ function Blog() {
       </Helmet>
 
       {/* Hero Section */}
-      <section className="relative h-80 bg-gradient-to-r from-purple-600 to-pink-600 overflow-hidden">
+      <section className="relative h-80 bg-gradient-to-r from-primary to-accent overflow-hidden">
         <div className="absolute inset-0 bg-black opacity-40"></div>
         <div className="relative z-10 flex items-center justify-center h-full">
-          <div className="text-center text-white">
+          <div className="text-center text-light">
             <h1 className="text-5xl font-bold mb-4">{t('blog.title')}</h1>
             <p className="text-xl max-w-2xl mx-auto px-4">
               {t('blog.description')}
             </p>
           </div>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-light to-transparent"></div>
       </section>
 
       {/* Search and Filter Section */}
-      <section className="py-8 bg-gray-50">
+      <section className="py-8 bg-secondary/20">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="bg-white rounded-2xl shadow-lg p-6">
+          <div className="bg-light rounded-2xl shadow-lg p-6">
             {/* Search Bar */}
             <div className="mb-6">
               <div className="relative w-full">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FaSearch className="h-5 w-5 text-gray-400" />
+                  <FaSearch className="h-5 w-5 text-earth" />
                 </div>
                 <input
                   type="text"
                   placeholder={t('blog.searchPlaceholder')}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors"
+                  className="block w-full pl-10 pr-3 py-3 border border-earth rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors text-[#1a1a1a] placeholder:text-[#555]"
                 />
               </div>
             </div>
@@ -109,8 +109,8 @@ function Blog() {
             <div className="flex flex-col xl:flex-row xl:items-center justify-center gap-6">
               {/* Category Filter */}
               <div className="flex-1">
-                <div className="flex items-center text-gray-600 mb-3">
-                  <FaFilter className="mr-2" />
+                <div className="flex items-center text-[#555] mb-3">
+                  <FaFilter className="mr-2 text-primary" />
                   <span className="font-medium text-sm">{t('blog.categoryLabel')}</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -121,8 +121,8 @@ function Blog() {
                         key={category.id}
                         onClick={() => setSelectedCategory(category.id)}
                         className={`flex items-center px-3 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-300 whitespace-nowrap ${selectedCategory === category.id
-                            ? 'bg-purple-600 text-white shadow-lg'
-                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                            ? 'bg-gradient-to-r from-primary to-accent text-[#1a1a1a] shadow-lg font-semibold'
+                            : 'bg-light text-[#555] hover:bg-secondary border border-earth font-medium'
                           }`}
                       >
                         <Icon className="mr-1.5 text-xs" />
@@ -135,14 +135,14 @@ function Blog() {
 
               {/* Sort Options */}
               <div className="flex items-center gap-3 xl:flex-shrink-0">
-                <div className="flex items-center text-gray-600">
-                  <FaCalendar className="mr-2" />
+                <div className="flex items-center text-[#555]">
+                  <FaCalendar className="mr-2 text-primary" />
                   <span className="font-medium text-sm">{t('blog.sortLabel')}</span>
                 </div>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="block px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors text-sm min-w-[120px]"
+                  className="block px-3 py-2 border border-earth rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors text-sm min-w-[120px] text-[#1a1a1a]"
                 >
                   <option value="latest">{t('blog.sortLatest')}</option>
                   <option value="oldest">{t('blog.sortOldest')}</option>
@@ -154,20 +154,20 @@ function Blog() {
       </section>
 
       {/* Blog Posts Section */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-light">
         <div className="max-w-7xl mx-auto px-4">
           {/* Section Header */}
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">{t('blog.latestPosts')}</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <h2 className="text-3xl font-bold text-[#1a1a1a] mb-4">{t('blog.latestPosts')}</h2>
+            <p className="text-lg text-[#555] max-w-2xl mx-auto">
               {t('blog.latestPostsDesc')}
             </p>
           </div>
 
           {/* Results Count */}
           <div className="mb-8">
-            <p className="text-gray-600">
-            {t('blog.found', { count: sortedBlogs.length, interpolation: { escapeValue: false }, 1: (chunks: any) => <span className="font-semibold text-purple-600">{chunks}</span> })}
+            <p className="text-[#555]">
+            {t('blog.found', { count: sortedBlogs.length, interpolation: { escapeValue: false }, 1: (chunks: any) => <span className="font-semibold text-primary">{chunks}</span> })}
             </p>
           </div>
 
@@ -182,11 +182,11 @@ function Blog() {
             </div>
           ) : (
             <div className="text-center py-16">
-              <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FaSearch className="text-3xl text-gray-400" />
+              <div className="w-24 h-24 bg-light rounded-full flex items-center justify-center mx-auto mb-4">
+                <FaSearch className="text-3xl text-secondary" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">{t('blog.notFoundTitle')}</h3>
-              <p className="text-gray-600 mb-6">
+              <h3 className="text-xl font-semibold text-[#1a1a1a] mb-2">{t('blog.notFoundTitle')}</h3>
+              <p className="text-[#555] mb-6">
                 {t('blog.notFoundDesc')}
               </p>
               <button
@@ -194,7 +194,7 @@ function Blog() {
                   setSearchTerm("");
                   setSelectedCategory("all");
                 }}
-                className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors"
+                className="bg-gradient-to-r from-primary to-accent text-[#1a1a1a] px-6 py-2 rounded-lg hover:from-accent hover:to-primary transition-colors font-semibold"
               >
                 {t('blog.clearFilter')}
               </button>
@@ -204,19 +204,19 @@ function Blog() {
       </section>
 
       {/* Newsletter Section */}
-      <section className="py-16 bg-gradient-to-r from-purple-600 to-pink-600">
+      <section className="py-16 bg-gradient-to-r from-primary to-accent">
         <div className="max-w-4xl mx-auto text-center px-4">
-          <h2 className="text-3xl font-bold text-white mb-4">{t('blog.newsletterTitle')}</h2>
-          <p className="text-xl text-purple-100 mb-8">
+          <h2 className="text-3xl font-bold text-[#1a1a1a] mb-4">{t('blog.newsletterTitle')}</h2>
+          <p className="text-xl text-[#555] mb-8">
             {t('blog.newsletterDesc')}
           </p>
           <div className="flex max-w-md mx-auto">
             <input
               type="email"
               placeholder={t('blog.newsletterPlaceholder')}
-              className="flex-1 px-4 py-3 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-white"
+              className="flex-1 px-4 py-3 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-primary text-[#1a1a1a]"
             />
-            <button className="bg-white text-purple-600 px-6 py-3 rounded-r-lg font-semibold hover:bg-gray-100 transition-colors">
+            <button className="bg-light text-primary px-6 py-3 rounded-r-lg font-semibold hover:bg-secondary transition-colors">
               {t('blog.newsletterButton')}
             </button>
           </div>
@@ -224,11 +224,11 @@ function Blog() {
       </section>
 
       {/* Featured Categories */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-secondary/20">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">{t('blog.featuredTitle')}</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <h2 className="text-3xl font-bold text-[#1a1a1a] mb-4">{t('blog.featuredTitle')}</h2>
+            <p className="text-lg text-[#555] max-w-2xl mx-auto">
               {t('blog.featuredDesc')}
             </p>
           </div>
@@ -238,11 +238,11 @@ function Blog() {
               const Icon = category.icon;
               return (
                 <div key={category.id} className="text-center">
-                  <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Icon className="text-2xl text-purple-600" />
+                  <div className="w-16 h-16 bg-secondary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Icon className="text-2xl text-primary" />
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-800 mb-2">{category.name}</h3>
-                  <p className="text-gray-600">
+                  <h3 className="text-xl font-semibold text-[#1a1a1a] mb-2">{category.name}</h3>
+                  <p className="text-[#555]">
                     {category.id === "travel" && t('blog.featuredTravel')}
                     {category.id === "culture" && t('blog.featuredCulture')}
                     {category.id === "food" && t('blog.featuredFood')}

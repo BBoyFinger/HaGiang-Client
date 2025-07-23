@@ -188,7 +188,7 @@ export default function TourDetail() {
         />
       </Helmet>
 
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-light">
         {/* Hero Section */}
         <section className="relative h-96 md:h-[500px] overflow-hidden">
           <img
@@ -248,7 +248,7 @@ export default function TourDetail() {
 
         {/* Image Gallery */}
         {tour.imageUrls?.length > 1 && (
-          <section className="py-8 bg-white">
+          <section className="py-8 bg-light">
             <div className="max-w-6xl mx-auto px-4">
               <div className="flex gap-4 overflow-x-auto pb-4">
                 {tour.imageUrls.map((image: string, index: number) => (
@@ -256,8 +256,8 @@ export default function TourDetail() {
                     key={index}
                     onClick={() => setSelectedImage(index)}
                     className={`flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden border-2 transition-all duration-300 ${selectedImage === index
-                      ? "border-purple-500"
-                      : "border-gray-200 hover:border-purple-300"
+                      ? "border-primary"
+                      : "border-earth hover:border-accent"
                       }`}
                   >
                     <img
@@ -283,11 +283,11 @@ export default function TourDetail() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.1 }}
-                  className="bg-white rounded-2xl shadow-lg p-8 mb-8"
+                  className="bg-light rounded-2xl shadow-lg p-8 mb-8 border border-earth/40"
                 >
                   <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-4">
-                      <span className="inline-block px-4 py-2 rounded-full bg-purple-100 text-purple-700 text-sm font-semibold">
+                      <span className="inline-block px-4 py-2 rounded-full bg-secondary/20 text-primary text-sm font-semibold">
                         {tour.type?.[lang] || tour.type?.vi}
                       </span>
                       <div className="flex items-center gap-2">
@@ -300,17 +300,17 @@ export default function TourDetail() {
                           color="#e4e5e9"
                           activeColor="#ffd700"
                         />
-                        <span className="text-sm text-gray-600">{averageRating}</span>
-                        <span className="text-sm text-gray-600 ml-2">({reviews.length} đánh giá)</span>
+                        <span className="text-sm text-[#555]">{averageRating}</span>
+                        <span className="text-sm text-[#555] ml-2">({reviews.length} đánh giá)</span>
                       </div>
                     </div>
                     <div className="flex gap-2">
                       <div className="relative">
                         <button
                           onClick={() => setShowShareDropdown(!showShareDropdown)}
-                          className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
+                          className="w-10 h-10 bg-secondary/20 rounded-full flex items-center justify-center hover:bg-accent transition-colors"
                         >
-                          <FiShare2 />
+                          <FiShare2 className="text-primary" />
                         </button>
                         {showShareDropdown && (
                           <div className="absolute right-0 top-full mt-2 bg-white border rounded-lg shadow-lg z-50 min-w-[200px]">
@@ -356,36 +356,36 @@ export default function TourDetail() {
                     </div>
                   </div>
 
-                  <h2 className="text-2xl font-bold text-gray-800 mb-4">{t('tour.detail.description')}</h2>
-                  <div className="text-gray-600 leading-relaxed mb-6 prose max-w-none"
+                  <h2 className="text-2xl font-bold text-[#1a1a1a] mb-4">{t('tour.detail.description')}</h2>
+                  <div className="text-[#555] leading-relaxed mb-6 prose max-w-none"
                     dangerouslySetInnerHTML={{ __html: tour.description?.[lang] || tour.description?.vi || '' }} />
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
+                    <div className="flex items-center gap-3 p-4 bg-light rounded-xl">
                       <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
                         <FiMapPin className="text-blue-600" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-gray-800">{t('tour.detail.location')}</h3>
-                        <p className="text-sm text-gray-600">{mapMultiLangArray(tour.locations, lang).join(', ')}</p>
+                        <h3 className="font-semibold text-[#1a1a1a]">{t('tour.detail.location')}</h3>
+                        <p className="text-sm text-[#555]">{mapMultiLangArray(tour.locations, lang).join(', ')}</p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
+                    <div className="flex items-center gap-3 p-4 bg-light rounded-xl">
                       <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
                         <FiClock className="text-green-600" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-gray-800">{t('tour.detail.duration')}</h3>
-                        <p className="text-sm text-gray-600">{tour.duration?.[lang] || tour.duration?.vi}</p>
+                        <h3 className="font-semibold text-[#1a1a1a]">{t('tour.detail.duration')}</h3>
+                        <p className="text-sm text-[#555]">{tour.duration?.[lang] || tour.duration?.vi}</p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
+                    <div className="flex items-center gap-3 p-4 bg-light rounded-xl">
                       <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
                         <FiUsers className="text-purple-600" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-gray-800">{t('tour.detail.group')}</h3>
-                        <p className="text-sm text-gray-600">2-8</p>
+                        <h3 className="font-semibold text-[#1a1a1a]">{t('tour.detail.group')}</h3>
+                        <p className="text-sm text-[#555]">2-8</p>
                       </div>
                     </div>
                   </div>
@@ -396,12 +396,12 @@ export default function TourDetail() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.2 }}
-                  className="bg-white rounded-2xl shadow-lg p-8 mb-8"
+                  className="bg-light rounded-2xl shadow-lg p-8 mb-8 border border-earth/40"
                 >
-                  <h2 className="text-2xl font-bold text-gray-800 mb-6">{t('tour.detail.schedule')}</h2>
+                  <h2 className="text-2xl font-bold text-[#1a1a1a] mb-6">{t('tour.detail.schedule')}</h2>
                   <button
                     onClick={() => setShowSchedule(!showSchedule)}
-                    className="flex w-full justify-between items-center gap-4 p-6 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
+                    className="flex w-full justify-between items-center gap-4 p-6 bg-gradient-to-r from-primary to-accent text-[#1a1a1a] rounded-xl hover:from-accent hover:to-primary transition-all duration-300"
                   >
                     <span className="text-xl font-bold">{mapMultiLangArray(tour.locations, lang).join(" - ")}</span>
                     {showSchedule ? <FiChevronUp /> : <FiChevronDown />}
@@ -438,9 +438,9 @@ export default function TourDetail() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.3 }}
-                  className="bg-white rounded-2xl shadow-lg p-8 mb-8"
+                  className="bg-light rounded-2xl shadow-lg p-8 mb-8 border border-earth/40"
                 >
-                  <h2 className="text-2xl font-bold text-gray-800 mb-6">{t('tour.detail.services')}</h2>
+                  <h2 className="text-2xl font-bold text-[#1a1a1a] mb-6">{t('tour.detail.services')}</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
                       <h3 className="text-lg font-semibold mb-4 text-green-600 flex items-center gap-2">
@@ -479,26 +479,25 @@ export default function TourDetail() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.4 }}
-                  className="bg-white rounded-2xl shadow-lg p-8"
+                  className="bg-light rounded-2xl shadow-lg p-8 border border-earth/40"
                 >
                   {/* Tabs cho Review/Comment */}
                   <div className="flex gap-4 mb-8">
-                    <button onClick={() => setActiveTab('review')} className={`px-4 py-2 rounded-lg font-semibold ${activeTab === 'review' ? 'bg-purple-600 text-white' : 'bg-gray-100 text-gray-700'}`}>{t('tour.detail.review')}</button>
-                    <button onClick={() => setActiveTab('comment')} className={`px-4 py-2 rounded-lg font-semibold ${activeTab === 'comment' ? 'bg-purple-600 text-white' : 'bg-gray-100 text-gray-700'}`}>{t('tour.detail.comment')}</button>
+                    <button onClick={() => setActiveTab('review')} className={`px-4 py-2 rounded-lg font-semibold ${activeTab === 'review' ? 'bg-gradient-to-r from-primary to-accent text-[#1a1a1a]' : 'bg-light text-[#555] border border-earth'}`}>{t('tour.detail.review')}</button>
+                    <button onClick={() => setActiveTab('comment')} className={`px-4 py-2 rounded-lg font-semibold ${activeTab === 'comment' ? 'bg-gradient-to-r from-primary to-accent text-[#1a1a1a]' : 'bg-light text-[#555] border border-earth'}`}>{t('tour.detail.comment')}</button>
                   </div>
 
                   {activeTab === 'review' && (
                     <div>
                       {/* Tổng điểm rating */}
                       <div className="flex items-center gap-2 mb-4">
-                        <span className="text-2xl font-bold text-yellow-500">{averageRating}</span>
+                        <span className="text-2xl font-bold text-accent">{averageRating}</span>
                         <ReactStars count={5} value={averageRating} size={24} isHalf={true} edit={false} color="#e4e5e9" activeColor="#ffd700" />
-
-                        <span className="text-gray-600">({reviews.length} đánh giá)</span>
+                        <span className="text-[#555]">({reviews.length} đánh giá)</span>
                       </div>
                       {/* Form gửi review */}
-                      <div className="bg-gray-50 rounded-xl p-6 mb-8">
-                        <h3 className="text-lg font-semibold mb-4 text-gray-800">{t('tour.detail.writeReview')}</h3>
+                      <div className="bg-light rounded-xl p-6 mb-8">
+                        <h3 className="text-lg font-semibold mb-4 text-[#1a1a1a]">{t('tour.detail.writeReview')}</h3>
                         {!isAuthenticated && (
                           <>
                             <input
@@ -518,7 +517,7 @@ export default function TourDetail() {
                           </>
                         )}
                         <div className="mb-4">
-                          <label className="block text-sm font-medium text-gray-700 mb-2">{t("tour.detail.pickStar")}</label>
+                          <label className="block text-sm font-medium text-[#555] mb-2">{t("tour.detail.pickStar")}</label>
                           <ReactStars
                             count={5}
                             value={reviewInput.rating}
@@ -539,7 +538,7 @@ export default function TourDetail() {
                         />
                         <button
                           onClick={handlePostReview}
-                          className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-300 font-semibold"
+                          className="bg-gradient-to-r from-primary to-accent text-[#1a1a1a] px-6 py-3 rounded-lg hover:from-accent hover:to-primary transition-all duration-300 font-semibold"
                           disabled={isAddingReview}
                         >
                           {t('tour.detail.sendReview')}
@@ -553,7 +552,7 @@ export default function TourDetail() {
                             <div key={review._id} className="border border-gray-200 rounded-xl p-6">
                               <div className="flex justify-between items-start mb-4">
                                 <div>
-                                  <h4 className="font-semibold text-lg text-gray-800">{review.userId?.name || 'Ẩn danh'}</h4>
+                                  <h4 className="font-semibold text-lg text-[#1a1a1a]">{review.userId?.name || 'Ẩn danh'}</h4>
                                   <p className="text-sm text-gray-500">{new Date(review.createdAt).toLocaleDateString('vi-VN')}</p>
                                 </div>
                                 <ReactStars count={5} value={review.rating} size={16} isHalf={true} edit={false} color="#e4e5e9" activeColor="#ffd700" />
@@ -569,8 +568,8 @@ export default function TourDetail() {
                   {activeTab === 'comment' && (
                     <div>
                       {/* Form gửi comment */}
-                      <div className="bg-gray-50 rounded-xl p-6 mb-8">
-                        <h3 className="text-lg font-semibold mb-4 text-gray-800">{t('tour.detail.writeComment')}</h3>
+                      <div className="bg-light rounded-xl p-6 mb-8">
+                        <h3 className="text-lg font-semibold mb-4 text-[#1a1a1a]">{t('tour.detail.writeComment')}</h3>
                         {commentSuccessMsg && (
                           <div className="mb-4 text-green-600 font-semibold bg-green-50 border border-green-200 rounded-lg p-3">
                             {commentSuccessMsg}
@@ -603,7 +602,7 @@ export default function TourDetail() {
                         />
                         <button
                           onClick={handlePostComment}
-                          className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-300 font-semibold"
+                          className="bg-gradient-to-r from-primary to-accent text-[#1a1a1a] px-6 py-3 rounded-lg hover:from-accent hover:to-primary transition-all duration-300 font-semibold"
                           disabled={isAddingComment}
                         >
                           {t('tour.detail.sendComment')}
@@ -617,7 +616,7 @@ export default function TourDetail() {
                             <div key={comment._id} className="border border-gray-200 rounded-xl p-6">
                               <div className="flex justify-between items-start mb-4">
                                 <div>
-                                  <h4 className="font-semibold text-lg text-gray-800">{comment.user?.name || 'Ẩn danh'}</h4>
+                                  <h4 className="font-semibold text-lg text-[#1a1a1a]">{comment.user?.name || 'Ẩn danh'}</h4>
                                   <p className="text-sm text-gray-500">{new Date(comment.createdAt).toLocaleDateString('vi-VN')}</p>
                                 </div>
                               </div>
@@ -638,33 +637,33 @@ export default function TourDetail() {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: 0.5 }}
-                  className="bg-white rounded-2xl shadow-lg p-6 mb-6 sticky top-6"
+                  className="bg-light rounded-2xl shadow-lg p-6 mb-6 sticky top-6 border border-earth/40"
                 >
-                  <h3 className="text-xl font-bold text-gray-800 mb-4">{t('tour.detail.price')}</h3>
+                  <h3 className="text-xl font-bold text-[#1a1a1a] mb-4">{t('tour.detail.price')}</h3>
                   <div className="text-center mb-6 space-y-2">
                     {/* VND Price */}
                     {tour.price?.VND && (
                       <div className="space-y-2">
                         <div className="flex items-baseline justify-center gap-2">
-                          <div className="text-2xl font-bold text-gray-800">
+                          <div className="text-2xl font-bold text-primary">
                             {tour.price.VND.perSlot?.toLocaleString('vi-VN')} VND
                           </div>
-                          <div className="text-gray-600 text-base">/slot</div>
+                          <div className="text-[#555] text-base">/slot</div>
                         </div>
                         {tour.price.VND.groupPrice && (
                           <div className="flex items-baseline justify-center gap-2">
-                            <div className="text-base font-semibold text-purple-600">
+                            <div className="text-base font-semibold text-accent">
                               {tour.price.VND.groupPrice.toLocaleString('vi-VN')} VND
                             </div>
-                            <div className="text-sm text-gray-500">/{t('tour.detail.groupPrice')}</div>
+                            <div className="text-sm text-[#555]">/{t('tour.detail.groupPrice')}</div>
                           </div>
                         )}
                         {tour.price.VND.discountPrice && (
                           <div className="flex items-baseline justify-center gap-2">
-                            <div className="text-base font-semibold text-green-600">
+                            <div className="text-base font-semibold text-secondary">
                               {tour.price.VND.discountPrice.toLocaleString('vi-VN')} VND
                             </div>
-                            <div className="text-sm text-gray-500">/{t('tour.detail.discountPrice')}</div>
+                            <div className="text-sm text-[#555]">/{t('tour.detail.discountPrice')}</div>
                           </div>
                         )}
                       </div>
@@ -672,8 +671,8 @@ export default function TourDetail() {
                   </div>
 
                   <div className="space-y-3">
-                    <button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold py-3 rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all duration-300">{t('tour.detail.bookNow')}</button>
-                    <button className="w-full border-2 border-purple-600 text-purple-600 font-semibold py-3 rounded-xl hover:bg-purple-600 hover:text-white transition-all duration-300">{t('tour.detail.contact')}</button>
+                    <button className="w-full bg-gradient-to-r from-primary to-accent text-[#1a1a1a] font-semibold py-3 rounded-xl hover:from-accent hover:to-primary transition-all duration-300">{t('tour.detail.bookNow')}</button>
+                    <button className="w-full border-2 border-primary text-primary font-semibold py-3 rounded-xl hover:bg-primary hover:text-[#1a1a1a] transition-all duration-300">{t('tour.detail.contact')}</button>
                   </div>
                 </motion.div>
 
@@ -682,20 +681,20 @@ export default function TourDetail() {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: 0.6 }}
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl shadow-lg p-6 text-white"
+                  className="bg-gradient-to-r from-primary to-accent rounded-2xl shadow-lg p-6 text-light"
                 >
                   <h3 className="text-xl font-bold mb-4">{t('tour.detail.quickInfo')}</h3>
                   <div className="space-y-3">
                     <div className="flex items-center gap-3">
-                      <FiStar className="text-yellow-300" />
+                      <FiStar className="text-accent" />
                       <span>{t('tour.detail.rating')}: {averageRating}/5 ({reviews.length})</span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <FiMapPin className="text-purple-200" />
+                      <FiMapPin className="text-primary" />
                       <span>{mapMultiLangArray(tour.locations, lang).length} {t('tour.detail.location')}</span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <FiClock className="text-purple-200" />
+                      <FiClock className="text-secondary" />
                       <span>{tour.duration?.[lang] || tour.duration?.vi}</span>
                     </div>
                   </div>

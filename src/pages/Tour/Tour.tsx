@@ -220,21 +220,21 @@ export default function TourPage() {
       </section>
 
       {/* Search and Filter Section */}
-      <section className="py-8 bg-gray-50">
+      <section className="py-8 bg-secondary/20">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="bg-white rounded-2xl shadow-lg p-6">
+          <div className="bg-light rounded-2xl shadow-lg p-6">
             {/* Search Bar */}
             <div className="mb-6">
               <div className="relative w-full">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FaSearch className="h-5 w-5 text-gray-400" />
+                  <FaSearch className="h-5 w-5 text-earth" />
                 </div>
                 <input
                   type="text"
                   placeholder={t('tour.search.placeholder')}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors"
+                  className="block w-full pl-10 pr-3 py-3 border border-earth rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors text-[#1a1a1a] placeholder:text-[#555]"
                 />
               </div>
             </div>
@@ -243,14 +243,14 @@ export default function TourPage() {
             <div className="space-y-4 lg:space-y-0 lg:flex lg:items-center lg:justify-between gap-4">
               {/* Tour Type Filter */}
               <div className="flex-1">
-                <div className="flex items-center text-gray-600 mb-3">
-                  <FaFilter className="mr-2" />
+                <div className="flex items-center text-[#555] mb-3">
+                  <FaFilter className="mr-2 text-primary" />
                   <span className="font-medium text-sm">{t('tour.filter.type')}:</span>
                 </div>
                 <select
                   value={type}
                   onChange={(e) => setType(e.target.value)}
-                  className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors appearance-none"
+                  className="block w-full px-3 py-3 border border-earth rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors appearance-none text-[#1a1a1a]"
                 >
                   {tourTypes.map(opt => (
                     <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -260,8 +260,8 @@ export default function TourPage() {
 
               {/* Price Range */}
               <div className="flex-1 space-y-3">
-                <div className="flex items-center text-gray-600">
-                  <FaMapMarkerAlt className="mr-2" />
+                <div className="flex items-center text-[#555]">
+                  <FaMapMarkerAlt className="mr-2 text-primary" />
                   <span className="font-medium text-sm">{t('tour.filter.priceRange')}:</span>
                 </div>
                 <div className="flex space-x-2">
@@ -270,28 +270,28 @@ export default function TourPage() {
                     placeholder={t('tour.filter.priceMin')}
                     value={priceRange.min}
                     onChange={(e) => setPriceRange(prev => ({ ...prev, min: e.target.value }))}
-                    className="flex-1 px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors"
+                    className="flex-1 px-3 py-3 border border-earth rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors text-[#1a1a1a] placeholder:text-[#555]"
                   />
                   <input
                     type="number"
                     placeholder={t('tour.filter.priceMax')}
                     value={priceRange.max}
                     onChange={(e) => setPriceRange(prev => ({ ...prev, max: e.target.value }))}
-                    className="flex-1 px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors"
+                    className="flex-1 px-3 py-3 border border-earth rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors text-[#1a1a1a] placeholder:text-[#555]"
                   />
                 </div>
               </div>
 
               {/* Sort */}
               <div className="flex-1">
-                <div className="flex items-center text-gray-600 mb-3">
-                  <FaCalendar className="mr-2" />
+                <div className="flex items-center text-[#555] mb-3">
+                  <FaCalendar className="mr-2 text-primary" />
                   <span className="font-medium text-sm">{t('tour.sort.label')}:</span>
                 </div>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors appearance-none"
+                  className="block w-full px-3 py-3 border border-earth rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors appearance-none text-[#1a1a1a]"
                 >
                   {sortOptions.map(opt => (
                     <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -304,28 +304,28 @@ export default function TourPage() {
       </section>
 
       {/* Tours Section */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-light">
         <div className="max-w-7xl mx-auto px-4">
           {/* Section Header */}
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">{t('tour.section.title')}</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <h2 className="text-3xl font-bold text-[#1a1a1a] mb-4">{t('tour.section.title')}</h2>
+            <p className="text-lg text-[#555] max-w-2xl mx-auto">
               {t('tour.section.subtitle')}
             </p>
           </div>
 
           {/* Results Count */}
           <div className="mb-8 flex items-center justify-between">
-            <p className="text-gray-600">
+            <p className="text-[#555]">
               {t('tour.resultCount', { count: filteredTours.length })}
             </p>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-500">{t('tour.display')}:</span>
+              <span className="text-sm text-[#555]">{t('tour.display')}:</span>
               <div className="flex space-x-2">
-                <button className="px-3 py-1 bg-purple-100 text-purple-600 rounded-lg text-sm font-medium">
+                <button className="px-3 py-1 bg-accent/20 text-primary rounded-lg text-sm font-medium">
                   {t('tour.displayGrid')}
                 </button>
-                <button className="px-3 py-1 bg-gray-100 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-200">
+                <button className="px-3 py-1 bg-light text-[#555] rounded-lg text-sm font-medium hover:bg-secondary">
                   {t('tour.displayList')}
                 </button>
               </div>
@@ -346,11 +346,11 @@ export default function TourPage() {
             </div>
           ) : (
             <div className="text-center py-16">
-              <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FaSearch className="text-3xl text-gray-400" />
+              <div className="w-24 h-24 bg-light rounded-full flex items-center justify-center mx-auto mb-4">
+                <FaSearch className="text-3xl text-secondary" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">{t('tour.notFound.title')}</h3>
-              <p className="text-gray-600 mb-6">
+              <h3 className="text-xl font-semibold text-[#1a1a1a] mb-2">{t('tour.notFound.title')}</h3>
+              <p className="text-[#555] mb-6">
                 {t('tour.notFound.subtitle')}
               </p>
               <button
@@ -359,7 +359,7 @@ export default function TourPage() {
                   setType("");
                   setPriceRange({ min: '', max: '' });
                 }}
-                className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors"
+                className="bg-gradient-to-r from-primary to-accent text-[#1a1a1a] px-6 py-2 rounded-lg hover:from-accent hover:to-primary transition-colors font-semibold"
               >
                 {t('tour.notFound.clearFilter')}
               </button>
@@ -369,40 +369,40 @@ export default function TourPage() {
       </section>
 
       {/* Why Choose Us Section */}
-      <section className="py-16 bg-gradient-to-r from-purple-600 to-pink-600">
+      <section className="py-16 bg-gradient-to-r from-primary to-accent">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-4">{t('tour.why.title')}</h2>
-            <p className="text-xl text-purple-100 max-w-2xl mx-auto">
+            <h2 className="text-3xl font-bold text-[#1a1a1a] mb-4">{t('tour.why.title')}</h2>
+            <p className="text-xl text-[#555] max-w-2xl mx-auto">
               {t('tour.why.subtitle')}
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center text-white">
-              <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FaUsers className="text-2xl" />
+            <div className="text-center text-[#1a1a1a]">
+              <div className="w-16 h-16 bg-light/60 rounded-full flex items-center justify-center mx-auto mb-4">
+                <FaUsers className="text-2xl text-primary" />
               </div>
               <h3 className="text-xl font-semibold mb-2">{t('tour.why.guideTitle')}</h3>
-              <p className="text-purple-100">
+              <p className="text-[#555]">
                 {t('tour.why.guideDesc')}
               </p>
             </div>
-            <div className="text-center text-white">
-              <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FaStar className="text-2xl" />
+            <div className="text-center text-[#1a1a1a]">
+              <div className="w-16 h-16 bg-light/60 rounded-full flex items-center justify-center mx-auto mb-4">
+                <FaStar className="text-2xl text-accent" />
               </div>
               <h3 className="text-xl font-semibold mb-2">{t('tour.why.qualityTitle')}</h3>
-              <p className="text-purple-100">
+              <p className="text-[#555]">
                 {t('tour.why.qualityDesc')}
               </p>
             </div>
-            <div className="text-center text-white">
-              <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FaClock className="text-2xl" />
+            <div className="text-center text-[#1a1a1a]">
+              <div className="w-16 h-16 bg-light/60 rounded-full flex items-center justify-center mx-auto mb-4">
+                <FaClock className="text-2xl text-secondary" />
               </div>
               <h3 className="text-xl font-semibold mb-2">{t('tour.why.supportTitle')}</h3>
-              <p className="text-purple-100">
+              <p className="text-[#555]">
                 {t('tour.why.supportDesc')}
               </p>
             </div>

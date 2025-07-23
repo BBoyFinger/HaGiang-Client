@@ -108,7 +108,7 @@ export default function BlogDetail() {
         <meta name="description" content={blog.content?.[lang] || blog.content?.vi || blog.content?.en || blog.content?.vi || ''} />
       </Helmet>
 
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-light">
         {/* Hero Section */}
         <section className="relative h-96 md:h-[500px] overflow-hidden">
           <img 

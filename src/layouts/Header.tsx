@@ -54,6 +54,7 @@ const Header = ({
     { path: "/tour", label: t("nav.tour") },
     { path: "/rent", label: t("nav.rent") },
     { path: "/stay", label: t("nav.stay") },
+    { path: "/destinations", label: t("nav.destination") },
     { path: "/blogs", label: "Blog" },
     { path: "/about", label: t("nav.about") },
     { path: "/contact", label: t("nav.contact") },
@@ -64,8 +65,8 @@ const Header = ({
   return (
     <header
       className={`fixed w-full z-50 transition-all duration-300 ${isScrolled
-        ? `${isDark ? "bg-gray-900/95 backdrop-blur-md" : "bg-white/95 backdrop-blur-md"} shadow-lg`
-        : `${isDark ? "bg-gray-900" : "bg-white"}`
+        ? `${isDark ? "bg-earth/95 backdrop-blur-md" : "bg-light/95 backdrop-blur-md"} shadow-lg`
+        : `${isDark ? "bg-earth" : "bg-light"}`
         }`}
     >
       <div className="container mx-auto px-4 lg:px-6 py-3">
@@ -74,13 +75,13 @@ const Header = ({
           <Link to="/" className="flex items-center group">
             <div className="relative">
               <img src={logo} alt="logo" className="w-12 h-12 lg:w-14 lg:h-14 rounded-full object-cover transition-transform group-hover:scale-110" />
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 opacity-0 group-hover:opacity-20 transition-opacity"></div>
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary to-accent opacity-0 group-hover:opacity-20 transition-opacity"></div>
             </div>
             <div className="ml-3">
-              <span className={`text-lg lg:text-xl font-bold ${isDark ? "text-white" : "text-gray-800"}`}>
+              <span className={`text-lg lg:text-xl font-bold ${isDark ? "text-light" : "text-[#1a1a1a]"}`}>
                 Homie Travel
               </span>
-              <div className={`text-xs ${isDark ? "text-gray-400" : "text-gray-600"}`}>
+              <div className={`text-xs ${isDark ? "text-secondary" : "text-[#555]"}`}>
                 Hà Giang Experience
               </div>
             </div>
@@ -93,15 +94,15 @@ const Header = ({
                 key={item.path}
                 to={item.path}
                 className={`relative px-4 py-2 rounded-lg font-medium transition-all duration-300 ${isActive(item.path)
-                  ? `${isDark ? "text-purple-400 bg-purple-900/20" : "text-purple-600 bg-purple-50"}`
-                  : `${isDark ? "text-gray-300 hover:text-white hover:bg-gray-800" : "text-gray-700 hover:text-purple-600 hover:bg-gray-50"}`
+                  ? `${isDark ? "text-primary bg-earth/20" : "text-primary bg-secondary/60"}`
+                  : `${isDark ? "text-light hover:text-primary hover:bg-earth/60" : "text-[#555] hover:text-primary hover:bg-secondary/40"}`
                   }`}
               >
                 {item.label}
                 {isActive(item.path) && (
                   <motion.div
                     layoutId="activeTab"
-                    className={`absolute bottom-0 left-0 right-0 h-0.5 ${isDark ? "bg-purple-400" : "bg-purple-600"}`}
+                    className={`absolute bottom-0 left-0 right-0 h-0.5 ${isDark ? "bg-primary" : "bg-primary"}`}
                     initial={false}
                     transition={{ type: "spring", stiffness: 500, damping: 30 }}
                   />
@@ -119,8 +120,8 @@ const Header = ({
             <Link
               to="/favorites"
               className={`p-2 rounded-lg transition-all duration-300 ${isDark
-                ? "text-gray-300 hover:text-white hover:bg-gray-800"
-                : "text-gray-600 hover:text-purple-600 hover:bg-gray-50"
+                ? "text-light hover:text-primary hover:bg-earth/60"
+                : "text-[#555] hover:text-primary hover:bg-secondary/40"
                 }`}
             >
               <FaHeart className="text-lg" />
@@ -130,8 +131,8 @@ const Header = ({
             <button
               onClick={toggleTheme}
               className={`p-2 rounded-lg transition-all duration-300 ${isDark
-                ? "bg-gray-800 hover:bg-gray-700 text-yellow-400"
-                : "bg-gray-100 hover:bg-gray-200 text-gray-600"
+                ? "bg-earth hover:bg-primary/80 text-accent"
+                : "bg-secondary hover:bg-primary/80 text-[#1a1a1a]"
                 }`}
               aria-label="Toggle theme"
             >
@@ -146,8 +147,8 @@ const Header = ({
               <Link
                 to="/login"
                 className={`hidden md:flex items-center px-4 py-2 rounded-lg font-medium transition-all duration-300 ${isDark
-                  ? "bg-purple-600 hover:bg-purple-700 text-white"
-                  : "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+                  ? "bg-primary hover:bg-accent text-[#1a1a1a]"
+                  : "bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-[#1a1a1a]"
                   }`}
               >
                 <FiUser className="mr-2" />
@@ -162,27 +163,27 @@ const Header = ({
                   <img
                     src={user?.avatarUrl || logo}
                     alt="avatar"
-                    className="w-10 h-10 rounded-full object-cover border-2 border-purple-400"
+                    className="w-10 h-10 rounded-full object-cover border-2 border-primary"
                   />
                 </button>
                 {showMenu && (
-                  <div className={`absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg py-2 z-50 ${isDark ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'}`}>
+                  <div className={`absolute right-0 mt-2 w-40 bg-light rounded-lg shadow-lg py-2 z-50 ${isDark ? 'bg-earth text-light' : 'bg-light text-[#1a1a1a]'}`}>
                     <button
-                      className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                      className="block w-full text-left px-4 py-2 hover:bg-secondary"
                       onClick={() => { navigate('/profile'); setShowMenu(false); }}
                     >
                       Trang cá nhân
                     </button>
                     {user?.role === 'admin' && (
                       <button
-                        className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-purple-600 font-medium"
+                        className="block w-full text-left px-4 py-2 hover:bg-accent text-primary font-medium"
                         onClick={() => { navigate('/admin'); setShowMenu(false); }}
                       >
                         🛠️ Admin Dashboard
                       </button>
                     )}
                     <button
-                      className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                      className="block w-full text-left px-4 py-2 hover:bg-secondary"
                       onClick={() => {
                         dispatch(logoutUser() as any);
                         setShowMenu(false);
@@ -203,9 +204,9 @@ const Header = ({
               aria-label="Toggle navigation"
             >
               {mobileNavOpen ? (
-                <FiX className={`text-2xl ${isDark ? "text-white" : "text-gray-800"}`} />
+                <FiX className={`text-2xl ${isDark ? "text-light" : "text-[#1a1a1a]"}`} />
               ) : (
-                <FiMenu className={`text-2xl ${isDark ? "text-white" : "text-gray-800"}`} />
+                <FiMenu className={`text-2xl ${isDark ? "text-light" : "text-[#1a1a1a]"}`} />
               )}
             </button>
           </div>
@@ -221,14 +222,14 @@ const Header = ({
               transition={{ duration: 0.3 }}
               className="lg:hidden mt-4 overflow-hidden"
             >
-              <div className={`py-4 space-y-2 ${isDark ? "bg-gray-800" : "bg-gray-50"} rounded-lg`}>
+              <div className={`py-4 space-y-2 ${isDark ? "bg-earth" : "bg-secondary"} rounded-lg`}>
                 {navItems.map((item) => (
                   <Link
                     key={item.path}
                     to={item.path}
                     className={`block px-4 py-3 rounded-lg font-medium transition-all duration-300 ${isActive(item.path)
-                      ? `${isDark ? "text-purple-400 bg-purple-900/20" : "text-purple-600 bg-purple-50"}`
-                      : `${isDark ? "text-gray-300 hover:text-white hover:bg-gray-700" : "text-gray-700 hover:text-purple-600 hover:bg-white"}`
+                      ? `${isDark ? "text-primary bg-earth/20" : "text-primary bg-secondary/60"}`
+                      : `${isDark ? "text-light hover:text-primary hover:bg-earth/60" : "text-[#555] hover:text-primary hover:bg-secondary/40"}`
                       }`}
                     onClick={() => setMobileNavOpen(false)}
                   >
@@ -242,8 +243,8 @@ const Header = ({
                     <Link
                       to="/login"
                       className={`block w-full text-center px-4 py-3 rounded-lg font-medium transition-all duration-300 ${isDark
-                        ? "bg-purple-600 hover:bg-purple-700 text-white"
-                        : "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+                        ? "bg-primary hover:bg-accent text-[#1a1a1a]"
+                        : "bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-[#1a1a1a]"
                         }`}
                       onClick={() => setMobileNavOpen(false)}
                     >
@@ -259,27 +260,27 @@ const Header = ({
                         <img
                           src={user?.avatarUrl || logo}
                           alt="avatar"
-                          className="w-10 h-10 rounded-full object-cover border-2 border-purple-400"
+                          className="w-10 h-10 rounded-full object-cover border-2 border-primary"
                         />
                       </button>
                       {showMenu && (
-                        <div className={`absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg py-2 z-50 ${isDark ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'}`}>
+                        <div className={`absolute right-0 mt-2 w-40 bg-light rounded-lg shadow-lg py-2 z-50 ${isDark ? 'bg-earth text-light' : 'bg-light text-[#1a1a1a]'}`}>
                           <button
-                            className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                            className="block w-full text-left px-4 py-2 hover:bg-secondary"
                             onClick={() => { navigate('/profile'); setShowMenu(false); }}
                           >
                             Trang cá nhân
                           </button>
                           {user?.role === 'admin' && (
                             <button
-                              className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-purple-600 font-medium"
+                              className="block w-full text-left px-4 py-2 hover:bg-accent text-primary font-medium"
                               onClick={() => { navigate('/admin'); setShowMenu(false); }}
                             >
                               🛠️ Admin Dashboard
                             </button>
                           )}
                           <button
-                            className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                            className="block w-full text-left px-4 py-2 hover:bg-secondary"
                             onClick={() => { dispatch(logoutUser() as any); setShowMenu(false); navigate('/'); }}
                           >
                             Đăng xuất

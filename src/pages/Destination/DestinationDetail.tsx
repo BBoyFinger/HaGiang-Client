@@ -155,9 +155,13 @@ export default function DestinationDetail() {
         </div>
         {/* Hero Content */}
         <div className="relative z-20 flex flex-col items-center w-full px-4 pb-8">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-white drop-shadow-lg text-center mb-3 leading-tight">
-            {destination.name?.[lang] || destination.name}
-          </h1>
+          <h1 className="text-3xl font-bold text-[#1a1a1a] mb-4">{destination.name}</h1>
+          <div className="flex items-center gap-4 mb-6">
+            <span className="inline-block px-4 py-2 rounded-full bg-secondary/20 text-primary text-sm font-semibold">
+              {destination.type}
+            </span>
+            <span className="text-[#555] text-sm">{destination.location}</span>
+          </div>
           <div className="flex flex-wrap gap-3 justify-center items-center mb-2">
             <span className="inline-flex items-center gap-1 px-4 py-1 rounded-full bg-purple-600/90 text-white text-base font-semibold shadow">
               <FaMapMarkerAlt className="mr-1" /> {destination.location?.address?.[lang] || 'Hà Giang'}
