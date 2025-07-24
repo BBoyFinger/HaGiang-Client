@@ -522,5 +522,46 @@
     "emptyDesc": "Khám phá các tour hấp dẫn và nhấn vào biểu tượng trái tim để lưu lại nhé!",
     "exploreBtn": "Khám phá ngay",
     "removeBtn": "Bỏ khỏi yêu thích"
+  },
+  "stayDetail": {
+    "notFoundTitle": "Không tìm thấy chỗ ở",
+    "notFoundDesc": "Chỗ ở bạn đang tìm kiếm không tồn tại hoặc đã được di chuyển.",
+    "viewAll": "Xem tất cả chỗ ở",
+    "description": "Mô tả",
+    "amenities": "Tiện ích",
+    "contact": "Thông tin liên hệ",
+    "phone": "Điện thoại",
+    "email": "Email",
+    "website": "Website",
+    "price": "Giá phòng",
+    "perNight": "mỗi đêm",
+    "bookNow": "Đặt phòng ngay",
+    "contactConsult": "Liên hệ tư vấn",
+    "quickInfo": "Thông tin nhanh",
+    "rating": "Đánh giá",
+    "safeBooking": "Đặt phòng an toàn",
+    "ctaTitle": "Sẵn sàng đặt phòng?",
+    "ctaDesc": "Đặt phòng ngay hôm nay và tận hưởng kỳ nghỉ tuyệt vời tại Hà Giang",
+    "ctaViewAll": "Xem tất cả chỗ ở",
+    "ctaFreeConsult": "Tư vấn miễn phí",
+    "amenitiesList": {
+      "wifi": "WiFi miễn phí",
+      "parking": "Bãi đỗ xe",
+      "restaurant": "Nhà hàng",
+      "pool": "Hồ bơi",
+      "spa": "Spa",
+      "gym": "Phòng gym",
+      "familyRoom": "Phòng gia đình",
+      "doubleRoom": "Phòng đôi"
+    }
+  },
+  "destination": {
+    "detailTitle": "Giới thiệu chi tiết",
+    "hideMap": "Ẩn bản đồ",
+    "showMap": "Xem bản đồ vị trí",
+    "fromPrice": "Giá từ",
+    "quickInfo": "Thông tin nhanh",
+    "bookNow": "Đặt tour ngay",
+    "relatedTitle": "Khám phá điểm đến khác"
   }
 }

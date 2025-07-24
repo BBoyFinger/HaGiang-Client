@@ -11,7 +11,7 @@ import axiosInstance from "@/config/axiosConfig";
 export default function DestinationDetail() {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isFavorite, setIsFavorite] = useState(false);
   const [destination, setDestination] = useState<any | null>(null);
   const [related, setRelated] = useState<any[]>([]);
@@ -84,7 +84,7 @@ export default function DestinationDetail() {
   if (loading) return <div className="p-8">Đang tải...</div>;
   if (!destination) return <div className="p-8">Không tìm thấy điểm đến.</div>;
 
-  const lang = 'vi';
+  const lang = i18n.language === 'en' ? 'en' : 'vi';
   const images = destination.images && destination.images.length > 0 ? destination.images : [destination.image];
   const totalImages = images.length;
 
@@ -155,22 +155,22 @@ export default function DestinationDetail() {
         </div>
         {/* Hero Content */}
         <div className="relative z-20 flex flex-col items-center w-full px-4 pb-8">
-          <h1 className="text-3xl font-bold text-[#1a1a1a] mb-4">{destination.name}</h1>
+          <h1 className="text-3xl font-bold text-[#1a1a1a] mb-4">{destination.name?.[lang] || destination.name}</h1>
           <div className="flex items-center gap-4 mb-6">
             <span className="inline-block px-4 py-2 rounded-full bg-secondary/20 text-primary text-sm font-semibold">
-              {destination.type}
+              {destination.type?.[lang] || destination.type}
             </span>
-            <span className="text-[#555] text-sm">{destination.location}</span>
+            <span className="text-[#555] text-sm">{destination.location?.address?.[lang] || destination.location?.address || 'Hà Giang'}</span>
           </div>
           <div className="flex flex-wrap gap-3 justify-center items-center mb-2">
-            <span className="inline-flex items-center gap-1 px-4 py-1 rounded-full bg-purple-600/90 text-white text-base font-semibold shadow">
-              <FaMapMarkerAlt className="mr-1" /> {destination.location?.address?.[lang] || 'Hà Giang'}
+            <span className="inline-flex items-center gap-1 px-4 py-1 rounded-full bg-green-600/90 text-white text-base font-semibold shadow">
+              <FaMapMarkerAlt className="mr-1" /> {destination.location?.address?.[lang] || destination.location?.address || 'Hà Giang'}
             </span>
-            <span className="inline-flex items-center gap-1 px-4 py-1 rounded-full bg-pink-500/90 text-white text-base font-semibold shadow">
-              <FaTag className="mr-1" /> {destination.type || 'Điểm đến'}
+            <span className="inline-flex items-center gap-1 px-4 py-1 rounded-full bg-green-500/90 text-white text-base font-semibold shadow">
+              <FaTag className="mr-1" /> {destination.type?.[lang] || destination.type || 'Điểm đến'}
             </span>
             {destination.priceFrom && (
-              <span className="inline-flex items-center gap-1 px-4 py-1 rounded-full bg-white/90 text-purple-700 text-base font-semibold shadow">
+              <span className="inline-flex items-center gap-1 px-4 py-1 rounded-full bg-white/90 text-green-700 text-base font-semibold shadow">
                 {t("Giá từ")}: {destination.priceFrom?.toLocaleString("vi-VN")} {destination.currency || "VND"}/slot
               </span>
             )}
@@ -183,7 +183,7 @@ export default function DestinationDetail() {
         {/* Main Description */}
         <div className="md:col-span-2">
           <div className="mb-8">
-            <h2 className="text-2xl font-bold mb-4 text-purple-700">{t("Giới thiệu chi tiết")}</h2>
+            <h2 className="text-2xl font-bold mb-4 text-green-700">{t('destination.detailTitle')}</h2>
             <div className="whitespace-pre-line text-lg text-gray-800 leading-relaxed mb-6 bg-white rounded-xl p-6 shadow">
               {destination.detail?.fullDescription?.[lang] || destination.detail?.fullDescription || destination.description?.[lang] || ''}
             </div>
@@ -192,10 +192,10 @@ export default function DestinationDetail() {
           {destination.location?.lat && destination.location?.lng && (
             <div className="mb-8">
               <button
-                className="mb-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-semibold shadow hover:from-purple-600 hover:to-pink-600 transition"
+                className="mb-2 px-4 py-2 bg-gradient-to-r from-green-600 to-green-400 text-white rounded-lg font-semibold shadow hover:from-green-700 hover:to-green-500 transition"
                 onClick={() => setShowMap((v) => !v)}
               >
-                {showMap ? 'Ẩn bản đồ' : 'Xem bản đồ vị trí'}
+                {showMap ? t('destination.hideMap') : t('destination.showMap')}
               </button>
               {showMap && (
                 <iframe
@@ -213,21 +213,21 @@ export default function DestinationDetail() {
           )}
         </div>
         {/* Quick Info Card */}
-        <div className="bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-4 border border-purple-100 sticky top-24 h-fit">
-          <h3 className="text-xl font-bold text-purple-700 mb-2">{t("Thông tin nhanh")}</h3>
+        <div className="bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-4 border border-green-100 sticky top-24 h-fit">
+          <h3 className="text-xl font-bold text-green-700 mb-2">{t('destination.quickInfo')}</h3>
           <div className="flex items-center gap-2 text-gray-700">
-            <FaMapMarkerAlt className="text-purple-500" /> {destination.location?.address?.[lang] || 'Hà Giang'}
+            <FaMapMarkerAlt className="text-green-500" /> {destination.location?.address?.[lang] || destination.location?.address || 'Hà Giang'}
           </div>
           <div className="flex items-center gap-2 text-gray-700">
-            <FaTag className="text-pink-500" /> {destination.type || 'Điểm đến'}
+            <FaTag className="text-green-400" /> {destination.type?.[lang] || destination.type || 'Điểm đến'}
           </div>
           {destination.priceFrom && (
             <div className="flex items-center gap-2 text-gray-700">
-              <span className="font-semibold">{t("Giá từ")}:</span> {destination.priceFrom?.toLocaleString("vi-VN")} {destination.currency || "VND"}/slot
+              <span className="font-semibold">{t('destination.fromPrice')}:</span> {destination.priceFrom?.toLocaleString("vi-VN")} {destination.currency || "VND"}/slot
             </div>
           )}
-          <button className="mt-4 w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold shadow hover:from-purple-700 hover:to-pink-700 transition-all text-lg">
-            {t("Đặt tour ngay")}
+          <button className="mt-4 w-full py-3 rounded-xl bg-gradient-to-r from-green-600 to-green-400 text-white font-bold shadow hover:from-green-700 hover:to-green-500 transition-all text-lg">
+            {t('destination.bookNow')}
           </button>
         </div>
       </div>
@@ -235,7 +235,7 @@ export default function DestinationDetail() {
       {/* Related Destinations Carousel */}
       {related.length > 0 && (
         <div className="max-w-6xl mx-auto px-4 mb-16">
-          <h2 className="text-2xl font-bold text-purple-700 mb-6">{t("Khám phá điểm đến khác")}</h2>
+          <h2 className="text-2xl font-bold text-green-700 mb-6">{t('destination.relatedTitle')}</h2>
           <div className="flex gap-6 overflow-x-auto pb-2 snap-x">
             {related.map((d) => (
               <div key={d.slug} className="min-w-[320px] max-w-xs snap-center">

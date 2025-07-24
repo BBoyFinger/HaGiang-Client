@@ -26,15 +26,15 @@ export default function Favorites() {
 
   if (loading) {
     return <div className="flex flex-col items-center justify-center min-h-[60vh] text-lg animate-pulse">
-      <FaHeart className="text-5xl text-purple-400 mb-4 animate-bounce" />
+      <FaHeart className="text-5xl text-green-400 mb-4 animate-bounce" />
       <span>{t('favorites.loading') || 'Loading your wishlist...'}</span>
     </div>;
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 pb-16">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 dark:from-gray-900 dark:to-gray-800 pb-16">
       {/* Hero Section */}
-      <div className="relative flex flex-col items-center justify-center py-12 mb-8 bg-gradient-to-r from-purple-600 to-pink-600 shadow-lg rounded-b-3xl">
+      <div className="relative flex flex-col items-center justify-center py-12 mb-8 bg-gradient-to-r from-green-600 to-green-400 shadow-lg rounded-b-3xl">
         <FaHeart className="text-5xl text-white mb-4 animate-pulse drop-shadow-lg" />
         <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-2 drop-shadow-lg">{t('favorites.title') || 'Your Favorite Tours'}</h1>
         <p className="text-white/90 text-lg mb-4 max-w-xl text-center">{t('favorites.desc') || 'All tours you have saved will appear here. Plan your dream trip now!'}</p>
@@ -48,12 +48,12 @@ export default function Favorites() {
 
       {favTours.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-24">
-          <FaCompass className="text-6xl text-purple-400 mb-6 animate-bounce" />
-          <h2 className="text-2xl font-bold mb-2 text-purple-700">{t('favorites.emptyTitle') || 'You have no favorite tours yet'}</h2>
+          <FaCompass className="text-6xl text-green-400 mb-6 animate-bounce" />
+          <h2 className="text-2xl font-bold mb-2 text-green-700">{t('favorites.emptyTitle') || 'You have no favorite tours yet'}</h2>
           <p className="text-gray-500 mb-6">{t('favorites.emptyDesc') || 'Discover amazing tours and click the heart icon to save them!'}</p>
           <button
             onClick={() => navigate("/")}
-            className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg"
+            className="px-6 py-3 bg-gradient-to-r from-green-600 to-green-400 text-white font-semibold rounded-xl hover:from-green-700 hover:to-green-500 transition-all duration-300 shadow-lg"
           >
             {t('favorites.exploreBtn') || 'Explore now'}
           </button>

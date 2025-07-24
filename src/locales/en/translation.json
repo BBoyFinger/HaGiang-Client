@@ -540,5 +540,46 @@
     "emptyDesc": "Discover amazing tours and click the heart icon to save them!",
     "exploreBtn": "Explore now",
     "removeBtn": "Remove from favorites"
+  },
+  "stayDetail": {
+    "notFoundTitle": "Accommodation not found",
+    "notFoundDesc": "The accommodation you are looking for does not exist or has been moved.",
+    "viewAll": "View all accommodations",
+    "description": "Description",
+    "amenities": "Amenities",
+    "contact": "Contact Information",
+    "phone": "Phone",
+    "email": "Email",
+    "website": "Website",
+    "price": "Room Price",
+    "perNight": "per night",
+    "bookNow": "Book now",
+    "contactConsult": "Contact for consultation",
+    "quickInfo": "Quick Info",
+    "rating": "Rating",
+    "safeBooking": "Safe booking",
+    "ctaTitle": "Ready to book?",
+    "ctaDesc": "Book now and enjoy a wonderful holiday in Ha Giang",
+    "ctaViewAll": "View all accommodations",
+    "ctaFreeConsult": "Free consultation",
+    "amenitiesList": {
+      "wifi": "Free WiFi",
+      "parking": "Parking",
+      "restaurant": "Restaurant",
+      "pool": "Swimming pool",
+      "spa": "Spa",
+      "gym": "Gym",
+      "familyRoom": "Family room",
+      "doubleRoom": "Double room"
+    }
+  },
+  "destination": {
+    "detailTitle": "Detailed introduction",
+    "hideMap": "Hide map",
+    "showMap": "Show map location",
+    "fromPrice": "From price",
+    "quickInfo": "Quick info",
+    "bookNow": "Book tour now",
+    "relatedTitle": "Explore other destinations"
   }
 }

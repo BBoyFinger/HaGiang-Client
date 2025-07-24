@@ -34,13 +34,13 @@ export default function StayDetail() {
             <div className="min-h-screen flex items-center justify-center bg-gray-50">
                 <div className="text-center">
                     <div className="text-6xl mb-4">🏨</div>
-                    <h1 className="text-2xl font-bold text-gray-800 mb-2">Không tìm thấy chỗ ở</h1>
-                    <p className="text-gray-600 mb-6">Chỗ ở bạn đang tìm kiếm không tồn tại hoặc đã được di chuyển.</p>
+                    <h1 className="text-2xl font-bold text-gray-800 mb-2">{t('stayDetail.notFoundTitle')}</h1>
+                    <p className="text-gray-600 mb-6">{t('stayDetail.notFoundDesc')}</p>
                     <button 
                         onClick={() => navigate('/stay')}
-                        className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
+                        className="px-6 py-3 bg-gradient-to-r from-green-600 to-green-400 text-white font-semibold rounded-xl hover:from-green-700 hover:to-green-500 transition-all duration-300"
                     >
-                        Xem tất cả chỗ ở
+                        {t('stayDetail.viewAll')}
                     </button>
                 </div>
             </div>
@@ -48,24 +48,24 @@ export default function StayDetail() {
     }
 
     const amenities = [
-        { icon: FaWifi, name: 'WiFi miễn phí', available: true },
-        { icon: FaParking, name: 'Bãi đỗ xe', available: true },
-        { icon: FaUtensils, name: 'Nhà hàng', available: true },
-        { icon: FaSwimmingPool, name: 'Hồ bơi', available: stay.star_rating >= 4 },
-        { icon: FaSpa, name: 'Spa', available: stay.star_rating >= 4 },
-        { icon: FaDumbbell, name: 'Phòng gym', available: stay.star_rating >= 3 },
-        { icon: FaBed, name: 'Phòng gia đình', available: true },
-        { icon: FaUsers, name: 'Phòng đôi', available: true },
+        { icon: FaWifi, name: t('stayDetail.amenitiesList.wifi'), available: true },
+        { icon: FaParking, name: t('stayDetail.amenitiesList.parking'), available: true },
+        { icon: FaUtensils, name: t('stayDetail.amenitiesList.restaurant'), available: true },
+        { icon: FaSwimmingPool, name: t('stayDetail.amenitiesList.pool'), available: stay.star_rating >= 4 },
+        { icon: FaSpa, name: t('stayDetail.amenitiesList.spa'), available: stay.star_rating >= 4 },
+        { icon: FaDumbbell, name: t('stayDetail.amenitiesList.gym'), available: stay.star_rating >= 3 },
+        { icon: FaBed, name: t('stayDetail.amenitiesList.familyRoom'), available: true },
+        { icon: FaUsers, name: t('stayDetail.amenitiesList.doubleRoom'), available: true },
     ];
 
     return (
         <>
             <Helmet>
-                <title>{stay.name} - Chi tiết chỗ ở | Homie Travel</title>
+                <title>{stay.name} - {t('stayDetail.description')} | Homie Travel</title>
                 <meta name="description" content={stay.description} />
             </Helmet>
 
-            <div className="min-h-screen bg-light">
+            <div className="min-h-screen bg-green-50">
                 {/* Hero Section */}
                 <section className="relative h-96 md:h-[500px] overflow-hidden">
                     <img 
@@ -89,11 +89,11 @@ export default function StayDetail() {
                         onClick={() => setIsFavorite(!isFavorite)}
                         className={`absolute top-6 right-6 z-10 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${
                             isFavorite 
-                                ? "bg-red-500 text-white" 
+                                ? "bg-green-500 text-white" 
                                 : "bg-white/20 backdrop-blur-sm text-white hover:bg-white/30"
                         }`}
                     >
-                        <FaHeart className={`text-lg ${isFavorite ? "fill-current" : "hover:fill-red-500"}`} />
+                        <FaHeart className={`text-lg ${isFavorite ? "fill-current" : "hover:fill-green-500"}`} />
                     </button>
 
                     {/* Hero Content */}
@@ -129,7 +129,7 @@ export default function StayDetail() {
 
                 {/* Image Gallery */}
                 {stay.images.length > 1 && (
-                    <section className="py-8 bg-light">
+                    <section className="py-8 bg-green-50">
                         <div className="max-w-6xl mx-auto px-4">
                             <div className="flex gap-4 overflow-x-auto pb-4">
                                 {stay.images.map((image, index) => (
@@ -138,8 +138,8 @@ export default function StayDetail() {
                                         onClick={() => setSelectedImage(index)}
                                         className={`flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
                                             selectedImage === index 
-                                                ? "border-purple-500" 
-                                                : "border-gray-200 hover:border-purple-300"
+                                                ? "border-green-500" 
+                                                : "border-gray-200 hover:border-green-300"
                                         }`}
                                     >
                                         <img 
@@ -168,7 +168,7 @@ export default function StayDetail() {
                                     transition={{ duration: 0.5, delay: 0.1 }}
                                     className="bg-white rounded-2xl shadow-lg p-8 mb-8"
                                 >
-                                    <h2 className="text-2xl font-bold text-gray-800 mb-6">Mô tả</h2>
+                                    <h2 className="text-2xl font-bold text-gray-800 mb-6">{t('stayDetail.description')}</h2>
                                     <div className="prose max-w-none text-[#555]" dangerouslySetInnerHTML={{ __html: stay.description }} />
                                 </motion.div>
 
@@ -179,7 +179,7 @@ export default function StayDetail() {
                                     transition={{ duration: 0.5, delay: 0.2 }}
                                     className="bg-white rounded-2xl shadow-lg p-8 mb-8"
                                 >
-                                    <h2 className="text-2xl font-bold text-gray-800 mb-6">Tiện ích</h2>
+                                    <h2 className="text-2xl font-bold text-gray-800 mb-6">{t('stayDetail.amenities')}</h2>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         {amenities.map((amenity, index) => (
                                             <div key={index} className="flex items-center gap-3">
@@ -207,14 +207,14 @@ export default function StayDetail() {
                                     transition={{ duration: 0.5, delay: 0.3 }}
                                     className="bg-white rounded-2xl shadow-lg p-8"
                                 >
-                                    <h2 className="text-2xl font-bold text-gray-800 mb-6">Thông tin liên hệ</h2>
+                                    <h2 className="text-2xl font-bold text-gray-800 mb-6">{t('stayDetail.contact')}</h2>
                                     <div className="space-y-4">
                                         <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
                                             <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                                                 <FaPhone className="text-blue-600 text-xl" />
                                             </div>
                                             <div>
-                                                <h3 className="font-semibold text-gray-800">Điện thoại</h3>
+                                                <h3 className="font-semibold text-gray-800">{t('stayDetail.phone')}</h3>
                                                 <p className="text-gray-600">{stay.phone}</p>
                                             </div>
                                         </div>
@@ -223,21 +223,21 @@ export default function StayDetail() {
                                                 <FaEnvelope className="text-green-600 text-xl" />
                                             </div>
                                             <div>
-                                                <h3 className="font-semibold text-gray-800">Email</h3>
+                                                <h3 className="font-semibold text-gray-800">{t('stayDetail.email')}</h3>
                                                 <p className="text-gray-600">{stay.email}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
-                                            <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                                                <FaGlobe className="text-purple-600 text-xl" />
+                                            <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                                                <FaGlobe className="text-green-600 text-xl" />
                                             </div>
                                             <div>
-                                                <h3 className="font-semibold text-gray-800">Website</h3>
+                                                <h3 className="font-semibold text-gray-800">{t('stayDetail.website')}</h3>
                                                 <a 
                                                     href={stay.website_url} 
                                                     target="_blank" 
                                                     rel="noopener noreferrer"
-                                                    className="text-purple-600 hover:text-purple-700 underline"
+                                                    className="text-green-600 hover:text-green-700 underline"
                                                 >
                                                     {stay.website_url}
                                                 </a>
@@ -257,10 +257,10 @@ export default function StayDetail() {
                                     className="bg-white rounded-2xl shadow-lg p-6 mb-6 sticky top-6"
                                 >
                                     <div className="flex items-center justify-between mb-4">
-                                        <h3 className="text-xl font-bold text-gray-800">Giá phòng</h3>
+                                        <h3 className="text-xl font-bold text-gray-800">{t('stayDetail.price')}</h3>
                                         <div className="flex items-center gap-1">
                                             {[...Array(stay.star_rating)].map((_, i) => (
-                                                <FaStar key={i} className="text-yellow-400 text-sm" />
+                                                <FaStar key={i} className="text-green-400 text-sm" />
                                             ))}
                                         </div>
                                     </div>
@@ -269,15 +269,15 @@ export default function StayDetail() {
                                         <div className="text-3xl font-bold text-gray-800 mb-2">
                                             {parseFloat(stay.price_per_night).toLocaleString('vi-VN')} VNĐ
                                         </div>
-                                        <div className="text-gray-600">mỗi đêm</div>
+                                        <div className="text-gray-600">{t('stayDetail.perNight')}</div>
                                     </div>
                                     
                                     <div className="space-y-3">
-                                        <button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold py-3 rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all duration-300">
-                                            Đặt phòng ngay
+                                        <button className="w-full bg-gradient-to-r from-green-600 to-green-400 text-white font-semibold py-3 rounded-xl hover:from-green-700 hover:to-green-500 transition-all duration-300">
+                                            {t('stayDetail.bookNow')}
                                         </button>
-                                        <button className="w-full border-2 border-purple-600 text-purple-600 font-semibold py-3 rounded-xl hover:bg-purple-600 hover:text-white transition-all duration-300">
-                                            Liên hệ tư vấn
+                                        <button className="w-full border-2 border-green-600 text-green-600 font-semibold py-3 rounded-xl hover:bg-green-600 hover:text-white transition-all duration-300">
+                                            {t('stayDetail.contactConsult')}
                                         </button>
                                     </div>
                                 </motion.div>
@@ -287,21 +287,21 @@ export default function StayDetail() {
                                     initial={{ opacity: 0, x: 20 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ duration: 0.5, delay: 0.5 }}
-                                    className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl shadow-lg p-6 text-white"
+                                    className="bg-gradient-to-r from-green-600 to-green-400 rounded-2xl shadow-lg p-6 text-white"
                                 >
-                                    <h3 className="text-xl font-bold mb-4">Thông tin nhanh</h3>
+                                    <h3 className="text-xl font-bold mb-4">{t('stayDetail.quickInfo')}</h3>
                                     <div className="space-y-3">
                                         <div className="flex items-center gap-3">
-                                            <FaStar className="text-yellow-300" />
-                                            <span>Đánh giá: {stay.rating}/5</span>
+                                            <FaStar className="text-green-300" />
+                                            <span>{t('stayDetail.rating')}: {stay.rating}/5</span>
                                         </div>
                                         <div className="flex items-center gap-3">
-                                            <FaMapMarkerAlt className="text-purple-200" />
+                                            <FaMapMarkerAlt className="text-green-200" />
                                             <span>{stay.city}, {stay.country}</span>
                                         </div>
                                         <div className="flex items-center gap-3">
-                                            <FaShieldAlt className="text-purple-200" />
-                                            <span>Đặt phòng an toàn</span>
+                                            <FaShieldAlt className="text-green-200" />
+                                            <span>{t('stayDetail.safeBooking')}</span>
                                         </div>
                                     </div>
                                 </motion.div>
@@ -311,20 +311,20 @@ export default function StayDetail() {
                 </section>
 
                 {/* CTA Section */}
-                <section className="py-16 bg-gradient-to-r from-purple-600 to-pink-600">
+                <section className="py-16 bg-gradient-to-r from-green-600 to-green-400">
                     <div className="max-w-4xl mx-auto text-center px-4">
                         <h2 className="text-3xl font-bold text-white mb-4">
-                            Sẵn sàng đặt phòng?
+                            {t('stayDetail.ctaTitle')}
                         </h2>
-                        <p className="text-xl text-purple-100 mb-8">
-                            Đặt phòng ngay hôm nay và tận hưởng kỳ nghỉ tuyệt vời tại Hà Giang
+                        <p className="text-xl text-green-100 mb-8">
+                            {t('stayDetail.ctaDesc')}
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <button className="px-8 py-4 bg-white text-purple-600 font-semibold rounded-xl hover:bg-gray-100 transition-all duration-300">
-                                Xem tất cả chỗ ở
+                            <button className="px-8 py-4 bg-white text-green-600 font-semibold rounded-xl hover:bg-gray-100 transition-all duration-300">
+                                {t('stayDetail.ctaViewAll')}
                             </button>
-                            <button className="px-8 py-4 border-2 border-white text-white font-semibold rounded-xl hover:bg-white hover:text-purple-600 transition-all duration-300">
-                                Tư vấn miễn phí
+                            <button className="px-8 py-4 border-2 border-white text-white font-semibold rounded-xl hover:bg-white hover:text-green-600 transition-all duration-300">
+                                {t('stayDetail.ctaFreeConsult')}
                             </button>
                         </div>
                     </div>
