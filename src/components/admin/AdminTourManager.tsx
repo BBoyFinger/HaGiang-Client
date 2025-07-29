@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import * as tourApi from '../../api/tours';
 import { useGetToursQuery, useAddTourMutation, useUpdateTourMutation, useDeleteTourMutation } from '../../services/api';
 import axios from 'axios';
+import TourForm from './TourForm';
 
 function exportToCSV(data: Tour[], notify?: (msg: string) => void) {
   const header = ['ID', 'Tên Tour', 'Giá', 'Địa điểm', 'Mô tả', 'Đánh giá'];
@@ -122,13 +123,15 @@ const AdminTourManager: React.FC = () => {
   };
 
   const handleInlineAdd = async (data: any, selectedFiles?: File[]) => {
+    console.log("add data")
+    console.log("hello world")
     console.log('Submit data:', data, selectedFiles)
     try {
       const formData = new FormData();
       formData.append('name', JSON.stringify(data.name));
       formData.append('type', JSON.stringify(data.type));
       formData.append('price', JSON.stringify(data.price));
-      formData.append('locations', JSON.stringify(data.locations));
+      formData.append('destination', JSON.stringify(data.destination));
       formData.append('description', JSON.stringify(data.description));
       formData.append('shortDescription', JSON.stringify(data.shortDescription));
       formData.append('duration', JSON.stringify(data.duration));
@@ -193,15 +196,11 @@ const AdminTourManager: React.FC = () => {
       )}
       {/* Inline Add Form */}
       {showAddForm && (
-        <div className="bg-white p-6 rounded-lg shadow border border-blue-200">
-          <AdminTourFormModal
-            open={true}
-            onClose={() => setShowAddForm(false)}
-            onSubmit={handleInlineAdd}
-            initialData={null}
-            inlineMode={true}
-          />
-        </div>
+        <TourForm
+          inlineMode
+          onSubmit={handleInlineAdd}
+          onClose={() => setShowAddForm(false)}
+        />
       )}
 
       {/* Search & Filter & Export */}
