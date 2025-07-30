@@ -166,6 +166,8 @@ const TourForm: React.FC<TourFormProps> = ({ onSubmit, onClose, initialData, inl
         ...getModules(quillRefEn),
         clipboard: { matchVisual: false }
     }), [quillRefEn]);
+
+    
     useEffect(() => {
         const quillVi = quillRefVi.current?.getEditor?.();
         let handlerVi: any;
@@ -403,6 +405,8 @@ const TourForm: React.FC<TourFormProps> = ({ onSubmit, onClose, initialData, inl
                         </div>
                     </div>
                 </div>
+
+                
                 {/* Upload nhiều ảnh */}
                 <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Ảnh đại diện *</label>
@@ -443,6 +447,7 @@ const TourForm: React.FC<TourFormProps> = ({ onSubmit, onClose, initialData, inl
                         {errors.shortDescription?.en && <p className="text-red-500 text-xs">{errors.shortDescription.en.message}</p>}
                     </div>
                 </div>
+
                 <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Mô tả chi tiết (Tiếng Việt)</label>
                     {React.createElement(ReactQuill as any, {
@@ -463,6 +468,8 @@ const TourForm: React.FC<TourFormProps> = ({ onSubmit, onClose, initialData, inl
                         className: 'bg-white'
                     })}
                 </div>
+                {/* Duration */}
+
                 <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Thời lượng</label>
                     <div className="flex gap-2">
@@ -482,6 +489,7 @@ const TourForm: React.FC<TourFormProps> = ({ onSubmit, onClose, initialData, inl
                         {errors.duration?.en && <p className="text-red-500 text-xs">{errors.duration.en.message}</p>}
                     </div>
                 </div>
+
                 <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Ngôn ngữ hướng dẫn</label>
                     <div className="flex gap-2">
@@ -501,6 +509,7 @@ const TourForm: React.FC<TourFormProps> = ({ onSubmit, onClose, initialData, inl
                         {errors.guideLanguage?.en && <p className="text-red-500 text-xs">{errors.guideLanguage.en.message}</p>}
                     </div>
                 </div>
+                
                 <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Dịch vụ bao gồm</label>
                     <div className="flex gap-2">
