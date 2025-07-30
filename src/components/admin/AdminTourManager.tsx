@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { tours } from '../../data/tours';
 import { Tour } from '../../types/TourType';
-import AdminTourFormModal from './AdminTourFormModal';
 import { toast } from 'react-toastify';
-import * as tourApi from '../../api/tours';
 import { useGetToursQuery, useAddTourMutation, useUpdateTourMutation, useDeleteTourMutation } from '../../services/api';
 import axios from 'axios';
 import TourForm from './TourForm';
+import axiosInstance from '@/config/axiosConfig';
 
 function exportToCSV(data: Tour[], notify?: (msg: string) => void) {
   const header = ['ID', 'Tên Tour', 'Giá', 'Địa điểm', 'Mô tả', 'Đánh giá'];
@@ -14,7 +12,7 @@ function exportToCSV(data: Tour[], notify?: (msg: string) => void) {
     tour._id,
     tour.name,
     typeof tour.price === 'object' ? tour.price.VND?.perSlot : tour.price,
-    (tour.locations || []).join('; '),
+    (tour.destination || []).join('; '),
     tour.description || '',
     tour.rating || '',
   ]);
@@ -44,9 +42,9 @@ const AdminTourManager: React.FC = () => {
   const [showEditForm, setShowEditForm] = useState(false);
 
   // Lấy danh sách địa điểm duy nhất
-  const allLocations = Array.from(
+  const alldestination = Array.from(
     new Set(
-      (tours as any[]).flatMap((t: any) => Array.isArray(t.locations?.vi) ? t.locations.vi : [])
+      (tours as any[]).flatMap((t: any) => Array.isArray(t.destination?.vi) ? t.destination.vi : [])
     )
   );
 
@@ -59,9 +57,6 @@ const AdminTourManager: React.FC = () => {
       toast.error(message);
     }
   };
-  const removeToast = (id: string) => {
-    // No-op for react-toastify
-  };
 
   const handleAdd = () => {
     setShowAddForm((prev) => !prev);
@@ -71,6 +66,7 @@ const AdminTourManager: React.FC = () => {
   };
   const handleEdit = (id: string) => {
     const tour = (tours as Tour[]).find((t: Tour) => t._id === id);
+    console.log("tour", tour)
     if (tour) {
       setEditTour(tour);
       setShowEditForm(true);
@@ -83,49 +79,12 @@ const AdminTourManager: React.FC = () => {
     refetch();
   };
 
-  const handleModalSubmit = async (data: any, selectedFiles?: File[]) => {
-    try {
-      if (editTour) {
-        const formData = new FormData();
-        formData.append('name', JSON.stringify(data.name));
-        formData.append('type', JSON.stringify(data.type));
-        formData.append('price', JSON.stringify(data.price));
-        formData.append('locations', JSON.stringify(data.locations));
-        formData.append('description', JSON.stringify(data.description));
-        formData.append('shortDescription', JSON.stringify(data.shortDescription));
-        formData.append('duration', JSON.stringify(data.duration));
-        formData.append('guideLanguage', JSON.stringify(data.guideLanguage));
-        formData.append('includedServices', JSON.stringify(data.includedServices));
-        formData.append('excludedServices', JSON.stringify(data.excludedServices));
-        formData.append('schedule', JSON.stringify(data.schedule));
-        if (selectedFiles && selectedFiles.length > 0) {
-          selectedFiles.forEach(file => {
-            formData.append('images', file);
-          });
-        }
-        await axios.put(`/api/tours/${editTour._id}`, formData, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        });
-        showToast('Cập nhật tour thành công!', 'success');
-        setShowEditForm(false);
-        setEditTour(null);
-      } else {
-        // Thêm mới (đã xử lý ở handleInlineAdd)
-        await handleInlineAdd(data, selectedFiles);
-        return;
-      }
-      setModalOpen(false);
-      refetch();
-    } catch (error: any) {
-      showToast('Có lỗi xảy ra khi cập nhật tour!', 'error');
-      console.error(error);
-    }
-  };
 
-  const handleInlineAdd = async (data: any, selectedFiles?: File[]) => {
-    console.log("add data")
-    console.log("hello world")
+  const handleInlineAdd = async (data: any, selectedFiles?: File[], imageData?: any) => {
     console.log('Submit data:', data, selectedFiles)
+    console.log('editTour:', editTour)
+    console.log('showEditForm:', showEditForm)
+    console.log('showAddForm:', showAddForm)
     try {
       const formData = new FormData();
       formData.append('name', JSON.stringify(data.name));
@@ -139,20 +98,73 @@ const AdminTourManager: React.FC = () => {
       formData.append('includedServices', JSON.stringify(data.includedServices));
       formData.append('excludedServices', JSON.stringify(data.excludedServices));
       formData.append('schedule', JSON.stringify(data.schedule));
+      
+      // Debug: Log FormData contents
+      console.log('FormData contents:');
+      for (let [key, value] of formData.entries()) {
+        if (value instanceof File) {
+          console.log(key, ':', 'File:', value.name, value.size, 'bytes');
+        } else {
+          console.log(key, ':', value);
+        }
+      }
+      
+      console.log('About to make API call...');
+      
+      // Xử lý ảnh mới
       if (selectedFiles && selectedFiles.length > 0) {
+        console.log('Adding new images:', selectedFiles.length, 'files');
         selectedFiles.forEach(file => {
           formData.append('images', file);
         });
       }
-      await axios.post('/api/tours', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
-      showToast('Thêm tour mới thành công!', 'success');
-      setShowAddForm(false);
+      
+      // Xử lý ảnh có sẵn khi update
+      if (imageData?.existingImages && imageData.existingImages.length > 0) {
+        formData.append('existingImages', JSON.stringify(imageData.existingImages));
+        console.log('Added existingImages:', imageData.existingImages);
+      }
+      
+      // Xử lý ảnh đã xóa khi update
+      if (imageData?.removedImages && imageData.removedImages.length > 0) {
+        formData.append('removedImages', JSON.stringify(imageData.removedImages));
+        console.log('Added removedImages:', imageData.removedImages);
+      }
+
+      // Kiểm tra xem có phải đang edit tour không
+      if (editTour && showEditForm) {
+        console.log('Updating tour with ID:', editTour._id);
+        // Update tour
+        const response = await axiosInstance.put(`/tours/${editTour._id}`, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        console.log('Update response:', response);
+        showToast('Cập nhật tour thành công!', 'success');
+        setShowEditForm(false);
+        setEditTour(null);
+      } else {
+        console.log('Adding new tour');
+        // Thêm tour mới
+        const response = await axiosInstance.post('/tours', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        console.log('Add response:', response);
+        showToast('Thêm tour mới thành công!', 'success');
+        setShowAddForm(false);
+      }
+      
       refetch();
     } catch (error: any) {
-      console.error('Error adding tour:', error);
-      showToast(`Lỗi khi thêm tour: ${error?.response?.data?.message || error?.message || 'Unknown error'}`, 'error');
+      console.error('Error handling tour:', error);
+      console.error('Error details:', {
+        message: error?.message,
+        response: error?.response,
+        status: error?.response?.status,
+        data: error?.response?.data
+      });
+      const action = editTour && showEditForm ? 'cập nhật' : 'thêm';
+      const errorMessage = error?.response?.data?.message || error?.message || 'Unknown error';
+      showToast(`Lỗi khi ${action} tour: ${errorMessage}`, 'error');
     }
   };
 
@@ -161,7 +173,7 @@ const AdminTourManager: React.FC = () => {
     const matchName =
       (tour.name?.vi?.toLowerCase() || '').includes(search.toLowerCase()) ||
       (tour.name?.en?.toLowerCase() || '').includes(search.toLowerCase());
-    const matchLocation = locationFilter ? (Array.isArray(tour.locations?.vi) ? tour.locations.vi.includes(locationFilter) : false) : true;
+    const matchLocation = locationFilter ? (Array.isArray(tour.destination?.vi) ? tour.destination.vi.includes(locationFilter) : false) : true;
     return matchName && matchLocation;
   });
 
@@ -185,12 +197,11 @@ const AdminTourManager: React.FC = () => {
       {/* Inline Edit Form */}
       {showEditForm && editTour && (
         <div className="bg-white p-6 rounded-lg shadow border border-yellow-200 mb-4">
-          <AdminTourFormModal
-            open={true}
-            onClose={() => { setShowEditForm(false); setEditTour(null); }}
-            onSubmit={handleInlineAdd}
-            initialData={editTour}
+          <TourForm
             inlineMode={true}
+            onSubmit={handleInlineAdd}
+            onClose={() => { setShowEditForm(false); setEditTour(null); }}
+            initialData={editTour}
           />
         </div>
       )}
@@ -218,7 +229,7 @@ const AdminTourManager: React.FC = () => {
           className="w-full md:w-56 border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
         >
           <option value="">Tất cả địa điểm</option>
-          {allLocations.map(loc => (
+          {alldestination.map(loc => (
             <option key={loc} value={loc}>{loc}</option>
           ))}
         </select>
@@ -308,8 +319,8 @@ const AdminTourManager: React.FC = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-gray-900">
-                      {Array.isArray(tour.locations)
-                        ? tour.locations.map((loc: any) => loc.vi).join(', ')
+                      {Array.isArray(tour.destination)
+                        ? tour.destination.map((loc: any) => loc.vi).join(', ')
                         : ''}
                     </div>
                   </td>

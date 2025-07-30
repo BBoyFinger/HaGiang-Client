@@ -5,7 +5,7 @@ export interface Tour {
     slug: string;
     description: { vi: string; en: string };
     shortDescription?: { vi: string; en: string };
-    locations: Array<{ vi: string; en: string }>;
+    destination: Array<{ vi: string; en: string }>;
     price: {
         VND?: {
             perSlot: number;

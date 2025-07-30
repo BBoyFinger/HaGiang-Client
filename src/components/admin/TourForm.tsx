@@ -7,10 +7,16 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 interface TourFormProps {
-    onSubmit: (data: any, selectedFiles: File[]) => void;
+    onSubmit: (data: any, selectedFiles: File[], imageData?: any) => void;
     onClose: () => void;
     initialData?: any;
     inlineMode?: boolean;
+}
+
+interface DaySchedule {
+    day: number;
+    title: string;
+    activities: string[];
 }
 
 
@@ -36,8 +42,14 @@ const tourSchema = z.object({
         vi: z.string().optional(),
         en: z.string().optional(),
     }),
-    duration: z.object({ vi: z.string().optional(), en: z.string().optional() }),
+    duration: z.object({ 
+        vi: z.string().min(1, "Thời lượng (Tiếng Việt) là bắt buộc").trim(),
+        en: z.string().min(1, "Duration (English) is required").trim()
+    }),
     guideLanguage: z.object({ vi: z.string().optional(), en: z.string().optional() }),
+    includedServices: z.object({ vi: z.string().optional(), en: z.string().optional() }),
+    excludedServices: z.object({ vi: z.string().optional(), en: z.string().optional() }),
+    schedule: z.object({ vi: z.string().optional(), en: z.string().optional() }),
 })
 
 const defaultForm = {
@@ -61,12 +73,21 @@ const defaultForm = {
     },
     guideLanguage: {
         vi: "", en: ""
+    },
+    includedServices: {
+        vi: "", en: ""
+    },
+    excludedServices: {
+        vi: "", en: ""
+    },
+    schedule: {
+        vi: "", en: ""
     }
 }
 
 
 type TourFormZod = z.infer<typeof tourSchema>
-const TourForm: React.FC<TourFormProps> = ({ onSubmit, onClose, initialData, inlineMode }) => {
+const TourForm: React.FC<TourFormProps> = ({ onSubmit, onClose, initialData }) => {
     const {
         register,
         handleSubmit,
@@ -78,6 +99,37 @@ const TourForm: React.FC<TourFormProps> = ({ onSubmit, onClose, initialData, inl
         resolver: zodResolver(tourSchema),
         defaultValues: initialData || defaultForm,
     })
+
+    const [scheduleVi, setScheduleVi] = useState<DaySchedule[]>([{ day: 1, title: '', activities: [''] }]);
+    const [scheduleEn, setScheduleEn] = useState<DaySchedule[]>([{ day: 1, title: '', activities: [''] }]);
+    const addDay = (lang: 'vi' | 'en') => {
+        if (lang === 'vi') setScheduleVi([...scheduleVi, { day: scheduleVi.length + 1, title: '', activities: [''] }]);
+        else setScheduleEn([...scheduleEn, { day: scheduleEn.length + 1, title: '', activities: [''] }]);
+    };
+    const addActivity = (lang: 'vi' | 'en', dayIdx: number) => {
+        if (lang === 'vi') {
+            const newSchedule = [...scheduleVi];
+            newSchedule[dayIdx].activities.push('');
+            setScheduleVi(newSchedule);
+        } else {
+            const newSchedule = [...scheduleEn];
+            newSchedule[dayIdx].activities.push('');
+            setScheduleEn(newSchedule);
+        }
+    };
+    const handleScheduleChange = (lang: 'vi' | 'en', dayIdx: number, field: string, value: string, actIdx?: number) => {
+        if (lang === 'vi') {
+            const newSchedule = [...scheduleVi];
+            if (field === 'title') newSchedule[dayIdx].title = value;
+            if (field === 'activity' && actIdx !== undefined) newSchedule[dayIdx].activities[actIdx] = value;
+            setScheduleVi(newSchedule);
+        } else {
+            const newSchedule = [...scheduleEn];
+            if (field === 'title') newSchedule[dayIdx].title = value;
+            if (field === 'activity' && actIdx !== undefined) newSchedule[dayIdx].activities[actIdx] = value;
+            setScheduleEn(newSchedule);
+        }
+    };
 
     const imageHandler = async (quillRef: any) => {
         const input = document.createElement('input');
@@ -141,18 +193,84 @@ const TourForm: React.FC<TourFormProps> = ({ onSubmit, onClose, initialData, inl
 
     useEffect(() => {
         if (initialData?.price) {
+            console.log("Processing price from initialData:", initialData.price);
             setPrice({
-                VND: { perSlot: initialData.price.VND.perSlot?.toString() || "", groupPrice: initialData.price.VND.groupPrice?.toString() || "", discountPrice: initialData.price.VND.discountPrice?.toString() || "" },
-                USD: { perSlot: initialData.price.USD.perSlot?.toString() || "", groupPrice: initialData.price.USD.groupPrice?.toString() || "", discountPrice: initialData.price.USD.discountPrice?.toString() || "" },
-                EUR: { perSlot: initialData.price.EUR.perSlot?.toString() || "", groupPrice: initialData.price.EUR.groupPrice?.toString() || "", discountPrice: initialData.price.EUR.discountPrice?.toString() || "" }
-            })
+                VND: { perSlot: initialData.price.VND?.perSlot?.toString() || "", groupPrice: initialData.price.VND?.groupPrice?.toString() || "", discountPrice: initialData.price.VND?.discountPrice?.toString() || "" },
+                USD: { perSlot: initialData.price.USD?.perSlot?.toString() || "", groupPrice: initialData.price.USD?.groupPrice?.toString() || "", discountPrice: initialData.price.USD?.discountPrice?.toString() || "" },
+                EUR: { perSlot: initialData.price.EUR?.perSlot?.toString() || "", groupPrice: initialData.price.EUR?.groupPrice?.toString() || "", discountPrice: initialData.price.EUR?.discountPrice?.toString() || "" }
+            });
+            console.log("Price state set to:", {
+                VND: { perSlot: initialData.price.VND?.perSlot?.toString() || "", groupPrice: initialData.price.VND?.groupPrice?.toString() || "", discountPrice: initialData.price.VND?.discountPrice?.toString() || "" },
+                USD: { perSlot: initialData.price.USD?.perSlot?.toString() || "", groupPrice: initialData.price.USD?.groupPrice?.toString() || "", discountPrice: initialData.price.USD?.discountPrice?.toString() || "" },
+                EUR: { perSlot: initialData.price.EUR?.perSlot?.toString() || "", groupPrice: initialData.price.EUR?.groupPrice?.toString() || "", discountPrice: initialData.price.EUR?.discountPrice?.toString() || "" }
+            });
         }
 
         // Xử lý ảnh có sẵn từ initialData
-        if (initialData?.images && initialData.images.length > 0) {
-            setExistingImages(initialData.images);
+        if (initialData?.imageUrls && initialData.imageUrls.length > 0) {
+            setExistingImages(initialData.imageUrls);
         }
-    }, [initialData])
+
+        // Xử lý schedule từ initialData
+        if (initialData?.schedule) {
+            console.log("Processing schedule from initialData:", initialData.schedule);
+            if (initialData.schedule.vi && initialData.schedule.vi.length > 0) {
+                console.log("Setting scheduleVi:", initialData.schedule.vi);
+                setScheduleVi(initialData.schedule.vi);
+            }
+            if (initialData.schedule.en && initialData.schedule.en.length > 0) {
+                console.log("Setting scheduleEn:", initialData.schedule.en);
+                setScheduleEn(initialData.schedule.en);
+            }
+        }
+
+        // Xử lý guideLanguage từ initialData (chuyển từ array sang string)
+        if (initialData?.guideLanguage && initialData.guideLanguage.length > 0) {
+            const guideLanguagesVi = initialData.guideLanguage.map((lang: any) => lang.vi).join(', ');
+            const guideLanguagesEn = initialData.guideLanguage.map((lang: any) => lang.en).join(', ');
+            setValue('guideLanguage.vi', guideLanguagesVi);
+            setValue('guideLanguage.en', guideLanguagesEn);
+        }
+
+        // Xử lý includedServices từ initialData (chuyển từ array sang string)
+        if (initialData?.includedServices && initialData.includedServices.length > 0) {
+            const includedServicesVi = initialData.includedServices.map((service: any) => service.vi).join('\n');
+            const includedServicesEn = initialData.includedServices.map((service: any) => service.en).join('\n');
+            setValue('includedServices.vi', includedServicesVi);
+            setValue('includedServices.en', includedServicesEn);
+        }
+
+        // Xử lý excludedServices từ initialData (chuyển từ array sang string)
+        if (initialData?.excludedServices && initialData.excludedServices.length > 0) {
+            const excludedServicesVi = initialData.excludedServices.map((service: any) => service.vi).join('\n');
+            const excludedServicesEn = initialData.excludedServices.map((service: any) => service.en).join('\n');
+            setValue('excludedServices.vi', excludedServicesVi);
+            setValue('excludedServices.en', excludedServicesEn);
+        }
+
+        // Xử lý destination từ initialData (chuyển từ array sang string cho destination)
+        if (initialData?.destination && initialData.destination.length > 0) {
+            const destinationVi = initialData.destination.map((loc: any) => loc.vi).join(', ');
+            const destinationEn = initialData.destination.map((loc: any) => loc.en).join(', ');
+            setValue('destination.vi', destinationVi);
+            setValue('destination.en', destinationEn);
+        }
+
+        // Reset các state khác khi không có initialData
+        if (!initialData) {
+            setPrice({
+                VND: { perSlot: "", groupPrice: "", discountPrice: "" },
+                USD: { perSlot: "", groupPrice: "", discountPrice: "" },
+                EUR: { perSlot: "", groupPrice: "", discountPrice: "" }
+            });
+            setExistingImages([]);
+            setSelectedFiles([]);
+            setRemovedImages([]);
+            setScheduleVi([{ day: 1, title: '', activities: [''] }]);
+            setScheduleEn([{ day: 1, title: '', activities: [''] }]);
+        }
+
+    }, [initialData, setValue])
 
     const handlePriceChange = (currency: keyof PriceInput, field: keyof PriceInput[keyof PriceInput], value: string) => {
         setPrice((prev) => ({
@@ -167,11 +285,20 @@ const TourForm: React.FC<TourFormProps> = ({ onSubmit, onClose, initialData, inl
     const [imageUrls, setImageUrls] = useState<string[]>([]);
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const [existingImages, setExistingImages] = useState<string[]>([]);
+    const [removedImages, setRemovedImages] = useState<string[]>([]);
 
     const removeImage = (idx: number) => {
+        const allImages = [...existingImages, ...selectedFiles.map(file => URL.createObjectURL(file))];
+        const removedImage = allImages[idx];
+        
         setImageUrls(prev => prev.filter((_, i) => i !== idx));
         setSelectedFiles(prev => prev.filter((_, i) => i !== idx));
         setExistingImages(prev => prev.filter((_, i) => i !== idx));
+        
+        // Nếu ảnh bị xóa là ảnh có sẵn, thêm vào danh sách ảnh đã xóa
+        if (idx < existingImages.length) {
+            setRemovedImages(prev => [...prev, existingImages[idx]]);
+        }
     };
 
     // Tạo URL preview cho các file đã chọn
@@ -187,30 +314,97 @@ const TourForm: React.FC<TourFormProps> = ({ onSubmit, onClose, initialData, inl
     }, [selectedFiles, existingImages]);
 
     const onFormSubmit = async (data: TourFormZod) => {
-        console.log("Submit form: ", data);
+        console.log("onFormSubmit called with data:", data);
+        console.log("initialData exists:", !!initialData);
+        console.log("price state:", price);
+        console.log("scheduleVi state:", scheduleVi);
+        console.log("scheduleEn state:", scheduleEn);
 
-        const priceObj = {
-            VND: {
-                perSlot: price.VND.perSlot ? Number(price.VND.perSlot) : undefined,
-                groupPrice: price.VND.groupPrice ? Number(price.VND.groupPrice) : undefined,
-                discountPrice: price.VND.discountPrice ? Number(price.VND.discountPrice) : undefined
-            },
-            USD: {
-                perSlot: price.USD.perSlot ? Number(price.USD.perSlot) : undefined,
-                groupPrice: price.USD.groupPrice ? Number(price.USD.groupPrice) : undefined,
-                discountPrice: price.USD.discountPrice ? Number(price.USD.discountPrice) : undefined
-            },
-            EUR: {
-                perSlot: price.EUR.perSlot ? Number(price.EUR.perSlot) : undefined,
-                groupPrice: price.EUR.groupPrice ? Number(price.EUR.groupPrice) : undefined,
-                discountPrice: price.EUR.discountPrice ? Number(price.EUR.discountPrice) : undefined
-            }
+        // Validate price - ensure at least one currency has perSlot
+        console.log("Validating price:", { VND: price.VND.perSlot, USD: price.USD.perSlot, EUR: price.EUR.perSlot });
+        if (!price.VND.perSlot && !price.USD.perSlot && !price.EUR.perSlot) {
+            console.log("Price validation failed");
+            alert('Vui lòng nhập ít nhất một mức giá cho một loại tiền tệ');
+            return;
+        }
+        console.log("Price validation passed");
+
+        // Validate schedule - ensure at least one day has title and activities
+        const hasValidScheduleVi = scheduleVi.some(day => day.title.trim() && day.activities.some(activity => activity.trim()));
+        const hasValidScheduleEn = scheduleEn.some(day => day.title.trim() && day.activities.some(activity => activity.trim()));
+        
+        console.log("Schedule validation:", { hasValidScheduleVi, hasValidScheduleEn, scheduleVi, scheduleEn });
+        
+        if (!hasValidScheduleVi && !hasValidScheduleEn) {
+            console.log("Schedule validation failed");
+            alert('Vui lòng nhập ít nhất một ngày với tiêu đề và hoạt động cho lịch trình');
+            return;
+        }
+        console.log("Schedule validation passed");
+
+        const priceObj: any = {};
+        
+        // Only include currencies that have perSlot values
+        if (price.VND.perSlot) {
+            priceObj.VND = {
+                perSlot: Number(price.VND.perSlot),
+                ...(price.VND.groupPrice && { groupPrice: Number(price.VND.groupPrice) }),
+                ...(price.VND.discountPrice && { discountPrice: Number(price.VND.discountPrice) })
+            };
+        }
+        
+        if (price.USD.perSlot) {
+            priceObj.USD = {
+                perSlot: Number(price.USD.perSlot),
+                ...(price.USD.groupPrice && { groupPrice: Number(price.USD.groupPrice) }),
+                ...(price.USD.discountPrice && { discountPrice: Number(price.USD.discountPrice) })
+            };
+        }
+        
+        if (price.EUR.perSlot) {
+            priceObj.EUR = {
+                perSlot: Number(price.EUR.perSlot),
+                ...(price.EUR.groupPrice && { groupPrice: Number(price.EUR.groupPrice) }),
+                ...(price.EUR.discountPrice && { discountPrice: Number(price.EUR.discountPrice) })
+            };
         }
 
-        await onSubmit({
+        // Filter out empty schedule days
+        const filteredScheduleVi = scheduleVi.filter(day => day.title.trim() && day.activities.some(activity => activity.trim()));
+        const filteredScheduleEn = scheduleEn.filter(day => day.title.trim() && day.activities.some(activity => activity.trim()));
+
+        // Xử lý chuyển đổi format cho các trường array
+        const processedData = {
             ...data,
             price: priceObj,
-        }, selectedFiles)
+            schedule: {
+                vi: filteredScheduleVi.length > 0 ? filteredScheduleVi : undefined,
+                en: filteredScheduleEn.length > 0 ? filteredScheduleEn : undefined
+            },
+            // Chuyển đổi destination từ string sang array cho destination
+            destination: data.destination.vi ?
+                data.destination.vi.split(',').map((loc: string) => ({ vi: loc.trim(), en: loc.trim() })) : [],
+            // Chuyển đổi guideLanguage từ string sang array nếu cần
+            guideLanguage: data.guideLanguage.vi ?
+                data.guideLanguage.vi.split(',').map((lang: string) => ({ vi: lang.trim(), en: lang.trim() })) : [],
+            // Chuyển đổi includedServices từ string sang array nếu cần
+            includedServices: data.includedServices.vi ?
+                data.includedServices.vi.split('\n').filter((service: string) => service.trim()).map((service: string) => ({ vi: service.trim(), en: service.trim() })) : [],
+            // Chuyển đổi excludedServices từ string sang array nếu cần
+            excludedServices: data.excludedServices.vi ?
+                data.excludedServices.vi.split('\n').filter((service: string) => service.trim()).map((service: string) => ({ vi: service.trim(), en: service.trim() })) : []
+        };
+
+        // Gửi thông tin về ảnh
+        const imageData = {
+            existingImages: existingImages,
+            newImages: selectedFiles,
+            removedImages: removedImages
+        };
+        
+        console.log("About to call onSubmit with:", { processedData, selectedFiles, imageData });
+        await onSubmit(processedData, selectedFiles, imageData);
+        console.log("onSubmit completed");
 
     }
     const formContent = (
@@ -262,7 +456,8 @@ const TourForm: React.FC<TourFormProps> = ({ onSubmit, onClose, initialData, inl
                 </div>
                 {/* price */}
                 <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Giá tour</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Giá tour <span className="text-red-500">*</span></label>
+                    <p className="text-xs text-gray-500 mb-3">Vui lòng nhập ít nhất một mức giá cho một loại tiền tệ</p>
                     <div className="space-y-4">
                         {/* VND */}
                         <div className="bg-red-50 border border-red-200 rounded-xl p-4 shadow-sm">
@@ -271,7 +466,7 @@ const TourForm: React.FC<TourFormProps> = ({ onSubmit, onClose, initialData, inl
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                                 <div>
-                                    <label className="block text-xs font-medium text-gray-600 mb-1">Giá lẻ / slot</label>
+                                    <label className="block text-xs font-medium text-gray-600 mb-1">Giá lẻ / slot <span className="text-red-500">*</span></label>
                                     <input
                                         value={price.VND.perSlot}
                                         onChange={e => handlePriceChange('VND', 'perSlot', e.target.value)}
@@ -279,6 +474,7 @@ const TourForm: React.FC<TourFormProps> = ({ onSubmit, onClose, initialData, inl
                                         className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-400"
                                         type="number"
                                         min="0"
+                                        required
                                     />
                                 </div>
                                 <div>
@@ -313,7 +509,7 @@ const TourForm: React.FC<TourFormProps> = ({ onSubmit, onClose, initialData, inl
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                                 <div>
-                                    <label className="block text-xs font-medium text-gray-600 mb-1">Giá lẻ / slot</label>
+                                    <label className="block text-xs font-medium text-gray-600 mb-1">Giá lẻ / slot <span className="text-red-500">*</span></label>
                                     <input
                                         value={price.USD.perSlot}
                                         onChange={e => handlePriceChange('USD', 'perSlot', e.target.value)}
@@ -322,6 +518,7 @@ const TourForm: React.FC<TourFormProps> = ({ onSubmit, onClose, initialData, inl
                                         type="number"
                                         min="0"
                                         step="0.01"
+                                        required
                                     />
                                 </div>
                                 <div>
@@ -358,7 +555,7 @@ const TourForm: React.FC<TourFormProps> = ({ onSubmit, onClose, initialData, inl
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                                 <div>
-                                    <label className="block text-xs font-medium text-gray-600 mb-1">Giá lẻ / slot</label>
+                                    <label className="block text-xs font-medium text-gray-600 mb-1">Giá lẻ / slot <span className="text-red-500">*</span></label>
                                     <input
                                         value={price.EUR.perSlot}
                                         onChange={e => handlePriceChange('EUR', 'perSlot', e.target.value)}
@@ -367,6 +564,7 @@ const TourForm: React.FC<TourFormProps> = ({ onSubmit, onClose, initialData, inl
                                         type="number"
                                         min="0"
                                         step="0.01"
+                                        required
                                     />
                                 </div>
                                 <div>
@@ -528,22 +726,32 @@ const TourForm: React.FC<TourFormProps> = ({ onSubmit, onClose, initialData, inl
 
                 {/* Duration */}
                 <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">Thời lượng</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1">
+                        Thời lượng <span className="text-red-500">*</span>
+                    </label>
                     <div className="flex gap-2">
-                        <input
-                            type="text"
-                            {...register('duration.vi')}
-                            className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-200"
-                            placeholder="Thời lượng (Tiếng Việt)"
-                        />
-                        {errors.duration?.vi && <p className="text-red-500 text-xs">{errors.duration.vi.message}</p>}
-                        <input
-                            type="text"
-                            {...register('duration.en')}
-                            className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                            placeholder="Duration (English)"
-                        />
-                        {errors.duration?.en && <p className="text-red-500 text-xs">{errors.duration.en.message}</p>}
+                        <div className="w-full">
+                            <input
+                                type="text"
+                                {...register('duration.vi')}
+                                className={`w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-200 ${
+                                    errors.duration?.vi ? 'border-red-500' : 'border-gray-300'
+                                }`}
+                                placeholder="VD: 3 ngày 2 đêm, 1 ngày, 5 ngày 4 đêm"
+                            />
+                            {errors.duration?.vi && <p className="text-red-500 text-xs mt-1">{errors.duration.vi.message}</p>}
+                        </div>
+                        <div className="w-full">
+                            <input
+                                type="text"
+                                {...register('duration.en')}
+                                className={`w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-200 ${
+                                    errors.duration?.en ? 'border-red-500' : 'border-gray-300'
+                                }`}
+                                placeholder="E.g: 3 days 2 nights, 1 day, 5 days 4 nights"
+                            />
+                            {errors.duration?.en && <p className="text-red-500 text-xs mt-1">{errors.duration.en.message}</p>}
+                        </div>
                     </div>
                 </div>
                 {/* Language */}
@@ -565,6 +773,149 @@ const TourForm: React.FC<TourFormProps> = ({ onSubmit, onClose, initialData, inl
                         />
                         {errors.guideLanguage?.en && <p className="text-red-500 text-xs">{errors.guideLanguage.en.message}</p>}
                     </div>
+                </div>
+                {/* Included services */}
+                <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1">Dịch vụ bao gồm</label>
+                    <div className="flex gap-2">
+                        <textarea
+                            {...register('includedServices.vi')}
+                            className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-200"
+                            rows={2}
+                            placeholder="Mỗi dịch vụ 1 dòng (Tiếng Việt)"
+                        />
+                        {errors.includedServices?.vi && <p className="text-red-500 text-xs">{errors.includedServices.vi.message}</p>}
+                        <textarea
+                            {...register('includedServices.en')}
+                            className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                            rows={2}
+                            placeholder="One service per line (English)"
+                        />
+                        {errors.includedServices?.en && <p className="text-red-500 text-xs">{errors.includedServices.en.message}</p>}
+                    </div>
+                </div>
+                {/* Excluded services */}
+                <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1">Dịch vụ không bao gồm</label>
+                    <div className="flex gap-2">
+                        <textarea
+                            {...register('excludedServices.vi')}
+                            className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-200"
+                            rows={2}
+                            placeholder="Mỗi dịch vụ 1 dòng (Tiếng Việt)"
+                        />
+                        {errors.excludedServices?.vi && <p className="text-red-500 text-xs">{errors.excludedServices.vi.message}</p>}
+                        <textarea
+                            {...register('excludedServices.en')}
+                            className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                            rows={2}
+                            placeholder="One service per line (English)"
+                        />
+                        {errors.excludedServices?.en && <p className="text-red-500 text-xs">{errors.excludedServices.en.message}</p>}
+                    </div>
+                </div>
+                {/* Lịch trình nhiều ngày, nhiều hoạt động */}
+                <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Lịch trình (Tiếng Việt) <span className="text-red-500">*</span></label>
+                    <p className="text-xs text-gray-500 mb-3">Vui lòng nhập ít nhất một ngày với tiêu đề và hoạt động</p>
+                    <div className="space-y-4">
+                        {scheduleVi.map((day, dayIdx) => (
+                            <div key={dayIdx} className="bg-gray-50 border border-gray-200 rounded-xl p-4 shadow-sm relative">
+                                <div className="flex items-center justify-between mb-2">
+                                    <span className="font-semibold text-purple-700">Ngày {day.day}</span>
+                                    {scheduleVi.length > 1 && (
+                                        <button type="button" onClick={() => {
+                                            setScheduleVi(scheduleVi.filter((_, i) => i !== dayIdx));
+                                        }} className="text-red-500 hover:text-red-700 bg-white rounded-full p-1 shadow transition" title="Xóa ngày">
+                                            ×
+                                        </button>
+                                    )}
+                                </div>
+                                <input
+                                    value={day.title}
+                                    onChange={e => handleScheduleChange('vi', dayIdx, 'title', e.target.value)}
+                                    placeholder={`Tiêu đề ngày ${day.day} *`}
+                                    className="w-full mb-2 border rounded px-3 py-2 focus:ring-2 focus:ring-purple-400"
+                                    required
+                                />
+                                <div className="space-y-2">
+                                    {day.activities.map((act, actIdx) => (
+                                        <div key={actIdx} className="flex items-center gap-2">
+                                            <input
+                                                value={act}
+                                                onChange={e => handleScheduleChange('vi', dayIdx, 'activity', e.target.value, actIdx)}
+                                                placeholder={`Hoạt động ${actIdx + 1} *`}
+                                                className="flex-1 border rounded px-3 py-2 focus:ring-2 focus:ring-purple-200"
+                                                required
+                                            />
+                                            {day.activities.length > 1 && (
+                                                <button type="button" onClick={() => {
+                                                    const newSchedule = [...scheduleVi];
+                                                    newSchedule[dayIdx].activities = newSchedule[dayIdx].activities.filter((_, i) => i !== actIdx);
+                                                    setScheduleVi(newSchedule);
+                                                }} className="text-red-500 hover:text-red-700 bg-white rounded-full p-1 shadow transition" title="Xóa hoạt động">
+                                                    ×
+                                                </button>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                                <button type="button" onClick={() => addActivity('vi', dayIdx)} className="mt-2 px-3 py-1 bg-gradient-to-r from-purple-500 to-pink-400 text-white rounded-lg font-semibold shadow hover:from-purple-600 hover:to-pink-500 transition text-sm">+ Thêm hoạt động</button>
+                            </div>
+                        ))}
+                    </div>
+                    <button type="button" onClick={() => addDay('vi')} className="mt-3 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-lg font-semibold shadow hover:from-purple-700 hover:to-pink-600 transition">+ Thêm ngày</button>
+                </div>
+                <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Lịch trình (English) <span className="text-red-500">*</span></label>
+                    <p className="text-xs text-gray-500 mb-3">Please enter at least one day with title and activities</p>
+                    <div className="space-y-4">
+                        {scheduleEn.map((day, dayIdx) => (
+                            <div key={dayIdx} className="bg-gray-50 border border-gray-200 rounded-xl p-4 shadow-sm relative">
+                                <div className="flex items-center justify-between mb-2">
+                                    <span className="font-semibold text-purple-700">Day {day.day}</span>
+                                    {scheduleEn.length > 1 && (
+                                        <button type="button" onClick={() => {
+                                            setScheduleEn(scheduleEn.filter((_, i) => i !== dayIdx));
+                                        }} className="text-red-500 hover:text-red-700 bg-white rounded-full p-1 shadow transition" title="Remove day">
+                                            ×
+                                        </button>
+                                    )}
+                                </div>
+                                <input
+                                    value={day.title}
+                                    onChange={e => handleScheduleChange('en', dayIdx, 'title', e.target.value)}
+                                    placeholder={`Day ${day.day} title *`}
+                                    className="w-full mb-2 border rounded px-3 py-2 focus:ring-2 focus:ring-purple-400"
+                                    required
+                                />
+                                <div className="space-y-2">
+                                    {day.activities.map((act, actIdx) => (
+                                        <div key={actIdx} className="flex items-center gap-2">
+                                            <input
+                                                value={act}
+                                                onChange={e => handleScheduleChange('en', dayIdx, 'activity', e.target.value, actIdx)}
+                                                placeholder={`Activity ${actIdx + 1} *`}
+                                                className="flex-1 border rounded px-3 py-2 focus:ring-2 focus:ring-purple-200"
+                                                required
+                                            />
+                                            {day.activities.length > 1 && (
+                                                <button type="button" onClick={() => {
+                                                    const newSchedule = [...scheduleEn];
+                                                    newSchedule[dayIdx].activities = newSchedule[dayIdx].activities.filter((_, i) => i !== actIdx);
+                                                    setScheduleEn(newSchedule);
+                                                }} className="text-red-500 hover:text-red-700 bg-white rounded-full p-1 shadow transition" title="Remove activity">
+                                                    ×
+                                                </button>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                                <button type="button" onClick={() => addActivity('en', dayIdx)} className="mt-2 px-3 py-1 bg-gradient-to-r from-purple-500 to-pink-400 text-white rounded-lg font-semibold shadow hover:from-purple-600 hover:to-pink-500 transition text-sm">+ Add activity</button>
+                            </div>
+                        ))}
+                    </div>
+                    <button type="button" onClick={() => addDay('en')} className="mt-3 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-lg font-semibold shadow hover:from-purple-700 hover:to-pink-600 transition">+ Add day</button>
                 </div>
 
                 <div className='flex justify-end gap-2'>
