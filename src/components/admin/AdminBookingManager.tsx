@@ -203,9 +203,10 @@ const AdminBookingManager: React.FC = () => {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">STT</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Khách hàng</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tour</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ngày</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Thông tin</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ngày đi</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trạng thái</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hướng dẫn viên</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hành động</th>
@@ -213,26 +214,66 @@ const AdminBookingManager: React.FC = () => {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {isLoading ? (
-                <tr><td colSpan={7} className="p-6 text-center text-gray-500">Đang tải dữ liệu...</td></tr>
+                <tr><td colSpan={8} className="p-6 text-center text-gray-500">Đang tải dữ liệu...</td></tr>
               ) : (
                 bookings.map((booking: any, idx: number) => (
                   <tr key={booking._id || booking.id} className="hover:bg-gray-50 transition-colors duration-200">
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{idx + 1}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
-                        <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mr-3">
-                          <span className="text-gray-600 text-sm font-medium">
-                            {booking.user?.name ? booking.user.name.charAt(0).toUpperCase() : '?'}
+                        <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                          <span className="text-blue-600 text-sm font-medium">
+                            {booking.userId?.name ? booking.userId.name.charAt(0).toUpperCase() : '?'}
                           </span>
                         </div>
-                        <div className="text-sm font-medium text-gray-900">{booking.user?.name || booking.user || 'Ẩn danh'}</div>
+                        <div>
+                          <div className="text-sm font-medium text-gray-900">
+                            {booking.userId?.name || booking.user?.name || 'Ẩn danh'}
+                          </div>
+                          <div className="text-xs text-gray-500">
+                            {booking.userId?.email || booking.user?.email || 'Không có email'}
+                          </div>
+                        </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{booking.tour?.name || booking.tour || 'Ẩn danh'}</div>
+                      <div>
+                        <div className="text-sm font-medium text-gray-900">
+                          {booking.tourId?.name?.vi || booking.tourId?.name?.en || booking.tourId?.name || booking.tour?.name || 'Ẩn danh'}
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          ID: {booking.tourId?._id || booking.tourId || 'N/A'}
+                        </div>
+                      </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{booking.travelDate ? booking.travelDate.slice(0, 10) : booking.date || booking.createdAt || ''}</div>
+                      <div>
+                        <div className="text-sm font-medium text-gray-900">
+                          {booking.contactInfo?.fullName || 'Không có tên'}
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          📞 {booking.contactInfo?.phone || 'Không có SĐT'}
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          📧 {booking.contactInfo?.email || 'Không có email'}
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          👥 {booking.numberOfPeople || 1} người
+                        </div>
+                        <div className="text-xs text-green-600 font-medium">
+                          💰 {booking.totalPrice?.toLocaleString('vi-VN') || 0} VND
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div>
+                        <div className="text-sm font-medium text-gray-900">
+                          {booking.travelDate ? new Date(booking.travelDate).toLocaleDateString('vi-VN') : 'Chưa có'}
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          Tạo: {booking.createdAt ? new Date(booking.createdAt).toLocaleDateString('vi-VN') : 'N/A'}
+                        </div>
+                      </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${

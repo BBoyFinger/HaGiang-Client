@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet-async";
 import axiosInstance from "@/config/axiosConfig";
 import { mockDestinations } from "@/data/mockDestinations";
 import { FiSearch, FiFrown, FiMapPin, FiFilter } from "react-icons/fi";
+import LoadingSpinner, { CardLoading } from "@/components/LoadingSpinner";
 
 export default function Destinations() {
   const { t, i18n } = useTranslation();
@@ -12,6 +13,7 @@ export default function Destinations() {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<string>("");
   const [destinations, setDestinations] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axiosInstance.get("/destinations")
@@ -20,6 +22,9 @@ export default function Destinations() {
       })
       .catch(() => {
         setDestinations(mockDestinations);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
 
@@ -110,7 +115,16 @@ export default function Destinations() {
             <p className="text-[#555]">{t('destinations.resultCount', { count: filtered.length })}</p>
           </div>
           {/* Destinations Grid */}
-          {filtered.length > 0 ? (
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <CardLoading />
+              <CardLoading />
+              <CardLoading />
+              <CardLoading />
+              <CardLoading />
+              <CardLoading />
+            </div>
+          ) : filtered.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filtered.map((d) => (
                 <div key={d.slug} className="group">

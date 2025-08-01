@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGetBookingsQuery, useGetUsersQuery, useGetToursQuery, useGetCommentsQuery } from '../../services/api';
+import axiosInstance from '@/config/axiosConfig';
+import LoadingSpinner, { CardLoading } from '../LoadingSpinner';
 
 const AdminDashboard: React.FC<{ setSelected?: (key: string) => void }> = ({ setSelected }) => {
   const navigate = useNavigate();
@@ -14,6 +16,29 @@ const AdminDashboard: React.FC<{ setSelected?: (key: string) => void }> = ({ set
   const users = usersData?.users || [];
   const tours = toursData?.tours || [];
   const comments = commentsData?.comments || [];
+  const [tourReviews, setTourReviews] = useState<Record<string, { averageRating: number, reviewCount: number }>>({});
+
+  // Lấy reviews cho tất cả tours
+  useEffect(() => {
+    if (tours.length > 0) {
+      Promise.all(
+        tours.map(async (tour: any) => {
+          try {
+            const res = await axiosInstance.get(`/reviews?tourId=${tour._id}`);
+            const reviews = res.data.reviews || [];
+            const averageRating = reviews.length > 0 ? (reviews.reduce((sum: number, r: any) => sum + (r.rating || 0), 0) / reviews.length) : 0;
+            return { tourId: tour._id, averageRating: Number(averageRating.toFixed(1)), reviewCount: reviews.length };
+          } catch {
+            return { tourId: tour._id, averageRating: 0, reviewCount: 0 };
+          }
+        })
+      ).then(results => {
+        const reviewMap: Record<string, { averageRating: number, reviewCount: number }> = {};
+        results.forEach(r => { reviewMap[r.tourId] = { averageRating: r.averageRating, reviewCount: r.reviewCount }; });
+        setTourReviews(reviewMap);
+      });
+    }
+  }, [tours]);
 
   // Calculate stats
   const totalRevenue = bookings.reduce((sum: number, b: any) => sum + (b.totalPrice || 0), 0);
@@ -28,9 +53,11 @@ const AdminDashboard: React.FC<{ setSelected?: (key: string) => void }> = ({ set
     const d = new Date(u.createdAt);
     return d.getMonth() === thisMonth && d.getFullYear() === thisYear;
   });
-  // Average rating from comments (assuming comments have rating field)
-  const ratings = comments.map((c: any) => c.rating).filter((r: any) => typeof r === 'number');
-  const avgRating = ratings.length ? (ratings.reduce((a: number, b: number) => a + b, 0) / ratings.length).toFixed(1) : '--';
+  
+  // Tính đánh giá trung bình từ reviews
+  const allRatings = Object.values(tourReviews).map(r => r.averageRating).filter(r => r > 0);
+  const avgRating = allRatings.length > 0 ? (allRatings.reduce((sum, rating) => sum + rating, 0) / allRatings.length).toFixed(1) : '0.0';
+  const totalReviews = Object.values(tourReviews).reduce((sum, r) => sum + r.reviewCount, 0);
 
   // Tour categories (mock, or you can calculate from tours if available)
   const tourCategories = [
@@ -48,60 +75,71 @@ const AdminDashboard: React.FC<{ setSelected?: (key: string) => void }> = ({ set
         <p className="text-gray-600 mt-1">Tổng quan hệ thống quản lý du lịch Hà Giang</p>
       </div>
 
-      {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <div className="flex items-center">
-            <div className="p-2 bg-blue-100 rounded-lg">
-              <span className="text-blue-600 text-xl">💰</span>
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Doanh thu tháng</p>
-              <p className="text-2xl font-bold text-gray-900">{bookingsLoading ? '...' : monthlyRevenue.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>
-              <p className="text-sm text-green-600">Tổng: {totalRevenue.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>
-            </div>
-          </div>
-        </div>
+             {/* Quick Stats */}
+       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+         {bookingsLoading ? (
+           <>
+             <CardLoading />
+             <CardLoading />
+             <CardLoading />
+             <CardLoading />
+           </>
+         ) : (
+           <>
+             <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+               <div className="flex items-center">
+                 <div className="p-2 bg-blue-100 rounded-lg">
+                   <span className="text-blue-600 text-xl">💰</span>
+                 </div>
+                 <div className="ml-4">
+                   <p className="text-sm font-medium text-gray-600">Doanh thu tháng</p>
+                   <p className="text-2xl font-bold text-gray-900">{monthlyRevenue.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>
+                   <p className="text-sm text-green-600">Tổng: {totalRevenue.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>
+                 </div>
+               </div>
+             </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <div className="flex items-center">
-            <div className="p-2 bg-green-100 rounded-lg">
-              <span className="text-green-600 text-xl">📅</span>
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Booking tháng</p>
-              <p className="text-2xl font-bold text-gray-900">{bookingsLoading ? '...' : monthlyBookings.length}</p>
-              <p className="text-sm text-green-600">Tổng: {bookings.length}</p>
-            </div>
-          </div>
-        </div>
+             <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+               <div className="flex items-center">
+                 <div className="p-2 bg-green-100 rounded-lg">
+                   <span className="text-green-600 text-xl">📅</span>
+                 </div>
+                 <div className="ml-4">
+                   <p className="text-sm font-medium text-gray-600">Booking tháng</p>
+                   <p className="text-2xl font-bold text-gray-900">{monthlyBookings.length}</p>
+                   <p className="text-sm text-green-600">Tổng: {bookings.length}</p>
+                 </div>
+               </div>
+             </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <div className="flex items-center">
-            <div className="p-2 bg-yellow-100 rounded-lg">
-              <span className="text-yellow-600 text-xl">👥</span>
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Khách hàng mới</p>
-              <p className="text-2xl font-bold text-gray-900">{usersLoading ? '...' : newUsers.length}</p>
-              <p className="text-sm text-green-600">Tổng: {users.length}</p>
-            </div>
-          </div>
-        </div>
+             <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+               <div className="flex items-center">
+                 <div className="p-2 bg-yellow-100 rounded-lg">
+                   <span className="text-yellow-600 text-xl">👥</span>
+                 </div>
+                 <div className="ml-4">
+                   <p className="text-sm font-medium text-gray-600">Khách hàng mới</p>
+                   <p className="text-2xl font-bold text-gray-900">{newUsers.length}</p>
+                   <p className="text-sm text-green-600">Tổng: {users.length}</p>
+                 </div>
+               </div>
+             </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <div className="flex items-center">
-            <div className="p-2 bg-purple-100 rounded-lg">
-              <span className="text-purple-600 text-xl">⭐</span>
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Đánh giá TB</p>
-              <p className="text-2xl font-bold text-gray-900">{commentsLoading ? '...' : avgRating}</p>
-              <p className="text-sm text-green-600">Tổng: {comments.length}</p>
-            </div>
-          </div>
-        </div>
-      </div>
+             <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+               <div className="flex items-center">
+                 <div className="p-2 bg-purple-100 rounded-lg">
+                   <span className="text-purple-600 text-xl">⭐</span>
+                 </div>
+                 <div className="ml-4">
+                   <p className="text-sm font-medium text-gray-600">Đánh giá TB</p>
+                   <p className="text-2xl font-bold text-gray-900">{avgRating}</p>
+                   <p className="text-sm text-green-600">Tổng: {totalReviews} đánh giá</p>
+                 </div>
+               </div>
+             </div>
+           </>
+         )}
+       </div>
 
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

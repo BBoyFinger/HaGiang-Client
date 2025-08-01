@@ -11,6 +11,7 @@ import DestinationCard from '@/components/DestinationCard';
 import BlogCard from '@/components/BlogCard';
 // import AccommodationCard from '@/components/AccommodationCard..tsx';
 import VehicleCard from '@/components/VehicleCard';
+import LoadingSpinner, { CardLoading } from '@/components/LoadingSpinner';
 
 interface SearchResult {
     id: string;
@@ -261,9 +262,13 @@ export default function Search() {
                 {/* Results */}
                 <div className="max-w-7xl mx-auto px-4 py-8">
                     {loading ? (
-                        <div className="text-center py-12">
-                            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
-                            <p className="text-gray-600">{t('search.loading')}</p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <CardLoading />
+                            <CardLoading />
+                            <CardLoading />
+                            <CardLoading />
+                            <CardLoading />
+                            <CardLoading />
                         </div>
                     ) : filteredResults.length > 0 ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -5,6 +5,7 @@ import { useGetToursQuery, useAddTourMutation, useUpdateTourMutation, useDeleteT
 import axios from 'axios';
 import TourForm from './TourForm';
 import axiosInstance from '@/config/axiosConfig';
+import LoadingSpinner, { TableLoading } from '../LoadingSpinner';
 
 function exportToCSV(data: Tour[], notify?: (msg: string) => void) {
   const header = ['ID', 'Tên Tour', 'Giá', 'Địa điểm', 'Mô tả', 'Đánh giá'];
@@ -40,6 +41,7 @@ const AdminTourManager: React.FC = () => {
   const [locationFilter, setLocationFilter] = useState('');
   const [showAddForm, setShowAddForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
+  const [tourReviews, setTourReviews] = useState<Record<string, { averageRating: number, reviewCount: number }>>({});
 
   // Lấy danh sách địa điểm duy nhất
   const alldestination = Array.from(
@@ -47,6 +49,28 @@ const AdminTourManager: React.FC = () => {
       (tours as any[]).flatMap((t: any) => Array.isArray(t.destination?.vi) ? t.destination.vi : [])
     )
   );
+
+  // Lấy reviews cho tất cả tours
+  useEffect(() => {
+    if (tours.length > 0) {
+      Promise.all(
+        tours.map(async (tour: any) => {
+          try {
+            const res = await axiosInstance.get(`/reviews?tourId=${tour._id}`);
+            const reviews = res.data.reviews || [];
+            const averageRating = reviews.length > 0 ? (reviews.reduce((sum: number, r: any) => sum + (r.rating || 0), 0) / reviews.length) : 0;
+            return { tourId: tour._id, averageRating: Number(averageRating.toFixed(1)), reviewCount: reviews.length };
+          } catch {
+            return { tourId: tour._id, averageRating: 0, reviewCount: 0 };
+          }
+        })
+      ).then(results => {
+        const reviewMap: Record<string, { averageRating: number, reviewCount: number }> = {};
+        results.forEach(r => { reviewMap[r.tourId] = { averageRating: r.averageRating, reviewCount: r.reviewCount }; });
+        setTourReviews(reviewMap);
+      });
+    }
+  }, [tours]);
 
 
 
@@ -66,7 +90,7 @@ const AdminTourManager: React.FC = () => {
   };
   const handleEdit = (id: string) => {
     const tour = (tours as Tour[]).find((t: Tour) => t._id === id);
-    console.log("tour", tour)
+    
     if (tour) {
       setEditTour(tour);
       setShowEditForm(true);
@@ -81,11 +105,10 @@ const AdminTourManager: React.FC = () => {
 
 
   const handleInlineAdd = async (data: any, selectedFiles?: File[], imageData?: any) => {
-    console.log('Submit data:', data, selectedFiles)
-    console.log('editTour:', editTour)
-    console.log('showEditForm:', showEditForm)
-    console.log('showAddForm:', showAddForm)
+  
+    
     try {
+  
       const formData = new FormData();
       formData.append('name', JSON.stringify(data.name));
       formData.append('type', JSON.stringify(data.type));
@@ -99,69 +122,35 @@ const AdminTourManager: React.FC = () => {
       formData.append('excludedServices', JSON.stringify(data.excludedServices));
       formData.append('schedule', JSON.stringify(data.schedule));
       
-      // Debug: Log FormData contents
-      console.log('FormData contents:');
-      for (let [key, value] of formData.entries()) {
-        if (value instanceof File) {
-          console.log(key, ':', 'File:', value.name, value.size, 'bytes');
-        } else {
-          console.log(key, ':', value);
-        }
-      }
-      
-      console.log('About to make API call...');
-      
-      // Xử lý ảnh mới
-      if (selectedFiles && selectedFiles.length > 0) {
-        console.log('Adding new images:', selectedFiles.length, 'files');
-        selectedFiles.forEach(file => {
-          formData.append('images', file);
-        });
-      }
-      
-      // Xử lý ảnh có sẵn khi update
-      if (imageData?.existingImages && imageData.existingImages.length > 0) {
-        formData.append('existingImages', JSON.stringify(imageData.existingImages));
-        console.log('Added existingImages:', imageData.existingImages);
-      }
-      
-      // Xử lý ảnh đã xóa khi update
-      if (imageData?.removedImages && imageData.removedImages.length > 0) {
-        formData.append('removedImages', JSON.stringify(imageData.removedImages));
-        console.log('Added removedImages:', imageData.removedImages);
-      }
 
       // Kiểm tra xem có phải đang edit tour không
       if (editTour && showEditForm) {
-        console.log('Updating tour with ID:', editTour._id);
+     
         // Update tour
         const response = await axiosInstance.put(`/tours/${editTour._id}`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
-        console.log('Update response:', response);
+       
         showToast('Cập nhật tour thành công!', 'success');
         setShowEditForm(false);
         setEditTour(null);
       } else {
-        console.log('Adding new tour');
+      
+        
         // Thêm tour mới
         const response = await axiosInstance.post('/tours', formData, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
-        console.log('Add response:', response);
+      
+        
         showToast('Thêm tour mới thành công!', 'success');
         setShowAddForm(false);
       }
       
+      
       refetch();
+      
     } catch (error: any) {
-      console.error('Error handling tour:', error);
-      console.error('Error details:', {
-        message: error?.message,
-        response: error?.response,
-        status: error?.response?.status,
-        data: error?.response?.data
-      });
       const action = editTour && showEditForm ? 'cập nhật' : 'thêm';
       const errorMessage = error?.response?.data?.message || error?.message || 'Unknown error';
       showToast(`Lỗi khi ${action} tour: ${errorMessage}`, 'error');
@@ -177,6 +166,27 @@ const AdminTourManager: React.FC = () => {
     return matchName && matchLocation;
   });
 
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900">Quản lý Tour</h2>
+            <p className="text-gray-600 mt-1">Quản lý danh sách các tour du lịch</p>
+          </div>
+        </div>
+        <LoadingSpinner 
+          type="hash" 
+          size={60} 
+          color="#3B82F6" 
+          text="Đang tải dữ liệu tours..." 
+          fullScreen={false}
+          className="py-20"
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -241,53 +251,49 @@ const AdminTourManager: React.FC = () => {
         </button>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <div className="flex items-center">
-            <div className="p-2 bg-blue-100 rounded-lg">
-              <span className="text-blue-600 text-xl">🗺️</span>
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Tổng số Tour</p>
-              <p className="text-2xl font-bold text-gray-900">{tours.length}</p>
-            </div>
-          </div>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <div className="flex items-center">
-            <div className="p-2 bg-green-100 rounded-lg">
-              <span className="text-green-600 text-xl">✅</span>
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Đang hoạt động</p>
-              <p className="text-2xl font-bold text-gray-900">{tours.length}</p>
-            </div>
-          </div>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <div className="flex items-center">
-            <div className="p-2 bg-yellow-100 rounded-lg">
-              <span className="text-yellow-600 text-xl">⭐</span>
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Đánh giá TB</p>
-              <p className="text-2xl font-bold text-gray-900">4.5</p>
-            </div>
-          </div>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <div className="flex items-center">
-            <div className="p-2 bg-purple-100 rounded-lg">
-              <span className="text-purple-600 text-xl">💰</span>
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Doanh thu</p>
-              <p className="text-2xl font-bold text-gray-900">$12.5K</p>
-            </div>
-          </div>
-        </div>
-      </div>
+             {/* Stats Cards */}
+       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+         <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+           <div className="flex items-center">
+             <div className="p-2 bg-blue-100 rounded-lg">
+               <span className="text-blue-600 text-xl">🗺️</span>
+             </div>
+             <div className="ml-4">
+               <p className="text-sm font-medium text-gray-600">Tổng số Tour</p>
+               <p className="text-2xl font-bold text-gray-900">{tours.length}</p>
+             </div>
+           </div>
+         </div>
+         <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+           <div className="flex items-center">
+             <div className="p-2 bg-green-100 rounded-lg">
+               <span className="text-green-600 text-xl">✅</span>
+             </div>
+             <div className="ml-4">
+               <p className="text-sm font-medium text-gray-600">Đang hoạt động</p>
+               <p className="text-2xl font-bold text-gray-900">{tours.length}</p>
+             </div>
+           </div>
+         </div>
+         <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+           <div className="flex items-center">
+             <div className="p-2 bg-yellow-100 rounded-lg">
+               <span className="text-yellow-600 text-xl">⭐</span>
+             </div>
+             <div className="ml-4">
+               <p className="text-sm font-medium text-gray-600">Đánh giá TB</p>
+                               <p className="text-2xl font-bold text-gray-900">
+                  {(() => {
+                    const allRatings = Object.values(tourReviews).map(r => r.averageRating).filter(r => r > 0);
+                    if (allRatings.length === 0) return '0.0';
+                    const avgRating = allRatings.reduce((sum, rating) => sum + rating, 0) / allRatings.length;
+                    return avgRating.toFixed(1);
+                  })()}
+                </p>
+             </div>
+           </div>
+         </div>
+       </div>
       {/* Table */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
         <div className="overflow-x-auto">
@@ -324,12 +330,14 @@ const AdminTourManager: React.FC = () => {
                         : ''}
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <span className="text-yellow-400">⭐</span>
-                      <span className="ml-1 text-sm text-gray-900">{tour.rating}</span>
-                    </div>
-                  </td>
+                                     <td className="px-6 py-4 whitespace-nowrap">
+                     <div className="flex items-center">
+                       <span className="text-yellow-400">⭐</span>
+                       <span className="ml-1 text-sm text-gray-900">
+                         {tourReviews[tour._id]?.averageRating || '0.0'} ({tourReviews[tour._id]?.reviewCount || 0})
+                       </span>
+                     </div>
+                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <div className="flex items-center space-x-2">
                       <button

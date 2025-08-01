@@ -290,7 +290,21 @@
     "note": "Note",
     "notePlaceholder": "Special requests (if any)",
     "submit": "Book tour",
-    "success": "Booking successful! We will contact you soon."
+    "success": "Booking successful! We will contact you soon.",
+    "processing": "Processing...",
+    "pricePerPerson": "Price/person",
+    "totalPrice": "Total price",
+    "errors": {
+      "nameRequired": "Please enter your full name",
+      "emailRequired": "Please enter your email",
+      "emailInvalid": "Invalid email format",
+      "phoneRequired": "Please enter your phone number",
+      "dateRequired": "Please select departure date",
+      "datePast": "Departure date cannot be in the past",
+      "peopleMin": "Number of people must be at least 1",
+      "loginRequired": "Please login to book a tour",
+      "serverError": "An error occurred, please try again later"
+    }
   },
   "brand": {
     "charity": "5% of each tour's revenue goes to charity",

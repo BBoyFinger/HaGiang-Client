@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { FaSearch, FaFilter, FaMapMarkerAlt, FaCalendar, FaStar, FaUsers, FaClock, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { useGetToursQuery, useGetReviewsQuery } from '@/services/api';
 import { Tour } from '@/types/TourType';
+import LoadingSpinner, { CardLoading } from "@/components/LoadingSpinner";
 
 export default function TourPage() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -333,7 +334,16 @@ export default function TourPage() {
           </div>
 
           {/* Tours Grid */}
-          {filteredTours.length > 0 ? (
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <CardLoading />
+              <CardLoading />
+              <CardLoading />
+              <CardLoading />
+              <CardLoading />
+              <CardLoading />
+            </div>
+          ) : filteredTours.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredTours.map((tour: any) => (
                 <TourCard

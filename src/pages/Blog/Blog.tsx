@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { FaSearch, FaFilter, FaCalendar, FaUser, FaTag, FaEye, FaHeart } from 'react-icons/fa';
 import axiosInstance from "@/config/axiosConfig";
 import { mockBlogs } from "@/data/mockBlogs";
+import LoadingSpinner, { CardLoading } from "@/components/LoadingSpinner";
 
 function Blog() {
   const { t, i18n } = useTranslation();
@@ -13,6 +14,7 @@ function Blog() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [sortBy, setSortBy] = useState("latest");
   const [blogs, setBlogs] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const categories = [
     { id: "all", name: t("blog.all"), icon: FaTag },
@@ -29,6 +31,9 @@ function Blog() {
       })
       .catch(() => {
         setBlogs(mockBlogs);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
 
@@ -172,7 +177,16 @@ function Blog() {
           </div>
 
           {/* Blog Grid */}
-          {sortedBlogs.length > 0 ? (
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <CardLoading />
+              <CardLoading />
+              <CardLoading />
+              <CardLoading />
+              <CardLoading />
+              <CardLoading />
+            </div>
+          ) : sortedBlogs.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {sortedBlogs.map((blog) => (
                 <div key={blog.slug} className="group">

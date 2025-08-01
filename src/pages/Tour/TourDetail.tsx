@@ -6,12 +6,14 @@ import ReactStars from 'react-rating-stars-component';
 import TourRatingForm from '@/components/TourRatingForm';
 import TourInfoList from "@/components/TourInfoList";
 import { motion } from "framer-motion";
-import { FiShare2, FiMessageSquare, FiFacebook, FiTwitter, FiInstagram, FiMail, FiChevronDown, FiChevronUp, FiCheck, FiX, FiArrowLeft, FiHeart, FiMapPin, FiClock, FiUsers, FiStar } from "react-icons/fi";
+import { FiShare2, FiMessageSquare, FiFacebook, FiTwitter, FiInstagram, FiMail, FiChevronDown, FiChevronUp, FiCheck, FiX, FiArrowLeft, FiHeart, FiMapPin, FiClock, FiUsers, FiStar, FiPhone, FiMessageCircle } from "react-icons/fi";
 import { FaHeart } from "react-icons/fa";
 import { Helmet } from 'react-helmet-async';
 import { useGetTourByIdQuery, useGetCommentsQuery, useAddCommentMutation, useGetReviewsQuery, useAddReviewMutation } from '@/services/api';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from "react-redux";
+import LoadingSpinner from '@/components/LoadingSpinner';
+import ModalBookingForm from '@/components/ModalBookingForm';
 
 export default function TourDetail() {
   const { slug } = useParams();
@@ -28,6 +30,10 @@ export default function TourDetail() {
   const [selectedImage, setSelectedImage] = useState(0);
   // Thêm state cho thông báo
   const [commentSuccessMsg, setCommentSuccessMsg] = useState<string | null>(null);
+  // State cho modal booking
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  // State cho modal contact
+  const [showContactModal, setShowContactModal] = useState(false);
 
   // Lấy review từ API
   const { data: reviewsData, isLoading: isReviewsLoading, refetch: refetchReviews } = useGetReviewsQuery({ tourId: tour?._id });
@@ -169,6 +175,42 @@ export default function TourDetail() {
     }
   };
 
+  const handleContact = () => {
+    setShowContactModal(true);
+  };
+
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-light flex items-center justify-center">
+        <LoadingSpinner 
+          type="hash" 
+          size={60} 
+          color="#3B82F6" 
+          text="Đang tải thông tin tour..." 
+          fullScreen={false}
+        />
+      </div>
+    );
+  }
+
+  if (error || !tour) {
+    return (
+      <div className="min-h-screen bg-light flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-6xl mb-4">😞</div>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Không tìm thấy tour</h2>
+          <p className="text-gray-600 mb-4">Tour bạn đang tìm kiếm không tồn tại hoặc đã bị xóa.</p>
+          <button
+            onClick={() => navigate('/tour')}
+            className="bg-gradient-to-r from-primary to-accent text-white px-6 py-2 rounded-lg hover:from-accent hover:to-primary transition-colors"
+          >
+            Quay lại danh sách tour
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -403,7 +445,7 @@ export default function TourDetail() {
                     onClick={() => setShowSchedule(!showSchedule)}
                     className="flex w-full justify-between items-center gap-4 p-6 bg-gradient-to-r from-primary to-accent text-[#1a1a1a] rounded-xl hover:from-accent hover:to-primary transition-all duration-300"
                   >
-                    <span className="text-xl font-bold">{mapMultiLangArray(tour.locations, lang).join(" - ")}</span>
+                    <span className="text-xl font-bold">{mapMultiLangArray(tour.destination, lang).join(" - ")}</span>
                     {showSchedule ? <FiChevronUp /> : <FiChevronDown />}
                   </button>
                   {showSchedule && (
@@ -671,8 +713,20 @@ export default function TourDetail() {
                   </div>
 
                   <div className="space-y-3">
-                    <button className="w-full bg-gradient-to-r from-primary to-accent text-[#1a1a1a] font-semibold py-3 rounded-xl hover:from-accent hover:to-primary transition-all duration-300">{t('tour.detail.bookNow')}</button>
-                    <button className="w-full border-2 border-primary text-primary font-semibold py-3 rounded-xl hover:bg-primary hover:text-[#1a1a1a] transition-all duration-300">{t('tour.detail.contact')}</button>
+                    <button 
+                      onClick={() => setShowBookingModal(true)}
+                      className="w-full bg-gradient-to-r from-primary to-accent text-[#1a1a1a] font-semibold py-3 rounded-xl hover:from-accent hover:to-primary transition-all duration-300 flex items-center justify-center gap-2"
+                    >
+                      <FiMessageCircle className="text-lg" />
+                      {t('tour.detail.bookNow')}
+                    </button>
+                    <button 
+                      onClick={handleContact}
+                      className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold py-3 rounded-xl hover:from-emerald-600 hover:to-green-500 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl"
+                    >
+                      <FiPhone className="text-lg" />
+                      {t('tour.detail.contact')}
+                    </button>
                   </div>
                 </motion.div>
 
@@ -704,6 +758,103 @@ export default function TourDetail() {
           </div>
         </section>
       </div>
+
+      {/* Modal Booking Form */}
+      <ModalBookingForm
+        open={showBookingModal}
+        onClose={() => setShowBookingModal(false)}
+        selectedTourId={tour?._id || ''}
+      />
+
+      {/* Modal Contact */}
+      {showContactModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 w-full max-w-md relative"
+          >
+            <button
+              onClick={() => setShowContactModal(false)}
+              className="absolute top-4 right-4 text-gray-500 hover:text-red-500 text-xl font-bold"
+            >
+              ×
+            </button>
+            
+            <div className="text-center mb-6">
+              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <FiPhone className="text-white text-2xl" />
+              </div>
+              <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
+                Liên hệ với chúng tôi
+              </h2>
+              <p className="text-gray-600 dark:text-gray-300">
+                Hãy liên hệ để được tư vấn chi tiết về tour này
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <div className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-xl">
+                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
+                  <FiPhone className="text-blue-600 dark:text-blue-400 text-xl" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-800 dark:text-white">Hotline</h3>
+                  <p className="text-blue-600 dark:text-blue-400 font-medium">+84 123 456 789</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-xl">
+                <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
+                  <FiMessageCircle className="text-green-600 dark:text-green-400 text-xl" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-800 dark:text-white">Zalo</h3>
+                  <p className="text-green-600 dark:text-green-400 font-medium">homietravel</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-xl">
+                <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
+                  <FiMail className="text-purple-600 dark:text-purple-400 text-xl" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-800 dark:text-white">Email</h3>
+                  <p className="text-purple-600 dark:text-purple-400 font-medium">info@homietravel.com</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-xl">
+                <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900 rounded-full flex items-center justify-center">
+                  <FiMapPin className="text-orange-600 dark:text-orange-400 text-xl" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-800 dark:text-white">Văn phòng</h3>
+                  <p className="text-orange-600 dark:text-orange-400 font-medium">Hà Giang, Việt Nam</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 space-y-3">
+              <button
+                onClick={() => window.open('tel:+84123456789', '_self')}
+                className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold py-3 rounded-xl hover:from-emerald-600 hover:to-green-500 transition-all duration-300 flex items-center justify-center gap-2"
+              >
+                <FiPhone className="text-lg" />
+                Gọi ngay
+              </button>
+              
+              <button
+                onClick={() => navigate('/contact')}
+                className="w-full border-2 border-green-500 text-green-600 font-semibold py-3 rounded-xl hover:bg-green-500 hover:text-white transition-all duration-300"
+              >
+                Xem thêm thông tin
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </>
   );
 } 

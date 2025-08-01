@@ -102,6 +102,36 @@
     "ctaTitle": "Sẵn sàng khám phá Hà Giang?",
     "ctaDesc": "Hãy để chúng tôi giúp bạn tạo ra những kỷ niệm đáng nhớ tại vùng đất địa đầu Tổ quốc"
   },
+  "booking": {
+    "title": "Đặt tour với Homie Travel",
+    "name": "Họ và tên",
+    "namePlaceholder": "Nhập họ và tên của bạn",
+    "email": "Email",
+    "emailPlaceholder": "Nhập email của bạn",
+    "phone": "Số điện thoại",
+    "phonePlaceholder": "Nhập số điện thoại của bạn",
+    "tour": "Chọn tour",
+    "date": "Ngày khởi hành",
+    "people": "Số người",
+    "note": "Ghi chú",
+    "notePlaceholder": "Yêu cầu đặc biệt (nếu có)",
+    "submit": "Đặt tour",
+    "success": "Đặt tour thành công! Chúng tôi sẽ liên hệ với bạn sớm nhất.",
+    "processing": "Đang xử lý...",
+    "pricePerPerson": "Giá/người",
+    "totalPrice": "Tổng tiền",
+    "errors": {
+      "nameRequired": "Vui lòng nhập họ và tên",
+      "emailRequired": "Vui lòng nhập email",
+      "emailInvalid": "Email không hợp lệ",
+      "phoneRequired": "Vui lòng nhập số điện thoại",
+      "dateRequired": "Vui lòng chọn ngày khởi hành",
+      "datePast": "Ngày khởi hành không thể là ngày trong quá khứ",
+      "peopleMin": "Số người phải từ 1 trở lên",
+      "loginRequired": "Vui lòng đăng nhập để đặt tour",
+      "serverError": "Có lỗi xảy ra, vui lòng thử lại sau"
+    }
+  },
   "brand": {
     "charity": "5% doanh thu mỗi tour dành cho hoạt động thiện nguyện",
     "professional": "Đội ngũ chuyên nghiệp, dịch vụ uy tín, tận tâm",

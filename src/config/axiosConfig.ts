@@ -3,7 +3,7 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 
 const axiosInstance = axios.create({
-  baseURL: 'https://hagiangtravel.onrender.com/api',
+  baseURL: 'http://localhost:5000/api',
   // http://localhost:5000/api
   //https://hagiangtravel.onrender.com/api
   headers: {

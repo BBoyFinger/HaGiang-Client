@@ -15,6 +15,7 @@ import axiosInstance from "../config/axiosConfig";
 import { mockDestinations } from "@/data/mockDestinations";
 import { mockBlogs } from "@/data/mockBlogs";
 import BlogCard from "@/components/BlogCard";
+import LoadingSpinner, { CardLoading } from "@/components/LoadingSpinner";
 
 export default function Home() {
   const { t, i18n } = useTranslation();
@@ -230,21 +231,29 @@ export default function Home() {
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {tours.slice(0, 3).map((tour) => (
-                <motion.div
-                  key={tour.id || tour._id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                  viewport={{ once: true }}
-                >
-                  <TourCard
-                    tour={tour}
-                    averageRating={tourReviews[tour._id]?.averageRating}
-                    reviewCount={tourReviews[tour._id]?.reviewCount}
-                  />
-                </motion.div>
-              ))}
+              {loading ? (
+                <>
+                  <CardLoading />
+                  <CardLoading />
+                  <CardLoading />
+                </>
+              ) : (
+                tours.slice(0, 3).map((tour) => (
+                  <motion.div
+                    key={tour.id || tour._id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    viewport={{ once: true }}
+                  >
+                    <TourCard
+                      tour={tour}
+                      averageRating={tourReviews[tour._id]?.averageRating}
+                      reviewCount={tourReviews[tour._id]?.reviewCount}
+                    />
+                  </motion.div>
+                ))
+              )}
             </div>
             <div className="text-center mt-12">
               <Link
@@ -270,17 +279,26 @@ export default function Home() {
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-              {destinations.slice(0, 4).map((destination, index) => (
-                <motion.div
-                  key={destination.slug || destination.id || index}
-                  initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                >
-                  <DestinationCard destination={destination} isDark={isDark} />
-                </motion.div>
-              ))}
+              {destinations.length === 0 ? (
+                <>
+                  <CardLoading />
+                  <CardLoading />
+                  <CardLoading />
+                  <CardLoading />
+                </>
+              ) : (
+                destinations.slice(0, 4).map((destination, index) => (
+                  <motion.div
+                    key={destination.slug || destination.id || index}
+                    initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                  >
+                    <DestinationCard destination={destination} isDark={isDark} />
+                  </motion.div>
+                ))
+              )}
             </div>
             <div className="text-center mt-12">
               <Link
