@@ -21,12 +21,19 @@ i18n
   .init({
     resources,
     fallbackLng: "vi", // fallback khi không tìm thấy ngôn ngữ
-    debug: true, // bật debug để xem log
+    debug: import.meta.env.DEV, // chỉ bật debug trong development
     interpolation: {
       escapeValue: false, // react đã xử lý XSS
     },
     react: {
       useSuspense: false, // nếu bạn không dùng React.Suspense
+    },
+    // Thêm cấu hình performance
+    load: 'languageOnly', // chỉ load language, không load region
+    preload: ['vi', 'en'], // preload các ngôn ngữ chính
+    detection: {
+      order: ['localStorage', 'navigator', 'htmlTag'],
+      caches: ['localStorage'],
     },
   });
 
