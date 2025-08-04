@@ -6,6 +6,7 @@ import { RootState } from "@/store";
 import AuthInitializer from "@/components/AuthInitializer";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import { DataProvider } from "@/providers/DataProvider";
 
 // Lazy load components for better performance
 const MainLayout = lazy(() => import("@/layouts/MainLayout"));
@@ -42,8 +43,9 @@ export default function App() {
     <ErrorBoundary>
       <BrowserRouter future={{ v7_startTransition: true }}>
         <AuthInitializer>
-          <Suspense fallback={<PageLoading />}>
-            <Routes>
+          <DataProvider>
+            <Suspense fallback={<PageLoading />}>
+              <Routes>
               {/* Public Routes */}
               <Route path="/" element={<MainLayout />}>
                 <Route index element={<Home />} />
@@ -80,8 +82,9 @@ export default function App() {
                     : <Navigate to="/login" replace />
                 }
               />
-            </Routes>
-          </Suspense>
+                          </Routes>
+            </Suspense>
+          </DataProvider>
         </AuthInitializer>
       </BrowserRouter>
     </ErrorBoundary>
