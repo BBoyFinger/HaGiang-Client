@@ -32,7 +32,7 @@ export const api = createApi({
       // Cache trong 10 phút vì destinations ít thay đổi
       keepUnusedDataFor: 600,
     }),
-    addDestination: builder.mutation<ApiResponse<Destination>, Partial<Destination>>({
+    addDestination: builder.mutation<ApiResponse<Destination>, Partial<Destination> | FormData>({
       query: (body) => ({
         url: '/destinations',
         method: 'POST',
@@ -40,7 +40,7 @@ export const api = createApi({
       }),
       invalidatesTags: ['Destination'],
     }),
-    updateDestination: builder.mutation<ApiResponse<Destination>, { id: string; data: Partial<Destination> }>({
+    updateDestination: builder.mutation<ApiResponse<Destination>, { id: string; data: Partial<Destination> | FormData }>({
       query: ({ id, data }) => ({
         url: `/destinations/${id}`,
         method: 'PUT',
@@ -83,7 +83,7 @@ export const api = createApi({
       providesTags: (result, error, id) => [{ type: 'Tour', id }],
       keepUnusedDataFor: 600,
     }),
-    addTour: builder.mutation<ApiResponse<Tour>, Partial<Tour>>({
+    addTour: builder.mutation<ApiResponse<Tour>, Partial<Tour> | FormData>({
       query: (body) => ({
         url: '/tours',
         method: 'POST',
@@ -91,7 +91,7 @@ export const api = createApi({
       }),
       invalidatesTags: ['Tour'],
     }),
-    updateTour: builder.mutation<ApiResponse<Tour>, { id: string; data: Partial<Tour> }>({
+    updateTour: builder.mutation<ApiResponse<Tour>, { id: string; data: Partial<Tour> | FormData }>({
       query: ({ id, data }) => ({
         url: `/tours/${id}`,
         method: 'PUT',
